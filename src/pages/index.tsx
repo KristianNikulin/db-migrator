@@ -3,17 +3,24 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 
 import RootLayout from "./layout";
 
-const HomePage = lazy(() => import("./home"));
+const Docs = lazy(() => import("./docs"));
+const Loading = lazy(() => import("./loading"));
+const Migrator = lazy(() => import("./migrator"));
+const Settings = lazy(() => import("./settings"));
 const NotFound = lazy(() => import("./not-found"));
+
+// fallback={<Loading />} надо ???
 
 const App = () => {
     return (
         <Router>
             <RootLayout>
-                <Suspense fallback={<p>Loading...</p>}>
+                <Suspense fallback={<Loading />}>
                     <Routes>
-                        <Route path="/" element={<Navigate to="/home" />} />
-                        <Route path="/home" element={<HomePage />} />
+                        <Route path="/" element={<Navigate to="/migrator" />} />
+                        <Route path="/migrator" element={<Migrator />} />
+                        <Route path="/docs" element={<Docs />} />
+                        <Route path="/settings" element={<Settings />} />
 
                         <Route path="/404" element={<NotFound />} />
                         <Route path="*" element={<Navigate to="/404" />} />

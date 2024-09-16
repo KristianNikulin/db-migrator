@@ -1,0 +1,11 @@
+.rootLayout {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.rootLayoutMain {
+    height: 100%;
+    overflow: auto;
+    background-color: white;
+}

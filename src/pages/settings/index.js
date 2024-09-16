@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const NotFound = () => {
+const Settings = () => {
     return (
         <div>
-            <p>Page not found</p>
+            <p>Settings</p>
             <Link to="/migrator">
                 <button>Go to Home</button>
             </Link>
@@ -12,4 +12,4 @@ const NotFound = () => {
     );
 };
 
-export default NotFound;
+export default Settings;
