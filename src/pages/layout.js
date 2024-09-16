@@ -1,4 +1,3 @@
-import cn from "classnames";
 import React from "react";
 
 import AppFooter from "../modules/app-footer";
@@ -13,7 +12,7 @@ const RootLayout = ({ children }) => {
                 <AppHeader />
             </header>
 
-            <main className={cn(styles.rootLayoutMain, styles.attr)}>{children}</main>
+            <main className={styles.rootLayoutMain}>{children}</main>
 
             <footer>
                 <AppFooter />
