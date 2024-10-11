@@ -1,30 +1,24 @@
-import React, { useCallback } from "react";
-import { ReactFlow, useNodesState, useEdgesState, addEdge, Controls, Background, Panel, MiniMap } from "@xyflow/react";
+import React from "react";
+import Visualizer from "../../components/Visualizer";
 
 import { Allotment } from "allotment";
 import "allotment/dist/style.css";
 
 import styles from "./styles.module.scss";
-import "@xyflow/react/dist/style.css";
 
-const initialNodes = [
-    { id: "1", position: { x: 0, y: 0 }, data: { label: "11" } },
-    { id: "2", position: { x: 0, y: 100 }, data: { label: "22" } },
-];
+// ПОТОМ ЗАМЕНА НА ДИНАМИЧЕСКИЕ ДАННЫЕ
+import databases from "../../config/databases.json";
 
-const initialEdges = [{ id: "1122", source: "1", target: "2", label: "to the", type: "step", animated: true }];
+/* миникарту в настройки */
+
+/* выбор фона в настройки */
 
 // крестик на соединении для удаления при миграции
 // https://reactflow.dev/learn/customization/custom-edges
 
 const Migrator = () => {
-    const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-    const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-
-    const onConnect = useCallback(
-        (connection) => setEdges((eds) => addEdge({ ...connection, animated: true }, eds)),
-        [setEdges]
-    );
+    const databaseNames = Object.keys(databases);
+    const databaseName = databaseNames[0];
 
     return (
         <div className={styles.migratorContainer}>
@@ -38,27 +32,7 @@ const Migrator = () => {
                     <div className={styles.reactFlowContainer}>
                         <div className={styles.projectNamesContainer}>projectName</div>
                         <div className={styles.reactFlow}>
-                            <ReactFlow
-                                nodes={nodes}
-                                edges={edges}
-                                onNodesChange={onNodesChange}
-                                onEdgesChange={onEdgesChange}
-                                onConnect={onConnect}
-                                // fitView
-                            >
-                                {/* контроль в настройки */}
-                                <Controls />
-                                {/* миникарту в настройки */}
-                                {/* <MiniMap /> */}
-                                {/* выбор фона в настройки */}
-                                <Background variant="dots" gap={12} size={1} />
-                                <Panel
-                                    style={{ zIndex: 10, backgroundColor: "gray", padding: "10px" }}
-                                    position="top-right"
-                                >
-                                    top-right
-                                </Panel>
-                            </ReactFlow>
+                            <Visualizer database={databaseName} />
                         </div>
                     </div>
                 </Allotment.Pane>
@@ -68,3 +42,33 @@ const Migrator = () => {
 };
 
 export default Migrator;
+
+{
+    /* <ReactFlow
+                                nodes={nodes}
+                                edges={edges}
+                                onNodesChange={onNodesChange}
+                                onEdgesChange={onEdgesChange}
+                                onConnect={onConnect}
+                                // fitView
+                            >
+                                {/* контроль в настройки */
+}
+// <Controls />
+{
+    /* миникарту в настройки */
+}
+{
+    /* <MiniMap /> */
+}
+{
+    /* выбор фона в настройки */
+}
+// <Background variant="dots" gap={12} size={1} />
+// <Panel
+// style={{ zIndex: 10, backgroundColor: "gray", padding: "10px" }}
+// position="top-right"
+// >
+// top-right
+// </Panel>
+// </ReactFlow> */}
