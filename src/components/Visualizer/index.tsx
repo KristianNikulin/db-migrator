@@ -18,9 +18,7 @@ import ReactFlow, {
     Panel,
 } from "reactflow";
 
-import { nodeTypes } from "../../config/nodeTypes";
-
-import { MaximizeIcon, MinimizeIcon, InfoIcon, InfoPopup, Markers } from "./components";
+import { MaximizeIcon, MinimizeIcon, InfoIcon, InfoPopup, Markers, TableNode } from "./components";
 
 import {
     edgeClassName,
@@ -32,7 +30,6 @@ import {
     setHighlightEdgeClassName,
     logTablePositions,
     setEdgeClassName,
-    loadDatabases,
     calculateEdges,
 } from "./helpers";
 
@@ -42,7 +39,10 @@ import { EdgeConfig, DatabaseConfig } from "./types";
 import "reactflow/dist/style.css";
 import "./Style";
 import DatabaseIcon from "./components/DatabaseIcon";
-import { DatabaseMenuPopup } from "./components/DatabaseMenuPopup";
+
+const nodeTypes = {
+    table: TableNode,
+};
 
 interface FlowProps {
     currentDatabase: DatabaseConfig;
@@ -326,6 +326,14 @@ const Flow: React.FC<FlowProps> = (props: FlowProps) => {
         }
     };
 
+    // Remove ReactFlow link
+    const proOptions = { hideAttribution: true };
+
+    // Обработчик клика на таблицу
+    const onNodeClick = useCallback((event: React.MouseEvent, node: Node) => {
+        console.log("Table clicked:", node);
+    }, []);
+
     // https://stackoverflow.com/questions/16664584/changing-an-svg-markers-color-css
     return (
         <div className="Flow">
@@ -343,6 +351,8 @@ const Flow: React.FC<FlowProps> = (props: FlowProps) => {
                 onNodeMouseEnter={onNodeMouseEnter}
                 onNodeMouseLeave={onNodeMouseLeave}
                 onSelectionChange={onSelectionChange}
+                onNodeClick={onNodeClick}
+                proOptions={proOptions}
             >
                 <Controls showInteractive={false}>
                     <ControlButton onClick={toggleFullScreen}>
@@ -378,30 +388,17 @@ const Flow: React.FC<FlowProps> = (props: FlowProps) => {
                     }}
                 />
             )}
-            {unknownDatasetOn && (
-                <DatabaseMenuPopup
-                    headline={"Unknown dataset :warning:"}
-                    subheadline={"Available datasets :point_down:"}
-                    onClose={() => {
-                        setUnknownDatasetOn(false);
-                    }}
-                />
-            )}
-            {databaseMenuPopupOn && (
-                <DatabaseMenuPopup
-                    headline={"Choose a dataset :point_down:"}
-                    onClose={() => {
-                        setDatabaseMenuPopupOn(false);
-                    }}
-                />
-            )}
         </div>
     );
 };
 
+interface IVisualizer {
+    database: DatabaseConfig;
+}
+
 // https://codesandbox.io/s/elastic-elion-dbqwty?file=/src/App.js
 // 1eslint-disable-next-line import/no-anonymous-default-export
-const Visualizer: React.FC<VisualizerProps> = (props: VisualizerProps) => {
+const Visualizer: React.FC<IVisualizer> = (props: IVisualizer) => {
     const [currentDatabase, setCurrentDatabase] = useState({
         tables: [],
         edgeConfigs: [],
@@ -411,15 +408,11 @@ const Visualizer: React.FC<VisualizerProps> = (props: VisualizerProps) => {
     const [databasesLoaded, setDatabasesLoaded] = useState(false);
 
     useEffect(() => {
-        loadDatabases().then((data) => {
-            if (!props.database || !(props.database in data)) {
-                return;
-            }
-
-            const databaseConfig = data[props.database as string] as DatabaseConfig;
-            setCurrentDatabase(databaseConfig);
-            setDatabasesLoaded(true);
-        });
+        if (!props) {
+            return;
+        }
+        setCurrentDatabase(props.database);
+        setDatabasesLoaded(true);
     }, []); // 1eslint-disable-line react-hooks/exhaustive-deps
 
     return <ReactFlowProvider>{databasesLoaded && <Flow currentDatabase={currentDatabase} />}</ReactFlowProvider>;
