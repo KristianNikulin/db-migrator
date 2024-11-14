@@ -2,5 +2,5 @@ FROM node as build
 WORKDIR /app
 COPY . /app
 RUN yarn
-EXPOSE 4200
+EXPOSE 3000
 ENTRYPOINT ["yarn","start"]
