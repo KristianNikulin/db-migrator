@@ -6,4 +6,3 @@ export * from "./InfoIcon";
 export * from "./KeyIcon";
 export * from "./MaximizeIcon";
 export * from "./MinimizeIcon";
-export * from "./DatabaseMenuPopup";

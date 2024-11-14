@@ -84,6 +84,10 @@ export const TableNode: FC<NodeProps> = ({ data }) => {
                     <div
                         key={index}
                         className={columnClass({ selectedColumn, columnName: column.name })}
+                        onClick={(event) => {
+                            // console.log("event: ", event);
+                            console.log(`Column clicked:`, column); // Log the column details
+                        }}
                         onMouseEnter={() => {
                             if (descriptionOnHoverActive) {
                                 setSelectedColumn(column.name);
