@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-import styles from "./app-header.module.scss";
+import * as styles from "./app-header.module.scss";
 
 const AppHeaderView = () => {
     const navigate = useNavigate();

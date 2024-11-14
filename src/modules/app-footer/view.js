@@ -1,7 +1,7 @@
 import cn from "classnames";
 import React from "react";
 
-import styles from "./app-footer.module.scss";
+import * as styles from "./app-footer.module.scss";
 
 const AppFooterView = () => {
     const date = new Date();
