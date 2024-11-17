@@ -1,5 +1,5 @@
 const path = require("path");
-const webpack = require('webpack');
+const webpack = require("webpack");
 
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
@@ -17,84 +17,85 @@ module.exports = {
     },
     module: {
         rules: [
-          {
-            test: /\.(js|jsx)$/,
-            loader: "babel-loader",
-            exclude: /node_modules/,
-            options: {
-              cacheDirectory: true
-            }
-          },
-          {
-            test: /\.(ts|tsx)$/,
-            loader: "ts-loader",
-            exclude: /node_modules/,
-            options: {
-              transpileOnly: true
-            }
-          },
-          {
-            test: /\.module\.(s*)css$/,
-            use: [
-              MiniCssExtractPlugin.loader,
-              {
-                loader: "css-loader",
+            {
+                test: /\.(js|jsx)$/,
+                loader: "babel-loader",
+                exclude: /node_modules/,
                 options: {
-                  modules: {
-                    localIdentName: `migrator__[local]__[contenthash:base64:5]`
-                  },
-                  importLoaders: 1
-                }
-              },
-              {
-                loader: "sass-loader",
+                    cacheDirectory: true,
+                },
+            },
+            {
+                test: /\.(ts|tsx)$/,
+                loader: "ts-loader",
+                exclude: /node_modules/,
                 options: {
-                  sassOptions: {
-                    includePaths: [path.resolve(__dirname, '../node_modules')]
-                  }
-                }
-              }
-            ]
-          },
-          {
-            test: /\.(s*)css$/,
-            use: [
-              MiniCssExtractPlugin.loader,
-              "css-loader",
-              {
-                loader: "sass-loader",
-                options: {
-                  sassOptions: {
-                    includePaths: [path.resolve(__dirname, '../node_modules')]
-                  }
-                }
-              }
-            ],
-            exclude: /\.module\.(s*)css$/
-          },
-          {
-            test: /\.(eot|ttf|woff|woff2)$/,
-            type: "asset/resource"
-          },
-          {
-            test: /\.(png|jpe?g|gif|svg|webp)$/i,
-            type: "asset/resource"
-          }
-        ]
-      },
+                    transpileOnly: true,
+                },
+            },
+            {
+                test: /\.module\.(s*)css$/,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    {
+                        loader: "css-loader",
+                        options: {
+                            modules: {
+                                localIdentName: `migrator__[local]__[contenthash:base64:5]`,
+                            },
+                            importLoaders: 1,
+                        },
+                    },
+                    {
+                        loader: "sass-loader",
+                        options: {
+                            sassOptions: {
+                                includePaths: [path.resolve(__dirname, "../node_modules")],
+                            },
+                        },
+                    },
+                ],
+            },
+            {
+                test: /\.(s*)css$/,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    "css-loader",
+                    {
+                        loader: "sass-loader",
+                        options: {
+                            sassOptions: {
+                                includePaths: [path.resolve(__dirname, "../node_modules")],
+                            },
+                        },
+                    },
+                ],
+                exclude: /\.module\.(s*)css$/,
+            },
+            {
+                test: /\.(eot|ttf|woff|woff2)$/,
+                type: "asset/resource",
+            },
+            {
+                test: /\.(png|jpe?g|gif|svg|webp)$/i,
+                type: "asset/resource",
+            },
+        ],
+    },
+    //TODO ПОЧИСТИТЬ FALLBACK
     resolve: {
         extensions: [".*", ".js", ".jsx", ".ts", ".tsx", ".scss"],
         fallback: {
-            util: require.resolve("util"),
-            assert: require.resolve("assert"),
-            crypto: require.resolve("crypto-browserify"),
-            timers: require.resolve("timers-browserify"),
-            stream: require.resolve("stream-browserify"),
-            fs: false, //require.resolve("fs"),
-            tty: require.resolve("tty-browserify"),
-            vm: require.resolve("vm-browserify"),
-            buffer: require.resolve("buffer"),
-            process: require.resolve("process/browser"),
+            // util: require.resolve("util"),
+            // assert: require.resolve("assert"),
+            // crypto: require.resolve("crypto-browserify"),
+            // timers: require.resolve("timers-browserify"),
+            // stream: require.resolve("stream-browserify"),
+            // fs: false, //require.resolve("fs"),
+            // tty: require.resolve("tty-browserify"),
+            // vm: require.resolve("vm-browserify"),
+            // buffer: require.resolve("buffer"),
+            // process: require.resolve("process/browser"),
         },
     },
     plugins: [
@@ -108,7 +109,7 @@ module.exports = {
             filename: production ? "[name].[contenthash].css" : "[name].css",
         }),
         new webpack.ProvidePlugin({
-            process: 'process/browser',
+            process: "process/browser",
         }),
     ],
     devServer: {
@@ -123,14 +124,3 @@ module.exports = {
         },
     },
 };
-
-// resolve: {
-//     fallback: {
-//         util: false, //require.resolve("util"),
-//         assert: false, //require.resolve("assert"),
-//         crypto: false, //require.resolve("crypto-browserify"),
-//         timers: false, //require.resolve("timers-browserify"),
-//         stream: false, // require.resolve("stream-browserify"),
-//         fs: false,
-//     },
-// },
