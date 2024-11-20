@@ -1,10 +1,10 @@
-import { memo } from "react";
-import { flow as pipe } from "lodash";
+import React from "react";
 
-import { Noop } from "../../components/Noop";
+import { Toastify } from "./tostify";
+import { ContextProvider } from "./globalContext";
 
-import { withToastify } from "./tostify";
-
-export const withGlobalContext = pipe(withToastify, memo);
-
-export const GlobalContextProvider = withGlobalContext(Noop);
+export const GlobalContextProvider = ({ children }) => (
+    <ContextProvider>
+        <Toastify>{children}</Toastify>
+    </ContextProvider>
+);
