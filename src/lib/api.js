@@ -70,7 +70,7 @@ class APIService {
             get(error, "data") || {
                 error: "Unknown request error",
                 message: "Unknown request error",
-                statusCode: "404",
+                status: 500,
             }
         );
     };

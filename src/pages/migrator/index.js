@@ -20,7 +20,7 @@ import * as styles from "./styles.module.scss";
 // https://reactflow.dev/learn/customization/custom-edges
 
 const Migrator = () => {
-    const { database } = useMigrationState();
+    const { database, isError } = useMigrationState();
 
     return (
         <div className={styles.migratorContainer}>
@@ -34,7 +34,13 @@ const Migrator = () => {
                     <div className={styles.reactFlowContainer}>
                         <div className={styles.projectNamesContainer}>projectName</div>
                         <div className={styles.reactFlow}>
-                            {database ? <Visualizer database={database} /> : <CustomLoader type="box-up" />}
+                            {database ? (
+                                <Visualizer database={database} />
+                            ) : isError ? (
+                                <p>Service is currently unavailable</p>
+                            ) : (
+                                <CustomLoader type="box-up" />
+                            )}
                         </div>
                     </div>
                 </Allotment.Pane>

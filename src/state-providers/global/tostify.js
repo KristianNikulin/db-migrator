@@ -8,15 +8,13 @@ export const toastDefaultOptions = {
     pauseOnHover: true,
 };
 
-export const withToastify =
-    () =>
-    ({ children }) => {
-        return (
-            <>
-                <ToastContainer {...toastDefaultOptions} />
-                {children}
-            </>
-        );
-    };
+export const Toastify = ({ children }) => {
+    return (
+        <>
+            <ToastContainer {...toastDefaultOptions} />
+            {children}
+        </>
+    );
+};
 
 export { toast };
