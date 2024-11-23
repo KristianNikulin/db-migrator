@@ -4,11 +4,14 @@ import { KeyIcon } from "../components";
 import { tableHighlightsPresent, isTableHighlighted, isColumnHighlighted } from "../helpers/tableHighlights";
 
 import "@reactflow/node-resizer/dist/style.css";
+import { useGlobalContext } from "../../../state-providers/global/globalContext";
 
 export const TableNode: FC<NodeProps> = ({ data }) => {
     const [selectedColumn, setSelectedColumn] = useState("");
     const [showDescription, setshowDescription] = useState(false);
     const [descriptionOnHoverActive, setDescriptionOnHoverActive] = useState(false);
+
+    const { setGlobalState } = useGlobalContext();
 
     useEffect(() => {
         document.addEventListener(
@@ -85,8 +88,7 @@ export const TableNode: FC<NodeProps> = ({ data }) => {
                         key={index}
                         className={columnClass({ selectedColumn, columnName: column.name })}
                         onClick={(event) => {
-                            // console.log("event: ", event);
-                            console.log(`Column clicked:`, column); // Log the column details
+                            setGlobalState((prev) => ({ ...prev, choosedColumn: column }));
                         }}
                         onMouseEnter={() => {
                             if (descriptionOnHoverActive) {
