@@ -16,6 +16,7 @@ import ReactFlow, {
     ReactFlowInstance,
     MiniMap,
     Panel,
+    Edge,
 } from "reactflow";
 
 import { MaximizeIcon, MinimizeIcon, InfoIcon, InfoPopup, Markers, TableNode } from "./components";
@@ -334,14 +335,20 @@ const Flow: React.FC<FlowProps> = (props: FlowProps) => {
 
     // Обработчик клика на таблицу
     const onNodeClick = useCallback((event: React.MouseEvent, node: Node) => {
+        event.preventDefault();
         setGlobalState((prev) => ({ ...prev, choosedTable: node }));
+    }, []);
+
+    // Обработчик клика на связь
+    const onEdgeClick = useCallback((event: React.MouseEvent, edge: Edge) => {
+        event.preventDefault();
+        console.log(`edge: `, edge);
     }, []);
 
     // УБРАТЬ
     useEffect(() => {
         console.log("Updated globalState:", globalState);
     }, [globalState]);
-    console.log(`edges: `, edges);
 
     // https://stackoverflow.com/questions/16664584/changing-an-svg-markers-color-css
     return (
@@ -351,7 +358,7 @@ const Flow: React.FC<FlowProps> = (props: FlowProps) => {
                 nodes={nodes}
                 edges={edges}
                 onNodesChange={handleNodesChange}
-                onEdgesChange={onEdgesChange}
+                onEdgeClick={onEdgeClick}
                 onInit={onInit}
                 snapToGrid={true}
                 fitView
