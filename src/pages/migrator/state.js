@@ -13,11 +13,11 @@ export const useMigrationState = () => {
     useEffect(() => {
         const tables = globalState.modifiedTables;
         if (tables) {
-            const transformedData = transformData(globalState.modifiedTables);
+            const transformedData = transformData(tables);
             setDatabase(transformedData);
-        }
-        if (globalState.status === 500) {
-            setIsError(true);
+            if (globalState.status === 500) {
+                setIsError(true);
+            }
         }
     }, [globalState]);
 

@@ -39,6 +39,7 @@ import { EdgeConfig, DatabaseConfig } from "./types";
 import "reactflow/dist/style.css";
 import "./Style";
 import DatabaseIcon from "./components/DatabaseIcon";
+import { useGlobalContext } from "../../state-providers/global/globalContext";
 
 const nodeTypes = {
     table: TableNode,
@@ -65,6 +66,8 @@ const Flow: React.FC<FlowProps> = (props: FlowProps) => {
     const [unknownDatasetOn, setUnknownDatasetOn] = useState(false);
     const [databaseMenuPopupOn, setDatabaseMenuPopupOn] = useState(false);
     const [nodeHoverActive, setNodeHoverActive] = useState(true);
+
+    const { globalState, setGlobalState } = useGlobalContext();
 
     const onInit = (instance: ReactFlowInstance) => {
         const nodes = instance.getNodes();
@@ -331,8 +334,14 @@ const Flow: React.FC<FlowProps> = (props: FlowProps) => {
 
     // Обработчик клика на таблицу
     const onNodeClick = useCallback((event: React.MouseEvent, node: Node) => {
-        console.log("Table clicked:", node);
+        setGlobalState((prev) => ({ ...prev, choosedTable: node }));
     }, []);
+
+    // УБРАТЬ
+    useEffect(() => {
+        console.log("Updated globalState:", globalState);
+    }, [globalState]);
+    console.log(`edges: `, edges);
 
     // https://stackoverflow.com/questions/16664584/changing-an-svg-markers-color-css
     return (
