@@ -63,9 +63,9 @@ export const ContextProvider: React.FC<ContextProviderProps> = ({ children }) =>
             }
         };
 
-        setTimeout(() => {
+        // setTimeout(() => {
             fetchData();
-        }, 2400); // Уберите задержку в реальном коде
+        // }, 2400);
     }, []);
 
     return <GlobalContext.Provider value={{ globalState, setGlobalState }}>{children}</GlobalContext.Provider>;
