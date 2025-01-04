@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { getTables } from "../../api";
+import { getConfig } from "../../api";
 
 // Описание типов
 interface GlobalState {
@@ -9,6 +10,7 @@ interface GlobalState {
     status: number;
     choosedTable: any | null;
     choosedColumn: any | null;
+    config: any | null;
 }
 
 interface GlobalContextType {
@@ -41,13 +43,17 @@ export const ContextProvider: React.FC<ContextProviderProps> = ({ children }) =>
         status: 500,
         choosedTable: null,
         choosedColumn: null,
+        config: null,
     });
 
     useEffect(() => {
         const fetchData = async () => {
             const response = await getTables();
+            const configResponse = await getConfig();
+
             const tables = response?.result || null;
             const status = response?.status || 500;
+            const config = configResponse?.result || null;
 
             if (tables) {
                 setGlobalState({
@@ -57,6 +63,7 @@ export const ContextProvider: React.FC<ContextProviderProps> = ({ children }) =>
                     status,
                     choosedTable: null,
                     choosedColumn: null,
+                    config: config,
                 });
             } else {
                 setGlobalState((prev) => ({ ...prev, status, choosedTable: null, choosedColumn: null }));
@@ -64,7 +71,7 @@ export const ContextProvider: React.FC<ContextProviderProps> = ({ children }) =>
         };
 
         // setTimeout(() => {
-            fetchData();
+        fetchData();
         // }, 2400);
     }, []);
 

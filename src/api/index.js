@@ -10,3 +10,10 @@ export function getTables() {
         invokeOnHttpSuccess: true, // убрать
     });
 }
+
+export function getConfig() {
+    return API.httpRequest({
+        method: "GET",
+        url: "config/version",
+    });
+}

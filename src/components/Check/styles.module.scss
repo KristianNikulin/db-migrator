@@ -1,0 +1,42 @@
+.customСheckbox {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.customСheckbox input {
+  display: none; /* Hide the default checkbox */
+}
+
+.checkmark {
+  width: 20px;
+  height: 20px;
+  background-color: #fff;
+  border: 1px solid gray;
+  display: inline-block;
+  margin-left: 5px;
+  vertical-align: middle;
+  border-radius: 0.2142857143em;
+}
+
+.checkmarkSymbol {
+  display: none; /* Hide the checkmark by default */
+  color: #fff; /* Set the color of the checkmark */
+  position: absolute;
+  left: 4px; /* Adjust position */
+  top: 0; /* Center vertically */
+}
+
+.customСheckbox input:checked + .checkmark {
+  background-color: #00bb99; /* Change background color when checked */
+  border-color: #00bb99;
+}
+
+.customCheckbox input:checked + .checkmark .checkmarkSymbol {
+  display: block; /* Show the checkmark when checked */
+}
+
+.test input:checked {
+  background-color: #00bb99; /* Change background color when checked */
+  border-color: #00bb99;
+}

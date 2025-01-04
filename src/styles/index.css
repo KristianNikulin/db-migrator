@@ -8,8 +8,14 @@
 }
 
 :root {
-    --focus-border: #007fd4;
-    --separator-border: #d6dadc;
+    --success-button-color: #00bb99;
+    --success-button-color-hover: #62e1c0;
+
+    --failure-button-color: #bb0000;
+    --failure-button-color-hover: #e16262;
+
+    --warning-button-color: #b2bb00;
+    --warning-button-color-hover: #dbe162;
 }
 
 *,

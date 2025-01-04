@@ -6,6 +6,7 @@ import { useGlobalContext } from "../../state-providers/global/globalContext";
 
 export const useMigrationState = () => {
     const [database, setDatabase] = useState(null);
+    const [config, setConfig] = useState({ version: "No PostgreSQL version" });
     const [isError, setIsError] = useState(false);
 
     const { globalState } = useGlobalContext();
@@ -19,10 +20,15 @@ export const useMigrationState = () => {
                 setIsError(true);
             }
         }
+        const config = globalState.config;
+        if (config) {
+            setConfig(config);
+        }
     }, [globalState]);
 
     return {
         database,
         isError,
+        config,
     };
 };
