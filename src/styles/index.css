@@ -11,11 +11,14 @@
     --success-button-color: #00bb99;
     --success-button-color-hover: #62e1c0;
 
-    --failure-button-color: #bb0000;
-    --failure-button-color-hover: #e16262;
+    --failure-button-color: #ea736a;
+    --failure-button-color-hover: #ff9189;
 
-    --warning-button-color: #b2bb00;
-    --warning-button-color-hover: #dbe162;
+    --warning-color: hsla(25, 97%, 72%, 0.3);
+    --error-color: #f48881;
+
+    --disabled-button: #d5e0e4;
+    --disabled-button-color: #BDC6CB;
 }
 
 *,
@@ -59,6 +62,7 @@ p {
 }
 
 ul,
+ol li,
 ul li {
     list-style: none;
 }

@@ -1,0 +1,16 @@
+.message {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    min-height: 30px;
+    padding: 7px 16px;
+}
+
+.error {
+    background-color: var(--error-color);
+    color: white;
+}
+
+.warning {
+    background-color: var(--warning-color);
+}

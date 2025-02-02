@@ -9,9 +9,7 @@ const AppFooterView = () => {
 
     return (
         <div className={cn(styles.appFooter, "py-s2")}>
-            
-                <div className={styles.copyright}>Copyright © {year} DB Migrator</div>
-           
+            <div className={styles.copyright}>Copyright © {year} DB Migrator</div>
         </div>
     );
 };

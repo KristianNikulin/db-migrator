@@ -5,3 +5,10 @@ export const DATA_TYPES = [
     { value: "bigint", label: "bigint" },
     { value: "timestamp with time zone", label: "timestamp with time zone" },
 ];
+
+export const BANNED_RELATION_TYPES = ["timestamp with time zone"];
+
+export const LANGUAGES = [
+    { code: "EN", label: "English", flag: "GB" },
+    { code: "RU", label: "Русский", flag: "RU" },
+];

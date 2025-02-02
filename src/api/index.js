@@ -15,5 +15,6 @@ export function getConfig() {
     return API.httpRequest({
         method: "GET",
         url: "config/version",
+        invokeOnHttpError: false,
     });
 }

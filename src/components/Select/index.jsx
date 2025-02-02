@@ -3,7 +3,7 @@ import { useFormContext } from "react-hook-form";
 
 import * as styles from "./styles.module.scss";
 
-const Select = ({ id, label, options, requiredMessage }) => {
+const Select = ({ id, label, options, requiredMessage, disabled }) => {
     const {
         register: formRegister,
         formState: { errors },
@@ -11,8 +11,14 @@ const Select = ({ id, label, options, requiredMessage }) => {
 
     return (
         <div style={{ display: "flex", flexDirection: "column" }}>
-            <label htmlFor={id}>{label}:</label>
-            <select className={styles.select} id={id} {...formRegister(id, { required: requiredMessage })}>
+            <label style={{ cursor: "default" }}>{label}:</label>
+            <select
+                disabled={disabled}
+                className={styles.select}
+                style={disabled ? { cursor: "not-allowed" } : {}}
+                id={id}
+                {...formRegister(id, { required: requiredMessage })}
+            >
                 {(options || []).map(
                     (option) =>
                         option && (

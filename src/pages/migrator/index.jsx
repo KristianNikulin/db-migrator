@@ -8,8 +8,9 @@ import { Allotment } from "allotment";
 import "allotment/dist/style.css";
 
 import { useMigrationState } from "./state";
+import { BEGIN_STEPS } from "../../constants/text";
 
-import * as styles from "./styles.module.scss";
+import styles from "./styles.module.scss";
 
 /* миникарту в настройки */
 
@@ -17,18 +18,39 @@ import * as styles from "./styles.module.scss";
 
 /* контроль в настройки */
 
+/* отключение предупреждений в настройки (пример - связи с полями - время) */
+
 // крестик на соединении для удаления при миграции
 // https://reactflow.dev/learn/customization/custom-edges
 
 const Migrator = () => {
-    const { database, isError, config } = useMigrationState();
+    const { database, isError, config, isItem } = useMigrationState();
+    console.log(`database: `, database);
 
     return (
         <div className={styles.migratorContainer}>
             <Allotment>
-                <Allotment.Pane preferredSize={"35%"} minSize={400} maxSize={700}>
+                <Allotment.Pane
+                    className={!isItem ? styles.allotmentItem : {}}
+                    preferredSize={"35%"}
+                    minSize={400}
+                    maxSize={700}
+                >
                     <div className={styles.sidebar}>
-                        <Item />
+                        {isItem ? (
+                            <Item />
+                        ) : (
+                            <div className={styles.noitem}>
+                                <p>To begin migrating your database, follow these steps:</p>
+                                <ol>
+                                    {BEGIN_STEPS.map((step, index) => (
+                                        <li key={index}>
+                                            {index + 1}. {step}
+                                        </li>
+                                    ))}
+                                </ol>
+                            </div>
+                        )}
                     </div>
                 </Allotment.Pane>
                 <Allotment.Pane preferredSize={"65%"}>

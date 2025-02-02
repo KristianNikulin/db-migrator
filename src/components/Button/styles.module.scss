@@ -1,48 +1,59 @@
 .button {
-    height: 2.2857142857em;
+    min-height: 35px;
     width: 100%;
     line-height: 1.2857142857em;
-    // display: inline-flex;
     justify-content: center;
     border-radius: 0.2142857143em;
-    border: 1px solid var(--success-button-color);
-    // box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    border: 1px solid gray;
     padding: 7px 16px;
-    background-color: var(--success-button-color);
     font-size: 14px;
-    // font: unset;
     font-weight: 600;
     color: #fff;
     cursor: pointer;
     text-overflow: ellipsis;
     transition: all 0.2s ease-out;
 
+    &:disabled {
+        cursor: not-allowed;
+    }
+}
+
+.primary {
+    color: black;
     &:hover {
-        background-color: var(--success-button-color-hover);
-        border-color: var(--success-button-color-hover);
+        color: var(--success-button-color);
+        border-color: var(--success-button-color);
+    }
+    &:disabled {
+        color: var(--disabled-button-color);
+        border-color: var(--disabled-button);
     }
 }
 
 .success {
-    --button-color: var(--success-button-color);
-    --button-color-hover: var(--success-button-color-hover);
-}
-.failure {
-    --button-color: var(--failure-button-color);
-    --button-color-hover: var(--failure-button-color-hover);
-}
-.warning {
-    --button-color: var(--warning-button-color);
-    --button-color-hover: var(--warning-button-color-hover);
+    border-color: var(--success-button-color);
+    background-color: var(--success-button-color);
+    &:hover {
+        background-color: var(--success-button-color-hover);
+        border-color: var(--success-button-color-hover);
+    }
+    &:disabled {
+        color: var(--disabled-button-color);
+        border-color: var(--disabled-button);
+        background-color: var(--disabled-button);
+    }
 }
 
-.success,
-.failure,
-.warning {
-    border-color: var(--button-color);
-    background-color: var(--button-color);
+.failure {
+    border-color: var(--failure-button-color);
+    background-color: var(--failure-button-color);
     &:hover {
-        background-color: var(--button-color-hover);
-        border-color: var(--button-color-hover);
+        background-color: var(--failure-button-color-hover);
+        border-color: var(--failure-button-color-hover);
+    }
+    &:disabled {
+        color: var(--disabled-button-color);
+        border-color: var(--disabled-button);
+        background-color: var(--disabled-button);
     }
 }

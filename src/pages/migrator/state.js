@@ -30,5 +30,6 @@ export const useMigrationState = () => {
         database,
         isError,
         config,
+        isItem: globalState.choosedColumn,
     };
 };

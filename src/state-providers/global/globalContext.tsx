@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { getTables } from "../../api";
 import { getConfig } from "../../api";
+import { API } from "../../lib/api";
 
 // Описание типов
 interface GlobalState {
@@ -11,6 +12,7 @@ interface GlobalState {
     choosedTable: any | null;
     choosedColumn: any | null;
     config: any | null;
+    isMigration: boolean;
 }
 
 interface GlobalContextType {
@@ -44,35 +46,52 @@ export const ContextProvider: React.FC<ContextProviderProps> = ({ children }) =>
         choosedTable: null,
         choosedColumn: null,
         config: null,
+        isMigration: false,
     });
 
     useEffect(() => {
+        let isMounted = true;
+
         const fetchData = async () => {
             const response = await getTables();
+            console.log(`response: `, response);
             const configResponse = await getConfig();
 
-            const tables = response?.result || null;
-            const status = response?.status || 500;
-            const config = configResponse?.result || null;
+            if (API.isResponseOk(response)) {
+                if (!isMounted) return;
 
-            if (tables) {
-                setGlobalState({
-                    originalTables: tables,
-                    modifiedTables: tables,
-                    changeHistory: [],
-                    status,
-                    choosedTable: null,
-                    choosedColumn: null,
-                    config: config,
-                });
+                const tables = response?.result || null;
+                const status = response?.status || 500;
+                const config = configResponse?.result || null;
+
+                if (tables) {
+                    setGlobalState({
+                        originalTables: tables,
+                        modifiedTables: tables,
+                        changeHistory: [],
+                        status,
+                        choosedTable: null,
+                        choosedColumn: null,
+                        config: config,
+                        isMigration: false,
+                    });
+                } else {
+                    setGlobalState((prev) => ({ ...prev, status, choosedTable: null, choosedColumn: null }));
+                }
             } else {
-                setGlobalState((prev) => ({ ...prev, status, choosedTable: null, choosedColumn: null }));
+                if (isMounted) {
+                    setTimeout(fetchData, 15000);
+                }
             }
         };
 
         // setTimeout(() => {
         fetchData();
         // }, 2400);
+
+        return () => {
+            isMounted = false;
+        };
     }, []);
 
     return <GlobalContext.Provider value={{ globalState, setGlobalState }}>{children}</GlobalContext.Provider>;

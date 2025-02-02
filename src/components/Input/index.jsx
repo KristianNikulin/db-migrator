@@ -3,7 +3,7 @@ import { useFormContext } from "react-hook-form";
 
 import * as styles from "./styles.module.scss";
 
-const Input = ({ id, label, type = "text", defaultValue, register, requiredMessage }) => {
+const Input = ({ id, label, type = "text", defaultValue, register, requiredMessage, disabled }) => {
     const {
         register: formRegister,
         formState: { errors },
@@ -11,9 +11,11 @@ const Input = ({ id, label, type = "text", defaultValue, register, requiredMessa
 
     return (
         <div style={{ display: "flex", flexDirection: "column" }}>
-            <label htmlFor={id}>{label}:</label>
+            <label style={{ cursor: "default" }}>{label}:</label>
             <input
+                disabled={disabled}
                 className={styles.input}
+                style={disabled ? { color: "gray" } : {}}
                 type={type}
                 id={id}
                 {...formRegister(id, { required: requiredMessage })}

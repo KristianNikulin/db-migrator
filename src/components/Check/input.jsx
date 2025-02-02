@@ -3,15 +3,19 @@ import { useFormContext } from "react-hook-form";
 
 import * as styles from "./styles.module.scss";
 
-const Check = ({ id, label, defaultChecked }) => {
+const Check = ({ id, label, defaultChecked, disabled }) => {
     const { register } = useFormContext();
 
     return (
         <div style={{ display: "flex", gap: "5px" }}>
-            <label htmlFor={id}>{label}:</label>
+            <label style={disabled ? { cursor: "default" } : {}} htmlFor={id}>
+                {label}:
+            </label>
             <input
                 // style={{ cursor: "pointer", color: "#00bb99" }}
+                disabled={disabled}
                 className={styles.test}
+                style={disabled ? { cursor: "not-allowed" } : {}}
                 type="checkbox"
                 id={id}
                 {...register(id)}
