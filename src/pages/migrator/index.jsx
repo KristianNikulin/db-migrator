@@ -1,4 +1,5 @@
 import React from "react";
+import { Trans } from "@lingui/react";
 
 import Visualizer from "../../components/Visualizer";
 import CustomLoader from "../../components/Loader";
@@ -41,7 +42,11 @@ const Migrator = () => {
                             <Item />
                         ) : (
                             <div className={styles.noitem}>
-                                <p>To begin migrating your database, follow these steps:</p>
+                                <Trans
+                                    id="toBeginMigrating"
+                                    message="To begin migrating your database, follow these steps"
+                                />
+                                :
                                 <ol>
                                     {BEGIN_STEPS.map((step, index) => (
                                         <li key={index}>
@@ -60,7 +65,7 @@ const Migrator = () => {
                             {database ? (
                                 <Visualizer database={database} />
                             ) : isError ? (
-                                <p>Service is currently unavailable</p>
+                                <Trans id="serviceUnavailable" message="Service is currently unavailable" />
                             ) : (
                                 <CustomLoader type="box-up" />
                             )}

@@ -13,6 +13,79 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/modules/app-header/view.jsx:24
+#. js-lingui-explicit-id
+#: src/components/RelationsList/index.jsx:90
+msgid "addRelation"
+msgstr "Добавить новую связь"
+
+#. js-lingui-explicit-id
+#: src/constants/text.jsx:15
+msgid "attention"
+msgstr "Внимание! При отмене миграции все несохранённые изменения будут удалены!"
+
+#. js-lingui-explicit-id
+#: src/components/Visualizer/index.tsx:419
+msgid "cancelMigration"
+msgstr "Отменить миграцию"
+
+#. js-lingui-explicit-id
+#: src/constants/text.jsx:11
+msgid "clickStartMigration"
+msgstr "Нажмите кнопку 'Начать миграцию'"
+
+#. js-lingui-explicit-id
+#: src/components/Visualizer/index.tsx:422
+msgid "createTable"
+msgstr "Создать новую таблицу"
+
+#. js-lingui-explicit-id
+#: src/components/Visualizer/index.tsx:429
+msgid "deployChanges"
+msgstr "Применить изменения"
+
+#. js-lingui-explicit-id
+#: src/components/Item/index.jsx:86
+msgid "discardChanges"
+msgstr "Отменить изменения"
+
+#: src/modules/app-header/view.jsx:26
 msgid "Docs"
 msgstr "Документация"
+
+#. js-lingui-explicit-id
+#: src/constants/text.jsx:5
+msgid "notRecommended"
+msgstr "Не рекомендуется делать связь с этим полем!"
+
+#: src/modules/app-header/view.jsx:23
+msgid "Migrator"
+msgstr "Мигратор"
+
+#. js-lingui-explicit-id
+#: src/components/Item/index.jsx:89
+msgid "save"
+msgstr "Сохранить"
+
+#. js-lingui-explicit-id
+#: src/constants/text.jsx:10
+msgid "selectTable"
+msgstr "Выберите таблицу и поле на схеме вашей базы данных"
+
+#. js-lingui-explicit-id
+#: src/pages/migrator/index.jsx:68
+msgid "serviceUnavailable"
+msgstr "Сервис недоступен"
+
+#: src/modules/app-header/view.jsx:29
+msgid "Settings"
+msgstr "Настройки"
+
+#. js-lingui-explicit-id
+#: src/components/Visualizer/index.tsx:407
+msgid "startMigrating"
+msgstr "Начать миграцию"
+
+#. js-lingui-explicit-id
+#: src/pages/migrator/index.jsx:45
+msgid "toBeginMigrating"
+msgstr "Для начала миграции выполните следующие шаги"

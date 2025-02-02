@@ -19,11 +19,15 @@ const AppHeaderView = () => {
                     </h1>
                 </div>
                 <div className={styles.links}>
-                    <button onClick={() => navigate("/migrator")}>Migrator</button>
+                    <button onClick={() => navigate("/migrator")}>
+                        <Trans>Migrator</Trans>
+                    </button>
                     <button onClick={() => navigate("/docs")}>
                         <Trans>Docs</Trans>
                     </button>
-                    <button onClick={() => navigate("/settings")}>Settings</button>
+                    <button onClick={() => navigate("/settings")}>
+                        <Trans>Settings</Trans>
+                    </button>
                 </div>
                 <div className={styles.selectorsContainer}>
                     <LanguageSelect />
