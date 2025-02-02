@@ -2,6 +2,8 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Trans } from "@lingui/react/macro";
 
+import { PROJECT_NAME } from "../../constants/text";
+
 import LanguageSelect from "../../components/LangSelect";
 import ThemeSwitcher from "../../components/ThemeSwitcher";
 
@@ -14,9 +16,9 @@ const AppHeaderView = () => {
         <div className={styles.appHeader}>
             <div className={styles.wrapper}>
                 <div>
-                    <h1>
-                        <b>DB MIGRATOR</b>
-                    </h1>
+                    <button onClick={() => navigate("/migrator")}>
+                        <b>{PROJECT_NAME}</b>
+                    </button>
                 </div>
                 <div className={styles.links}>
                     <button onClick={() => navigate("/migrator")}>

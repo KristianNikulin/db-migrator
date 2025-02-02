@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import * as styles from "./styles.module.scss";
 import Button from "../Button";
+
+import styles from "./styles.module.scss";
 
 const Modal = ({ isOpen, onClose, onConfirm, children, leftBtnText, rightBtnText }) => {
     if (!isOpen) return null;

@@ -1,5 +1,7 @@
 import { Trans } from "@lingui/react";
 
+export const PROJECT_NAME = "DB Migrator";
+
 export const ERROR_MESSAGE = {
     BANNED_RELATION_TYPE: (
         <Trans id="notRecommended" message="It's not recommended to make relation with this column!" />
