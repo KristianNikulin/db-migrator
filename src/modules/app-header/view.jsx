@@ -1,7 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { Trans } from "@lingui/react/macro";
 
-import * as styles from "./app-header.module.scss";
+import LanguageSelect from "../../components/LangSelect";
+import ThemeSwitcher from "../../components/ThemeSwitcher";
+
+import styles from "./app-header.module.scss";
 
 const AppHeaderView = () => {
     const navigate = useNavigate();
@@ -16,30 +20,18 @@ const AppHeaderView = () => {
                 </div>
                 <div className={styles.links}>
                     <button onClick={() => navigate("/migrator")}>Migrator</button>
-                    <button onClick={() => navigate("/docs")}>Docs</button>
+                    <button onClick={() => navigate("/docs")}>
+                        <Trans>Docs</Trans>
+                    </button>
                     <button onClick={() => navigate("/settings")}>Settings</button>
                 </div>
-                <div>User</div>
+                <div className={styles.selectorsContainer}>
+                    <LanguageSelect />
+                    {false && <ThemeSwitcher />}
+                </div>
             </div>
         </div>
     );
 };
-
-// function ThemeToggler() {
-//     const { colorMode, changeTheme } = useColorMode();
-
-//     return (
-//         <Toggler
-//             isTheme
-//             className="ml-s1"
-//             value={colorMode === "dark"}
-//             onChange={() => {
-//                 const theme = colorMode === "dark" ? "light" : "dark";
-
-//                 changeTheme(theme);
-//             }}
-//         />
-//     );
-// }
 
 export default AppHeaderView;

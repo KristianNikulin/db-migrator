@@ -6,14 +6,12 @@ import CustomCheck from "../Check/input";
 import CustomTextarea from "../Textarea/index";
 import CustomSelect from "../Select/index";
 import CustomList from "../RelationsList/index";
-import Button from "../Button/input.tsx";
+import Button from "../Button/index";
 
 import { useGlobalContext } from "../../state-providers/global/globalContext";
 import { DATA_TYPES } from "../../constants/types";
 
-const ColumnForm = ({ column, table }) => {
-    console.log(`table: `, table);
-    console.log(`column: `, column);
+const ColumnForm = ({ column, table, isMigration }) => {
     const { register, handleSubmit, reset } = useFormContext();
 
     const onSubmit = (data) => {
@@ -38,7 +36,7 @@ const ColumnForm = ({ column, table }) => {
         handleDiscardChanges();
     }, [column, reset]);
 
-    if (!column) return <p>No column choosed</p>;
+    if (!column) return;
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
@@ -48,6 +46,7 @@ const ColumnForm = ({ column, table }) => {
                 defaultValue={table.name}
                 register={register}
                 requiredMessage="Table name is required"
+                disabled={!isMigration}
             />
 
             <CustomInput
@@ -56,29 +55,36 @@ const ColumnForm = ({ column, table }) => {
                 defaultValue={column.name}
                 register={register}
                 requiredMessage="Column name is required"
+                disabled={!isMigration}
             />
 
-            <CustomSelect id="data_type" label="Column Type" options={DATA_TYPES} />
+            <CustomSelect id="data_type" label="Column Type" options={DATA_TYPES} disabled={!isMigration} />
 
-            <CustomTextarea id="comment" label="Comment" defaultValue={column.comment} />
+            <CustomTextarea id="comment" label="Comment" defaultValue={column.comment} disabled={!isMigration} />
 
-            <CustomCheck id="is_nullable" label="Is Nullable" defaultChecked={column.is_nullable} />
+            <CustomCheck
+                id="is_nullable"
+                label="Is Nullable"
+                defaultChecked={column.is_nullable}
+                disabled={!isMigration}
+            />
 
-            <CustomCheck id="is_unique" label="Is Unique" defaultChecked={column.is_unique} />
+            <CustomCheck id="is_unique" label="Is Unique" defaultChecked={column.is_unique} disabled={!isMigration} />
 
             <CustomList
                 id="relationships"
                 label="Relationships"
                 currentTable={table.name}
-                currentColumn={column.name}
+                currentColumn={column}
                 items={table.relationships}
+                disabled={!isMigration}
             />
 
             <div style={{ display: "flex", gap: "10px" }}>
-                <Button type="button" variant="failure" onClick={handleDiscardChanges}>
+                <Button disabled={!isMigration} type="button" variant="failure" onClick={handleDiscardChanges}>
                     Discard changes
                 </Button>
-                <Button type="submit" variant="primary">
+                <Button disabled={!isMigration} type="submit" variant="success">
                     Save
                 </Button>
             </div>
@@ -94,6 +100,7 @@ const Item = () => {
 
     const table = globalState.modifiedTables?.find((item) => item.name === choosedTable) || null;
     const column = table?.columns?.find((item) => item.name === choosedColumn) || null;
+    const isMigration = globalState.isMigration;
 
     const methods = useForm({
         defaultValues: table
@@ -111,7 +118,7 @@ const Item = () => {
 
     return (
         <FormProvider {...methods}>
-            <ColumnForm column={column} table={table} />
+            <ColumnForm isMigration={isMigration} column={column} table={table} />
         </FormProvider>
     );
 };

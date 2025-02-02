@@ -1,19 +1,13 @@
-import React, { FC, ButtonHTMLAttributes } from "react";
-
-import * as styles from "./styles.module.scss";
+import React from "react";
+import PropTypes from "prop-types";
 import classNames from "classnames";
+import * as styles from "./styles.module.scss";
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-    variant: "default" | "failure" | "success" | "warning";
-    disabled?: boolean;
-    className?: string;
-}
-
-const Button: FC<ButtonProps> = ({
+const Button = ({
     children,
     onClick,
     type = "button",
-    variant = "success",
+    variant = "primary",
     disabled = false,
     className = "",
     ...props
@@ -25,6 +19,15 @@ const Button: FC<ButtonProps> = ({
             {children}
         </button>
     );
+};
+
+Button.propTypes = {
+    children: PropTypes.node.isRequired,
+    onClick: PropTypes.func,
+    type: PropTypes.string,
+    variant: PropTypes.oneOf(["primary", "failure", "success"]),
+    disabled: PropTypes.bool,
+    className: PropTypes.string,
 };
 
 export default Button;
