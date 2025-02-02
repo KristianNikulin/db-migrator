@@ -1,7 +1,7 @@
 import React from "react";
 import { useFormContext } from "react-hook-form";
 
-import * as styles from "./styles.module.scss";
+import styles from "./styles.module.scss";
 
 const Select = ({ id, label, options, requiredMessage, disabled }) => {
     const {

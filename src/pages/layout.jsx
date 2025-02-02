@@ -3,7 +3,7 @@ import React, { createContext } from "react";
 import AppFooter from "../modules/app-footer";
 import AppHeader from "../modules/app-header";
 
-import * as styles from "./pages.module.scss";
+import styles from "./pages.module.scss";
 
 const RootLayout = ({ children }) => {
     const ConnectionContext = createContext([{ name: "test" }]);

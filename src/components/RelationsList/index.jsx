@@ -9,7 +9,7 @@ import CustomMessage from "../Message";
 import { BANNED_RELATION_TYPES } from "../../constants/types";
 import { ERROR_MESSAGE } from "../../constants/text";
 
-import * as styles from "./styles.module.scss";
+import styles from "./styles.module.scss";
 
 const List = ({ id, label, items, currentColumn, currentTable, showDeleteIcon = true, disabled }) => {
     const {

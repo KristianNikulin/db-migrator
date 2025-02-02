@@ -4,7 +4,7 @@ import { useLingui } from "@lingui/react/macro";
 
 import { LANGUAGES } from "../../constants/types";
 
-import * as styles from "./styles.module.scss";
+import styles from "./styles.module.scss";
 
 const LanguageSelect = () => {
     const { i18n } = useLingui();
