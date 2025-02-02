@@ -41,6 +41,9 @@ import "reactflow/dist/style.css";
 import "./Style";
 import DatabaseIcon from "./components/DatabaseIcon";
 import { useGlobalContext } from "../../state-providers/global/globalContext";
+import Button from "../Button/index";
+import Modal from "../Modal";
+import { DISCARD_CHANGES_WARNING } from "../../constants/text";
 
 const nodeTypes = {
     table: TableNode,
@@ -68,7 +71,18 @@ const Flow: React.FC<FlowProps> = (props: FlowProps) => {
     const [databaseMenuPopupOn, setDatabaseMenuPopupOn] = useState(false);
     const [nodeHoverActive, setNodeHoverActive] = useState(true);
 
+    const [isModalOpen, setModalOpen] = useState(false);
+    const handleOpenModal = () => setModalOpen(true);
+    const handleCloseModal = () => setModalOpen(false);
+    const handleConfirmAction = () => {
+        setModalOpen(false);
+        setGlobalState((prev) => ({ ...prev, choosedColumn: null, choosedTable: null, isMigration: false }));
+    };
+
     const { globalState, setGlobalState } = useGlobalContext();
+    const isMigration = globalState.isMigration;
+    const isHistory = Boolean(globalState.changeHistory?.length);
+    const isChoosed = Boolean(globalState.choosedColumn);
 
     const onInit = (instance: ReactFlowInstance) => {
         const nodes = instance.getNodes();
@@ -352,59 +366,87 @@ const Flow: React.FC<FlowProps> = (props: FlowProps) => {
 
     // https://stackoverflow.com/questions/16664584/changing-an-svg-markers-color-css
     return (
-        <div className="Flow">
-            <Markers />
-            <ReactFlow
-                nodes={nodes}
-                edges={edges}
-                onNodesChange={handleNodesChange}
-                onEdgeClick={onEdgeClick}
-                onInit={onInit}
-                snapToGrid={true}
-                fitView
-                snapGrid={[16, 16]}
-                nodeTypes={nodeTypes}
-                onNodeMouseEnter={onNodeMouseEnter}
-                onNodeMouseLeave={onNodeMouseLeave}
-                onSelectionChange={onSelectionChange}
-                onNodeClick={onNodeClick}
-                proOptions={proOptions}
-            >
-                <Controls showInteractive={false}>
-                    <ControlButton onClick={toggleFullScreen}>
-                        {!fullscreenOn ? <MaximizeIcon /> : <MinimizeIcon />}
-                    </ControlButton>
-                    <ControlButton
-                        onClick={() => {
-                            setInfoPopupOn(!infoPopupOn);
+        <>
+            <div className="Flow">
+                <Markers />
+                <ReactFlow
+                    nodes={nodes}
+                    edges={edges}
+                    onNodesChange={handleNodesChange}
+                    onEdgeClick={onEdgeClick}
+                    onInit={onInit}
+                    snapToGrid={true}
+                    fitView
+                    snapGrid={[16, 16]}
+                    nodeTypes={nodeTypes}
+                    onNodeMouseEnter={onNodeMouseEnter}
+                    onNodeMouseLeave={onNodeMouseLeave}
+                    onSelectionChange={onSelectionChange}
+                    onNodeClick={onNodeClick}
+                    proOptions={proOptions}
+                >
+                    <Controls showInteractive={false}>
+                        <ControlButton onClick={toggleFullScreen}>
+                            {!fullscreenOn ? <MaximizeIcon /> : <MinimizeIcon />}
+                        </ControlButton>
+                    </Controls>
+                    <Background variant={"dots" as any} gap={12} size={1} />
+                    <MiniMap />
+                    <Panel style={{ zIndex: 10 }} position="top-left">
+                        {!isMigration ? (
+                            <Button
+                                style={{ minWidth: "150px" }}
+                                disabled={!isChoosed}
+                                onClick={() => {
+                                    setGlobalState((prev) => ({ ...prev, isMigration: true }));
+                                }}
+                                variant="success"
+                            >
+                                Start migration
+                            </Button>
+                        ) : (
+                            <div style={{ display: "flex", gap: "5px" }}>
+                                <Button
+                                    style={{ minWidth: "150px" }}
+                                    onClick={
+                                        isHistory
+                                            ? handleOpenModal
+                                            : () => setGlobalState((prev) => ({ ...prev, isMigration: false }))
+                                    }
+                                    variant="failure"
+                                >
+                                    Cancel migration
+                                </Button>
+                                <Button onClick={() => {}} style={{ minWidth: "150px" }} variant="success">
+                                    Create new table
+                                </Button>
+                            </div>
+                        )}
+                    </Panel>
+                    <Panel style={{ zIndex: 10 }} position="top-right">
+                        <Button onClick={() => {}} disabled={true} style={{ minWidth: "150px" }} variant="success">
+                            Deploy changes
+                        </Button>
+                    </Panel>
+                </ReactFlow>
+                {infoPopupOn && (
+                    <InfoPopup
+                        onClose={() => {
+                            setInfoPopupOn(false);
                         }}
-                        className="into-popup-toggle"
-                    >
-                        <InfoIcon />
-                    </ControlButton>
-                    <ControlButton
-                        // onClick={() => {
-                        //     setDatabaseMenuPopupOn(true);
-                        // }}
-                        className="into-popup-toggle"
-                    >
-                        <DatabaseIcon />
-                    </ControlButton>
-                </Controls>
-                <Background variant={"dots" as any} gap={12} size={1} />
-                <MiniMap />
-                <Panel style={{ zIndex: 10, backgroundColor: "gray", padding: "10px" }} position="top-right">
-                    top-right
-                </Panel>
-            </ReactFlow>
-            {infoPopupOn && (
-                <InfoPopup
-                    onClose={() => {
-                        setInfoPopupOn(false);
-                    }}
-                />
-            )}
-        </div>
+                    />
+                )}
+            </div>
+            <Modal
+                isOpen={isModalOpen}
+                onClose={handleCloseModal}
+                onConfirm={handleConfirmAction}
+                leftBtnText="Cancel"
+                rightBtnText="Confirm"
+            >
+                {DISCARD_CHANGES_WARNING}
+            </Modal>
+        </>
     );
 };
 
