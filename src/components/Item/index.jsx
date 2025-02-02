@@ -1,12 +1,13 @@
 import React, { useCallback, useEffect } from "react";
 import { FormProvider, useForm, useFormContext } from "react-hook-form";
+import { Trans } from "@lingui/react";
 
-import CustomInput from "../Input/index";
+import CustomInput from "../Input";
 import CustomCheck from "../Check/input";
-import CustomTextarea from "../Textarea/index";
-import CustomSelect from "../Select/index";
-import CustomList from "../RelationsList/index";
-import Button from "../Button/index";
+import CustomTextarea from "../Textarea";
+import CustomSelect from "../Select";
+import CustomList from "../RelationsList";
+import Button from "../Button";
 
 import { useGlobalContext } from "../../state-providers/global/globalContext";
 import { DATA_TYPES } from "../../constants/types";
@@ -80,12 +81,18 @@ const ColumnForm = ({ column, table, isMigration }) => {
                 disabled={!isMigration}
             />
 
-            <div style={{ display: "flex", gap: "10px" }}>
-                <Button disabled={!isMigration} type="button" variant="failure" onClick={handleDiscardChanges}>
-                    Discard changes
+            <div style={{ display: "flex", gap: "10px", width: "100%" }}>
+                <Button
+                    style={{ flex: 1 }}
+                    disabled={!isMigration}
+                    type="button"
+                    variant="failure"
+                    onClick={handleDiscardChanges}
+                >
+                    <Trans id="discardChanges" message="Discard changes" />
                 </Button>
-                <Button disabled={!isMigration} type="submit" variant="success">
-                    Save
+                <Button style={{ flex: 1 }} disabled={!isMigration} type="submit" variant="success">
+                    <Trans id="save" message="Save" />
                 </Button>
             </div>
         </form>

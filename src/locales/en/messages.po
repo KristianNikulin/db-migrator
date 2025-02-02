@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2025-02-01 23:29+0300\n"
+"POT-Creation-Date: 2025-02-02 18:16+0300\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,6 +13,79 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/modules/app-header/view.jsx:24
+#. js-lingui-explicit-id
+#: src/components/RelationsList/index.jsx:90
+msgid "addRelation"
+msgstr "Add new relation"
+
+#. js-lingui-explicit-id
+#: src/constants/text.jsx:15
+msgid "attention"
+msgstr "Attention! If you cancel the migration, all unsaved changes will be deleted!"
+
+#. js-lingui-explicit-id
+#: src/components/Visualizer/index.tsx:419
+msgid "cancelMigration"
+msgstr "Cancel migration"
+
+#. js-lingui-explicit-id
+#: src/constants/text.jsx:11
+msgid "clickStartMigration"
+msgstr "Click 'Start migration' button"
+
+#. js-lingui-explicit-id
+#: src/components/Visualizer/index.tsx:422
+msgid "createTable"
+msgstr "Create new table"
+
+#. js-lingui-explicit-id
+#: src/components/Visualizer/index.tsx:429
+msgid "deployChanges"
+msgstr "Deploy changes"
+
+#. js-lingui-explicit-id
+#: src/components/Item/index.jsx:86
+msgid "discardChanges"
+msgstr "Discard changes"
+
+#: src/modules/app-header/view.jsx:26
 msgid "Docs"
 msgstr "Docs"
+
+#. js-lingui-explicit-id
+#: src/constants/text.jsx:5
+msgid "notRecommended"
+msgstr "It's not recommended to make relation with this column!"
+
+#: src/modules/app-header/view.jsx:23
+msgid "Migrator"
+msgstr "Migrator"
+
+#. js-lingui-explicit-id
+#: src/components/Item/index.jsx:89
+msgid "save"
+msgstr "Save"
+
+#. js-lingui-explicit-id
+#: src/constants/text.jsx:10
+msgid "selectTable"
+msgstr "Select table and column from your database schema"
+
+#. js-lingui-explicit-id
+#: src/pages/migrator/index.jsx:68
+msgid "serviceUnavailable"
+msgstr "Service is currently unavailable"
+
+#: src/modules/app-header/view.jsx:29
+msgid "Settings"
+msgstr "Settings"
+
+#. js-lingui-explicit-id
+#: src/components/Visualizer/index.tsx:407
+msgid "startMigrating"
+msgstr "Start migration"
+
+#. js-lingui-explicit-id
+#: src/pages/migrator/index.jsx:45
+msgid "toBeginMigrating"
+msgstr "To begin migrating your database, follow these steps"

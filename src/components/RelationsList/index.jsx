@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
+import { Trans } from "@lingui/react";
 
 import { FaTrash } from "react-icons/fa";
 import Button from "../Button";
-import CustomMessage from "../Message/index.tsx";
+import CustomMessage from "../Message";
 
 import { BANNED_RELATION_TYPES } from "../../constants/types";
 import { ERROR_MESSAGE } from "../../constants/text";
@@ -85,7 +86,9 @@ const List = ({ id, label, items, currentColumn, currentTable, showDeleteIcon = 
             </ul>
             {isInvalidColumnType && <CustomMessage message={ERROR_MESSAGE.BANNED_RELATION_TYPE} />}
             <Button disabled={isInvalidColumnType || disabled} variant="primary">
-                + Add new relation
+                <p>
+                    + <Trans id="addRelation" message="Add new relation" />
+                </p>
             </Button>
         </div>
     );

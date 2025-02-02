@@ -36,13 +36,16 @@ import {
 
 import { EdgeConfig, DatabaseConfig } from "./types";
 
+import { Trans } from "@lingui/react";
+
 // this is important! You need to import the styles from the lib to make it work
 import "reactflow/dist/style.css";
 import "./Style";
-import DatabaseIcon from "./components/DatabaseIcon";
+// import DatabaseIcon from "./components/DatabaseIcon";
 import { useGlobalContext } from "../../state-providers/global/globalContext";
-import Button from "../Button/index";
+import Button from "../Button";
 import Modal from "../Modal";
+
 import { DISCARD_CHANGES_WARNING } from "../../constants/text";
 
 const nodeTypes = {
@@ -395,19 +398,17 @@ const Flow: React.FC<FlowProps> = (props: FlowProps) => {
                     <Panel style={{ zIndex: 10 }} position="top-left">
                         {!isMigration ? (
                             <Button
-                                style={{ minWidth: "150px" }}
                                 disabled={!isChoosed}
                                 onClick={() => {
                                     setGlobalState((prev) => ({ ...prev, isMigration: true }));
                                 }}
                                 variant="success"
                             >
-                                Start migration
+                                <Trans id="startMigrating" message="Start migration" />
                             </Button>
                         ) : (
                             <div style={{ display: "flex", gap: "5px" }}>
                                 <Button
-                                    style={{ minWidth: "150px" }}
                                     onClick={
                                         isHistory
                                             ? handleOpenModal
@@ -415,17 +416,17 @@ const Flow: React.FC<FlowProps> = (props: FlowProps) => {
                                     }
                                     variant="failure"
                                 >
-                                    Cancel migration
+                                    <Trans id="cancelMigration" message="Cancel migration" />
                                 </Button>
-                                <Button onClick={() => {}} style={{ minWidth: "150px" }} variant="success">
-                                    Create new table
+                                <Button onClick={() => {}} variant="success">
+                                    <Trans id="createTable" message="Create new table" />
                                 </Button>
                             </div>
                         )}
                     </Panel>
                     <Panel style={{ zIndex: 10 }} position="top-right">
-                        <Button onClick={() => {}} disabled={true} style={{ minWidth: "150px" }} variant="success">
-                            Deploy changes
+                        <Button onClick={() => {}} disabled={true} variant="success">
+                            <Trans id="deployChanges" message="Deploy changes" />
                         </Button>
                     </Panel>
                 </ReactFlow>

@@ -22,7 +22,6 @@ const Button = ({
 };
 
 Button.propTypes = {
-    children: PropTypes.node.isRequired,
     onClick: PropTypes.func,
     type: PropTypes.string,
     variant: PropTypes.oneOf(["primary", "failure", "success"]),
