@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 
-import App from "./pages/index";
-import { GlobalContextProvider } from "./state-providers/global/index";
+import App from "./pages";
+import { GlobalContextProvider } from "./state-providers/global";
 
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
