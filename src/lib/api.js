@@ -4,7 +4,7 @@ import { toast } from "../state-providers/global/tostify";
 
 class APIService {
     isResponseOk = (res) => {
-        return res?.status === "OK" || res?.result?.status === "OK";
+        return res?.status === 200 || res?.result?.status === "OK";
     };
 
     httpRequest = async ({
