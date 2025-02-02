@@ -1,7 +1,9 @@
-import cn from "classnames";
 import React from "react";
 
-import * as styles from "./app-footer.module.scss";
+import { PROJECT_NAME } from "../../constants/text";
+
+import styles from "./app-footer.module.scss";
+import cn from "classnames";
 
 const AppFooterView = () => {
     const date = new Date();
@@ -9,7 +11,9 @@ const AppFooterView = () => {
 
     return (
         <div className={cn(styles.appFooter, "py-s2")}>
-            <div className={styles.copyright}>Copyright © {year} DB Migrator</div>
+            <div className={styles.copyright}>
+                Copyright © {year} {PROJECT_NAME}
+            </div>
         </div>
     );
 };
