@@ -1,0 +1,76 @@
+:root .theme-dark {
+  --TXT_HEADER: #fff;
+  --TXT_PRIMARY: #E9F5FF;
+  --TXT_SECONDARY: #A3BBC2;
+  --TXT_INVERSE: #4D5C69;
+  --TXT_BTN: #fff;
+
+  --BG_PAGE: linear-gradient(287.69deg, #02050E 0%, #005268 99.33%);
+  --BG_PLATE: #283246;
+  --BG_HEAD: #333333;
+  --BG_TOOLTIP1: #4D5C69;
+  --BG_TOOLTIP2: #303B52;
+  --BG_OBJECT: #303B52;
+  --BG_CONTROL_PLATE: #333;
+  --BG_INPUT: #1F2839;
+  --BG_INPUT_DISABLED: rgba(31, 40, 57, 0);
+  --BG_SELECTION: rgba(153, 153, 153, 0.1);
+  --SCROLL_THUMB: rgba(117, 138, 164, 0.64);
+
+  --ROUNDED_DEFAULT: #008CBB;
+  --PRIMARY_DEFAULT: #00BB99;
+  --DANGER_DEFAULT: #EA736A;
+
+  --PRIMARY_HOVER: #62E1C0;
+  --SUCCESS: #00BB99;
+  --PRIMARY_ACTIVE: #0E9887;
+  --DANGER_HOVER: #FF9189;
+  --ERROR: #EA736A;
+  --DANGER_ACTIVE: #D04A40;
+  --DISABLED: #4D5A75;
+  --OBJECT_HOVER: #1F2839;
+  --AUTOCOMPLETE: rgba(55, 111, 220, 0.3);
+
+  /*--BLOCK1: #F48881;*/
+  /*--BLOCK2: #FDAD73;*/
+  /*--BLOCK3: #FFE787;*/
+  /*--BLOCK4: #9FF481;*/
+  /*--BLOCK5: #67E4FF;*/
+  /*--BLOCK6: #43C7FF;*/
+  /*--BLOCK7: #B592FF;*/
+  /*--BLOCK8: #EF8ED4;*/
+  /*--BLOCK9: #376FDC;*/
+  /*--BLOCK10: #62E1C0;*/
+
+  --BORDER_PRIMARY: #788A9A;
+  --BORDER_SECONDARY: #4D5C69;
+  --BORDER_OUTLINE: #fff;
+  --BORDER_BLOCK: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%);
+
+  --ICON_PRIMARY: #E9F5FF;
+  --ICON_SECONDARY: #A3BBC2;
+  --ICON_BLOCK: #4D5C69;
+  --ICON_INVERSE: #ffffff;
+
+  /*--DANGER_OPACITY_10: rgba(234, 115, 106, 0.1);*/
+  /*--DANGER_OPACITY_30: rgba(234, 115, 106, 0.3);*/
+  /*--SUCCESS_OPACITY_10: rgba(0, 187, 153, 0.1);*/
+  /*--SUCCESS_OPACITY_30: rgba(0, 187, 153, 0.3);*/
+  /*--SECONDARY_OPACITY_10: rgba(198, 212, 217, 0.1);*/
+  /*--SECONDARY_OPACITY_30: rgba(198, 212, 217, 0.3);*/
+  /*--WARNING_OPACITY_30: rgba(253, 173, 115, 0.3);*/
+  /*--BLOCK9_OPACITY_30: rgba(55, 111, 220, 0.3);*/
+
+  --PLATE_SHADOW: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  --PLATE_SHADOW_REVERSE:  0px -2px 4px 0px rgba(0, 0, 0, 0.1);
+  --TOOLTIP_SHADOW: 0px 5px 15px rgba(0, 0, 0, 0.25);
+  --TOOLTIP_SHADOW_REVERSE: 0px -5px 15px 0px rgba(0, 0, 0, 0.25);
+  --MODAL_SHADOW: 0px 10px 30px rgba(0, 0, 0, 0.4);
+  --INNER_SHADOW: inset 0px 3px 4px rgba(0, 0, 0, 0.1);
+  --CONTROL_SHADOW: 0px 0px 4px rgba(0, 0, 0, 0.2);
+  --DANGER_SHADOW: 0px 0px 4px #EA736A;
+  --PRIMARY_SHADOW: 0px 0px 4px #78EFD0;
+  --OUTLINE_SHADOW: 0px 0px 4px rgba(255, 255, 255, 0.25);
+  --STATUS_PANEL_SHADOW: 0px 1px 4px 0px rgba(0, 0, 0, 0.17);
+  --STATUS_PANEL_SHADOW_REVERSE: 0px -1px 4px 0px rgba(0, 0, 0, 0.17);
+}

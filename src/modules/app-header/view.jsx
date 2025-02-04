@@ -33,7 +33,7 @@ const AppHeaderView = () => {
                 </div>
                 <div className={styles.selectorsContainer}>
                     <LanguageSelect />
-                    {false && <ThemeSwitcher />}
+                    <ThemeSwitcher />
                 </div>
             </div>
         </div>

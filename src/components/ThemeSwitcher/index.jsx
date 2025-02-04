@@ -1,34 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+
+import { useColorMode } from "../../state-providers/theme";
 
 import styles from "./styles.module.scss";
 
 const ThemeSwitcher = () => {
-    const [isDarkMode, setIsDarkMode] = useState(false);
-
-    useEffect(() => {
-        const savedTheme = localStorage.getItem("theme");
-        if (savedTheme) {
-            setIsDarkMode(savedTheme === "dark");
-        }
-    }, []);
-
-    const toggleTheme = () => {
-        setIsDarkMode((prev) => {
-            const newTheme = !prev;
-            localStorage.setItem("theme", newTheme ? "dark" : "light");
-            return newTheme;
-        });
-    };
-
-    // Применяем класс для темной или светлой темы
-    // useEffect(() => {
-    //     document.body.className = isDarkMode ? "dark-theme" : "light-theme";
-    // }, [isDarkMode]);
+    const { theme, changeTheme } = useColorMode();
 
     return (
         <div className={styles.themeSwitcher}>
             <label className={styles.switch}>
-                <input type="checkbox" checked={isDarkMode} onChange={toggleTheme} />
+                <input
+                    type="checkbox"
+                    checked={theme === "dark"}
+                    onChange={() => {
+                        const t = theme === "dark" ? "light" : "dark";
+                        changeTheme(t);
+                    }}
+                />
                 <span className={styles.slider}></span>
             </label>
         </div>
