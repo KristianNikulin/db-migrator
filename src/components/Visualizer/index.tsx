@@ -42,7 +42,7 @@ import { Trans } from "@lingui/react";
 import "reactflow/dist/style.css";
 import "./Style";
 // import DatabaseIcon from "./components/DatabaseIcon";
-import { useGlobalContext } from "../../state-providers/global/globalContext";
+import { useGlobalContext } from "../../state-providers/globalContext";
 import Button from "../Button";
 import Modal from "../Modal";
 

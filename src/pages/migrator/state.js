@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { transformData } from "./utils";
 
-import { useGlobalContext } from "../../state-providers/global/globalContext";
+import { useGlobalContext } from "../../state-providers/globalContext";
 
 export const useMigrationState = () => {
     const [database, setDatabase] = useState(null);

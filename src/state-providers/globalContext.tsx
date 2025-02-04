@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { getTables } from "../../api";
-import { getConfig } from "../../api";
-import { API } from "../../lib/api";
+import { getTables } from "../api";
+import { getConfig } from "../api";
+import { API } from "../lib/api";
 
 // Описание типов
 interface GlobalState {

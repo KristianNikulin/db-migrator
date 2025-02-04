@@ -9,7 +9,7 @@ import CustomSelect from "../Select";
 import CustomList from "../RelationsList";
 import Button from "../Button";
 
-import { useGlobalContext } from "../../state-providers/global/globalContext";
+import { useGlobalContext } from "../../state-providers/globalContext";
 import { DATA_TYPES } from "../../constants/types";
 
 const ColumnForm = ({ column, table, isMigration }) => {
