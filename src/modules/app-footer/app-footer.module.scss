@@ -1,6 +1,8 @@
 .appFooter {
     padding: 10px;
-    border-top: 1px solid #d6dadc;
+    border-top: 1px solid var(--BORDER_SECONDARY);
+    background: var(--BG_HEAD);
+    box-shadow: var(--PLATE_SHADOW);
 }
 
 .appFooterIcons {
@@ -12,4 +14,5 @@
 .copyright {
     text-align: center;
     margin-top: 6px;
+    color: var(--TXT_HEADER);
 }

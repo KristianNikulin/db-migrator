@@ -11,6 +11,7 @@ import "allotment/dist/style.css";
 import { useMigrationState } from "./state";
 import { BEGIN_STEPS } from "../../constants/text";
 
+import classNames from "classnames";
 import styles from "./styles.module.scss";
 
 /* миникарту в настройки */
@@ -32,7 +33,9 @@ const Migrator = () => {
         <div className={styles.migratorContainer}>
             <Allotment>
                 <Allotment.Pane
-                    className={!isItem ? styles.allotmentItem : {}}
+                    className={
+                        !isItem ? classNames(styles.noAllotmentItem, styles.allotmentItem) : styles.allotmentItem
+                    }
                     preferredSize={"35%"}
                     minSize={400}
                     maxSize={700}
