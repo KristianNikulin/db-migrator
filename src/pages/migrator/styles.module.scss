@@ -8,6 +8,11 @@
 }
 
 .allotmentItem {
+    background: var(--BG_OBJECT);
+    color: var(--TXT_HEADER);
+}
+
+.noAllotmentItem {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -32,8 +37,11 @@
 
 .projectNamesContainer {
     padding: 10px;
-    border-bottom: 1px solid #d6dadc;
     min-height: 40px;
+    border-bottom: 1px solid var(--BORDER_SECONDARY);
+    background: var(--BG_OBJECT);
+    box-shadow: var(--PLATE_SHADOW);
+    color: var(--TXT_HEADER);
 }
 
 .reactFlow {

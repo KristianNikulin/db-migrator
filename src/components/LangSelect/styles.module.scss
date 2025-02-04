@@ -1,6 +1,7 @@
 .dropdown {
     position: relative;
     display: inline-block;
+    background: var(--BG_INPUT);
 }
 
 .button {
@@ -9,9 +10,8 @@
     min-width: 120px;
     justify-content: space-between;
     padding: 8px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--BORDER_PRIMARY);
     border-radius: 4px;
-    background-color: #fff;
     cursor: pointer;
 }
 
@@ -44,7 +44,8 @@
     min-width: 120px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    background-color: #fff;
+    margin-top: 5px;
+    background: var(--BG_INPUT);
     z-index: 1000;
 }
 
@@ -54,6 +55,10 @@
     padding: 8px;
     cursor: pointer;
     border-bottom: 1px solid #eee;
+
+    &:hover {
+        background: var(--OBJECT_HOVER);
+    }
 }
 
 .menuItem:last-child {

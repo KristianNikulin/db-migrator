@@ -1,12 +1,15 @@
 .appHeader {
     padding: 10px;
-    border-bottom: 1px solid #d6dadc;
+    border-bottom: 1px solid var(--BORDER_SECONDARY);
+    background: var(--BG_HEAD);
+    box-shadow: var(--PLATE_SHADOW);
 }
 
 .wrapper {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    color: var(--TXT_HEADER);
 }
 
 .links {
