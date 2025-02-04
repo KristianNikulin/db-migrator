@@ -1,6 +1,6 @@
 import { get, mapValues } from "lodash";
 import { META_BASE_URL } from "../constants/env";
-import { toast } from "../state-providers/global/tostify";
+import { toast } from "../state-providers/tostify";
 
 class APIService {
     isResponseOk = (res) => {

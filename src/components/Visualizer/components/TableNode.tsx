@@ -4,7 +4,7 @@ import { KeyIcon } from "../components";
 import { tableHighlightsPresent, isTableHighlighted, isColumnHighlighted } from "../helpers/tableHighlights";
 
 import "@reactflow/node-resizer/dist/style.css";
-import { useGlobalContext } from "../../../state-providers/global/globalContext";
+import { useGlobalContext } from "../../../state-providers/globalContext";
 
 export const TableNode: FC<NodeProps> = ({ data }) => {
     const [selectedColumn, setSelectedColumn] = useState("");
