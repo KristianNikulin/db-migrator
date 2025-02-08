@@ -86,9 +86,9 @@ const ColumnForm = ({ column, table, isMigration }) => {
 
             <Textarea id="comment" label="Comment" defaultValue={column.comment} disabled={!isMigration} />
 
-            <Check id="is_nullable" label="Is Nullable" defaultChecked={column.is_nullable} disabled={!isMigration} />
+            <Check id="is_nullable" label="Is Nullable" disabled={!isMigration} />
 
-            <Check id="is_unique" label="Is Unique" defaultChecked={column.is_unique} disabled={!isMigration} />
+            <Check id="is_unique" label="Is Unique" disabled={!isMigration} />
 
             <List
                 id="relationships"
