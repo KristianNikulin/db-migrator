@@ -16,18 +16,17 @@ const Item = ({ column, table, isMigration }) => {
     const { register, handleSubmit, reset, formState } = useFormContext();
     const { isDirty } = formState;
 
-    useEffect(() => {
-        const handleBeforeUnload = (event) => {
-            if (isDirty) {
-                event.preventDefault();
-            }
-        };
-
-        window.addEventListener("beforeunload", handleBeforeUnload);
-        return () => {
-            window.removeEventListener("beforeunload", handleBeforeUnload);
-        };
-    }, [isDirty]);
+    // useEffect(() => {
+    //     const handleBeforeUnload = (event) => {
+    //         if (isDirty) {
+    //             event.preventDefault();
+    //         }
+    //     };
+    //     window.addEventListener("beforeunload", handleBeforeUnload);
+    //     return () => {
+    //         window.removeEventListener("beforeunload", handleBeforeUnload);
+    //     };
+    // }, [isDirty]);
 
     const onSubmit = (data) => {
         console.log("Column Updated:", data);
@@ -104,7 +103,6 @@ const Item = ({ column, table, isMigration }) => {
                 label={<Trans id="columnRelationships" message="Relationships" />}
                 currentTable={table.name}
                 currentColumn={column}
-                items={table.relationships}
                 disabled={!isMigration}
             />
 

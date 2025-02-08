@@ -14,9 +14,8 @@ import { ERROR_MESSAGE } from "../../constants/text";
 
 import styles from "./styles.module.scss";
 
-const List = ({ id, label, items, currentColumn, currentTable, showDeleteIcon = true, disabled }) => {
+const List = ({ id, label, currentColumn, currentTable, showDeleteIcon = true, disabled }) => {
     const { globalState } = useGlobalContext();
-
     const tables = globalState.modifiedTables || null;
 
     const [isModalOpen, setModalOpen] = useState(false);
@@ -24,24 +23,11 @@ const List = ({ id, label, items, currentColumn, currentTable, showDeleteIcon = 
     const [selectedColumn, setSelectedColumn] = useState(null);
     const [availableColumns, setAvailableColumns] = useState([]);
 
-    const {
-        register,
-        formState: { errors },
-        setValue,
-        reset,
-    } = useFormContext();
-    const [rels, setRels] = useState([]);
-
-    useEffect(() => {
-        const filteredItems = (items || []).filter(
-            (item) =>
-                (item.source_table_name === currentTable && item.source_column_name === currentColumn.name) ||
-                (item.target_table_name === currentTable && item.target_column_name === currentColumn.name)
-        );
-        setRels(filteredItems);
-    }, [currentColumn, items, reset]);
+    const { setValue, watch } = useFormContext();
+    const formRels = watch(id, []);
 
     const handleOpenModal = () => setModalOpen(true);
+
     const handleCloseModal = () => {
         setModalOpen(false);
         setSelectedTable(null);
@@ -57,16 +43,14 @@ const List = ({ id, label, items, currentColumn, currentTable, showDeleteIcon = 
                 target_table_name: selectedTable,
                 target_column_name: selectedColumn,
             };
-            setRels([...rels, newRelation]);
-            setValue(id, [...rels, newRelation]);
+            setValue(id, [...formRels, newRelation], { shouldDirty: true });
         }
         handleCloseModal();
     };
 
     const onDelete = (index) => {
-        const updatedItems = rels.filter((_, i) => i !== index);
-        setRels(updatedItems);
-        setValue(id, updatedItems);
+        const updatedItems = formRels.filter((_, i) => i !== index);
+        setValue(id, updatedItems, { shouldDirty: true });
     };
 
     const handleTableChange = (tableName) => {
@@ -76,7 +60,7 @@ const List = ({ id, label, items, currentColumn, currentTable, showDeleteIcon = 
         setSelectedTable(tableName);
         setSelectedColumn(null);
         const selectedTableObj = tables.find((t) => t.name === tableName);
-        const usedColumns = rels.map((r) => r.target_column_name);
+        const usedColumns = formRels.map((r) => r.target_column_name);
         setAvailableColumns(
             selectedTableObj?.columns?.filter(
                 (col) => !usedColumns.includes(col.name) && !BANNED_RELATION_TYPES.includes(col.data_type)
@@ -91,28 +75,36 @@ const List = ({ id, label, items, currentColumn, currentTable, showDeleteIcon = 
             <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
                 <label style={{ cursor: "default" }}>{label}:</label>
                 <ul className={styles.list}>
-                    {rels.map((item, index) => (
-                        <li key={index} className={styles.listItem}>
-                            <span>{index + 1}.</span>
-                            <span>
-                                <p>
-                                    <b>Source</b> to column{" "}
-                                    <span style={{ color: "red" }}>{item.target_column_name}</span> in table{" "}
-                                    <span style={{ color: "red" }}>{item.target_table_name}</span>
-                                </p>
-                            </span>
-                            {showDeleteIcon && (
-                                <button
-                                    disabled={disabled}
-                                    onClick={() => onDelete(index)}
-                                    aria-label={`Delete ${item.constraint_name}`}
-                                    style={disabled ? { cursor: "not-allowed" } : {}}
-                                >
-                                    <FaTrash />
-                                </button>
-                            )}
-                        </li>
-                    ))}
+                    {formRels
+                        .filter(
+                            (item) =>
+                                (item.source_table_name === currentTable &&
+                                    item.source_column_name === currentColumn.name) ||
+                                (item.target_table_name === currentTable &&
+                                    item.target_column_name === currentColumn.name)
+                        )
+                        .map((item, index) => (
+                            <li key={index} className={styles.listItem}>
+                                <span>{index + 1}.</span>
+                                <span>
+                                    <p>
+                                        <b>Source</b> to column{" "}
+                                        <span style={{ color: "red" }}>{item.target_column_name}</span> in table{" "}
+                                        <span style={{ color: "red" }}>{item.target_table_name}</span>
+                                    </p>
+                                </span>
+                                {showDeleteIcon && (
+                                    <button
+                                        disabled={disabled}
+                                        onClick={() => onDelete(index)}
+                                        aria-label={`Delete ${item.constraint_name}`}
+                                        style={disabled ? { cursor: "not-allowed" } : {}}
+                                    >
+                                        <FaTrash />
+                                    </button>
+                                )}
+                            </li>
+                        ))}
                 </ul>
                 {isInvalidColumnType && <CustomMessage message={ERROR_MESSAGE.BANNED_RELATION_TYPE} />}
                 <Button onClick={handleOpenModal} disabled={isInvalidColumnType || disabled} variant="primary">
@@ -131,7 +123,7 @@ const List = ({ id, label, items, currentColumn, currentTable, showDeleteIcon = 
                 <Select
                     label="Select Table"
                     options={tables
-                        .filter((t) => t.name !== currentTable && !rels.some((r) => r.target_table_name === t.name))
+                        .filter((t) => t.name !== currentTable)
                         .map((table) => ({ value: table.name, label: table.name }))}
                     value={selectedTable}
                     onChange={handleTableChange}
@@ -149,7 +141,8 @@ const List = ({ id, label, items, currentColumn, currentTable, showDeleteIcon = 
                         onChange={setSelectedColumn}
                         renderOption={(option) => <>{option.label}</>}
                         renderValue={(value) => <>{value}</>}
-                        placeholder="Select a column"
+                        placeholder={availableColumns.length ? "Select a column" : "No columns available"}
+                        disabled={!availableColumns.length}
                         style={{ width: "200px" }}
                     />
                 )}
