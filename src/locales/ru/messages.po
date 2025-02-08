@@ -14,12 +14,12 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. js-lingui-explicit-id
-#: src/components/RelationsList/index.jsx:90
+#: src/components/RelationsList/index.jsx:115
 msgid "addRelation"
 msgstr "Добавить новую связь"
 
 #. js-lingui-explicit-id
-#: src/constants/text.jsx:15
+#: src/constants/text.jsx:17
 msgid "attention"
 msgstr "Внимание! При отмене миграции все несохранённые изменения будут удалены!"
 
@@ -29,9 +29,24 @@ msgid "cancelMigration"
 msgstr "Отменить миграцию"
 
 #. js-lingui-explicit-id
-#: src/constants/text.jsx:11
+#: src/constants/text.jsx:13
 msgid "clickStartMigration"
 msgstr "Нажмите кнопку 'Начать миграцию'"
+
+#. js-lingui-explicit-id
+#: src/components/Item/index.jsx:69
+msgid "columnName"
+msgstr "Название колонки"
+
+#. js-lingui-explicit-id
+#: src/components/Item/index.jsx:78
+msgid "columnType"
+msgstr "Тип данных колонки"
+
+#. js-lingui-explicit-id
+#: src/components/Item/index.jsx:89
+msgid "columnComment"
+msgstr "Описание"
 
 #. js-lingui-explicit-id
 #: src/components/Visualizer/index.tsx:422
@@ -44,39 +59,60 @@ msgid "deployChanges"
 msgstr "Применить изменения"
 
 #. js-lingui-explicit-id
-#: src/components/Item/index.jsx:86
+#: src/components/Item/index.jsx:119
 msgid "discardChanges"
 msgstr "Отменить изменения"
 
-#: src/modules/app-header/view.jsx:26
+#: src/modules/app-header/view.jsx:28
 msgid "Docs"
 msgstr "Документация"
 
 #. js-lingui-explicit-id
-#: src/constants/text.jsx:5
+#: src/components/Item/index.jsx:63
+#: src/components/Item/index.jsx:72
+msgid "fieldRequired"
+msgstr "Это поле обязательное"
+
+#. js-lingui-explicit-id
+#: src/components/Item/index.jsx:96
+msgid "columnNullable"
+msgstr "Может быть null"
+
+#. js-lingui-explicit-id
+#: src/components/Item/index.jsx:100
+msgid "columnUnique"
+msgstr "Поле уникальное"
+
+#. js-lingui-explicit-id
+#: src/constants/text.jsx:7
 msgid "notRecommended"
 msgstr "Не рекомендуется делать связь с этим полем!"
 
-#: src/modules/app-header/view.jsx:23
+#: src/modules/app-header/view.jsx:25
 msgid "Migrator"
 msgstr "Мигратор"
 
 #. js-lingui-explicit-id
-#: src/components/Item/index.jsx:89
+#: src/components/Item/index.jsx:104
+msgid "columnRelationships"
+msgstr "Связи между таблицами"
+
+#. js-lingui-explicit-id
+#: src/components/Item/index.jsx:122
 msgid "save"
 msgstr "Сохранить"
 
 #. js-lingui-explicit-id
-#: src/constants/text.jsx:10
+#: src/constants/text.jsx:12
 msgid "selectTable"
 msgstr "Выберите таблицу и поле на схеме вашей базы данных"
 
 #. js-lingui-explicit-id
-#: src/pages/migrator/index.jsx:68
+#: src/pages/migrator/index.jsx:71
 msgid "serviceUnavailable"
 msgstr "Сервис недоступен"
 
-#: src/modules/app-header/view.jsx:29
+#: src/modules/app-header/view.jsx:31
 msgid "Settings"
 msgstr "Настройки"
 
@@ -86,6 +122,11 @@ msgid "startMigrating"
 msgstr "Начать миграцию"
 
 #. js-lingui-explicit-id
-#: src/pages/migrator/index.jsx:45
+#: src/components/Item/index.jsx:60
+msgid "tableName"
+msgstr "Название таблицы"
+
+#. js-lingui-explicit-id
+#: src/pages/migrator/index.jsx:48
 msgid "toBeginMigrating"
 msgstr "Для начала миграции выполните следующие шаги"

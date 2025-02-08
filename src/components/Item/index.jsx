@@ -6,13 +6,13 @@ import Input from "../Input";
 import Check from "../Check";
 import Textarea from "../Textarea";
 import Select from "../Select";
-import List from "../RelationsList";
+import RelationsList from "../RelationsList";
 import Button from "../Button";
 
 import { useGlobalContext } from "../../state-providers/globalContext";
 import { DATA_TYPES } from "../../constants/types";
 
-const ColumnForm = ({ column, table, isMigration }) => {
+const Item = ({ column, table, isMigration }) => {
     const { register, handleSubmit, reset, formState } = useFormContext();
     const { isDirty } = formState;
 
@@ -57,25 +57,25 @@ const ColumnForm = ({ column, table, isMigration }) => {
         <form onSubmit={handleSubmit(onSubmit)} style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
             <Input
                 id="table_name"
-                label="Table Name"
+                label={<Trans id="tableName" message="Table Name" />}
                 defaultValue={table.name}
                 register={register}
-                requiredMessage="Table name is required"
+                requiredMessage={<Trans id="fieldRequired" message="Field is required" />}
                 disabled={!isMigration}
             />
 
             <Input
                 id="column_name"
-                label="Column Name"
+                label={<Trans id="columnName" message="Column Name" />}
                 defaultValue={column.name}
                 register={register}
-                requiredMessage="Column name is required"
+                requiredMessage={<Trans id="fieldRequired" />}
                 disabled={!isMigration}
             />
 
             <Select
                 id="data_type"
-                label="Column Type"
+                label={<Trans id="columnType" message="Column Type" />}
                 options={DATA_TYPES}
                 value={column.data_type}
                 onChange={(value) => reset({ ...formState.values, data_type: value })}
@@ -84,15 +84,24 @@ const ColumnForm = ({ column, table, isMigration }) => {
                 disabled={!isMigration}
             />
 
-            <Textarea id="comment" label="Comment" defaultValue={column.comment} disabled={!isMigration} />
+            <Textarea
+                id="comment"
+                label={<Trans id="columnComment" message="Comment" />}
+                defaultValue={column.comment}
+                disabled={!isMigration}
+            />
 
-            <Check id="is_nullable" label="Is Nullable" disabled={!isMigration} />
+            <Check
+                id="is_nullable"
+                label={<Trans id="columnNullable" message="Is Nullable" />}
+                disabled={!isMigration}
+            />
 
-            <Check id="is_unique" label="Is Unique" disabled={!isMigration} />
+            <Check id="is_unique" label={<Trans id="columnUnique" message="Is Unique" />} disabled={!isMigration} />
 
-            <List
+            <RelationsList
                 id="relationships"
-                label="Relationships"
+                label={<Trans id="columnRelationships" message="Relationships" />}
                 currentTable={table.name}
                 currentColumn={column}
                 items={table.relationships}
@@ -117,7 +126,7 @@ const ColumnForm = ({ column, table, isMigration }) => {
     );
 };
 
-const Item = () => {
+const ColumnForm = () => {
     const { globalState } = useGlobalContext();
 
     const choosedColumn = globalState.choosedColumn?.name || null;
@@ -143,9 +152,9 @@ const Item = () => {
 
     return (
         <FormProvider {...methods}>
-            <ColumnForm isMigration={isMigration} column={column} table={table} />
+            <Item isMigration={isMigration} column={column} table={table} />
         </FormProvider>
     );
 };
 
-export default Item;
+export default ColumnForm;
