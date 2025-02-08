@@ -4,7 +4,7 @@ import { Trans } from "@lingui/react";
 
 import { FaTrash } from "react-icons/fa";
 import Button from "../Button";
-import Select from "../SelectV2";
+import Select from "../Select";
 import Modal from "../Modal";
 import CustomMessage from "../Message";
 

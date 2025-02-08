@@ -5,7 +5,7 @@ import { Trans } from "@lingui/react";
 import Input from "../Input";
 import Check from "../Check";
 import Textarea from "../Textarea";
-import Select from "../SelectV2";
+import Select from "../Select";
 import List from "../RelationsList";
 import Button from "../Button";
 
@@ -86,12 +86,7 @@ const ColumnForm = ({ column, table, isMigration }) => {
 
             <Textarea id="comment" label="Comment" defaultValue={column.comment} disabled={!isMigration} />
 
-            <Check
-                id="is_nullable"
-                label="Is Nullable"
-                defaultChecked={column.is_nullable}
-                disabled={!isMigration}
-            />
+            <Check id="is_nullable" label="Is Nullable" defaultChecked={column.is_nullable} disabled={!isMigration} />
 
             <Check id="is_unique" label="Is Unique" defaultChecked={column.is_unique} disabled={!isMigration} />
 

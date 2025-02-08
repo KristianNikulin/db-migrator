@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLingui } from "@lingui/react/macro";
 
 import Flag from "react-world-flags";
-import Select from "../SelectV2";
+import Select from "../Select";
 
 import { LANGUAGES } from "../../constants/types";
 
