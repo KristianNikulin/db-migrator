@@ -10,7 +10,7 @@ import RelationsList from "../RelationsList";
 import Button from "../Button";
 
 import { useGlobalContext } from "../../state-providers/globalContext";
-import { DATA_TYPES } from "../../constants/types";
+import { COLUMN_RELATION_STATUS, DATA_TYPES } from "../../constants/types";
 
 const Item = ({ column, table, isMigration }) => {
     const { register, handleSubmit, reset, formState } = useFormContext();
@@ -34,6 +34,10 @@ const Item = ({ column, table, isMigration }) => {
 
     const handleDiscardChanges = useCallback(() => {
         if (column) {
+            const relationships = (table?.relationships || []).map((rel) => ({
+                ...rel,
+                status: COLUMN_RELATION_STATUS.EXISTING,
+            }));
             reset({
                 table_name: table.name,
                 column_name: column.name,
@@ -41,7 +45,7 @@ const Item = ({ column, table, isMigration }) => {
                 comment: column.comment,
                 is_nullable: column.is_nullable,
                 is_unique: column.is_unique,
-                relationships: table.relationships,
+                relationships,
             });
         }
     }, [column, reset]);
@@ -133,6 +137,10 @@ const ColumnForm = () => {
     const table = globalState.modifiedTables?.find((item) => item.name === choosedTable) || null;
     const column = table?.columns?.find((item) => item.name === choosedColumn) || null;
     const isMigration = globalState.isMigration;
+    const relationships = (table?.relationships || []).map((rel) => ({
+        ...rel,
+        status: rel.status || COLUMN_RELATION_STATUS.EXISTING,
+    }));
 
     const methods = useForm({
         defaultValues: table
@@ -143,7 +151,7 @@ const ColumnForm = () => {
                   comment: column?.comment,
                   is_nullable: column?.is_nullable,
                   is_unique: column?.is_unique,
-                  relationships: table?.relationships,
+                  relationships,
               }
             : {},
     });

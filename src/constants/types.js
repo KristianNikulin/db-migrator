@@ -12,3 +12,9 @@ export const LANGUAGES = [
     { code: "EN", label: "English", flag: "GB" },
     { code: "RU", label: "Русский", flag: "RU" },
 ];
+
+export const COLUMN_RELATION_STATUS = {
+    EXISTING: "existing",
+    NEW: "new",
+    DELETED: "deleted",
+};
