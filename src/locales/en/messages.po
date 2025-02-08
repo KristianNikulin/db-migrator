@@ -14,12 +14,12 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. js-lingui-explicit-id
-#: src/components/RelationsList/index.jsx:90
+#: src/components/RelationsList/index.jsx:115
 msgid "addRelation"
 msgstr "Add new relation"
 
 #. js-lingui-explicit-id
-#: src/constants/text.jsx:15
+#: src/constants/text.jsx:17
 msgid "attention"
 msgstr "Attention! If you cancel the migration, all unsaved changes will be deleted!"
 
@@ -29,9 +29,24 @@ msgid "cancelMigration"
 msgstr "Cancel migration"
 
 #. js-lingui-explicit-id
-#: src/constants/text.jsx:11
+#: src/constants/text.jsx:13
 msgid "clickStartMigration"
 msgstr "Click 'Start migration' button"
+
+#. js-lingui-explicit-id
+#: src/components/Item/index.jsx:69
+msgid "columnName"
+msgstr "Column Name"
+
+#. js-lingui-explicit-id
+#: src/components/Item/index.jsx:78
+msgid "columnType"
+msgstr "Column Type"
+
+#. js-lingui-explicit-id
+#: src/components/Item/index.jsx:89
+msgid "columnComment"
+msgstr "Comment"
 
 #. js-lingui-explicit-id
 #: src/components/Visualizer/index.tsx:422
@@ -44,39 +59,60 @@ msgid "deployChanges"
 msgstr "Deploy changes"
 
 #. js-lingui-explicit-id
-#: src/components/Item/index.jsx:86
+#: src/components/Item/index.jsx:119
 msgid "discardChanges"
 msgstr "Discard changes"
 
-#: src/modules/app-header/view.jsx:26
+#: src/modules/app-header/view.jsx:28
 msgid "Docs"
 msgstr "Docs"
 
 #. js-lingui-explicit-id
-#: src/constants/text.jsx:5
+#: src/components/Item/index.jsx:63
+#: src/components/Item/index.jsx:72
+msgid "fieldRequired"
+msgstr "Field is required"
+
+#. js-lingui-explicit-id
+#: src/components/Item/index.jsx:96
+msgid "columnNullable"
+msgstr "Is Nullable"
+
+#. js-lingui-explicit-id
+#: src/components/Item/index.jsx:100
+msgid "columnUnique"
+msgstr "Is Unique"
+
+#. js-lingui-explicit-id
+#: src/constants/text.jsx:7
 msgid "notRecommended"
 msgstr "It's not recommended to make relation with this column!"
 
-#: src/modules/app-header/view.jsx:23
+#: src/modules/app-header/view.jsx:25
 msgid "Migrator"
 msgstr "Migrator"
 
 #. js-lingui-explicit-id
-#: src/components/Item/index.jsx:89
+#: src/components/Item/index.jsx:104
+msgid "columnRelationships"
+msgstr "Relationships"
+
+#. js-lingui-explicit-id
+#: src/components/Item/index.jsx:122
 msgid "save"
 msgstr "Save"
 
 #. js-lingui-explicit-id
-#: src/constants/text.jsx:10
+#: src/constants/text.jsx:12
 msgid "selectTable"
 msgstr "Select table and column from your database schema"
 
 #. js-lingui-explicit-id
-#: src/pages/migrator/index.jsx:68
+#: src/pages/migrator/index.jsx:71
 msgid "serviceUnavailable"
 msgstr "Service is currently unavailable"
 
-#: src/modules/app-header/view.jsx:29
+#: src/modules/app-header/view.jsx:31
 msgid "Settings"
 msgstr "Settings"
 
@@ -86,6 +122,11 @@ msgid "startMigrating"
 msgstr "Start migration"
 
 #. js-lingui-explicit-id
-#: src/pages/migrator/index.jsx:45
+#: src/components/Item/index.jsx:60
+msgid "tableName"
+msgstr "Table Name"
+
+#. js-lingui-explicit-id
+#: src/pages/migrator/index.jsx:48
 msgid "toBeginMigrating"
 msgstr "To begin migrating your database, follow these steps"
