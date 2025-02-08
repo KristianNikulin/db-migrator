@@ -3,7 +3,7 @@ import { Trans } from "@lingui/react";
 
 import Visualizer from "../../components/Visualizer";
 import CustomLoader from "../../components/Loader";
-import Item from "../../components/Item";
+import ColumnForm from "../../components/Item";
 
 import { Allotment } from "allotment";
 import "allotment/dist/style.css";
@@ -42,7 +42,7 @@ const Migrator = () => {
                 >
                     <div className={styles.sidebar}>
                         {isItem ? (
-                            <Item />
+                            <ColumnForm />
                         ) : (
                             <div className={styles.noitem}>
                                 <Trans
