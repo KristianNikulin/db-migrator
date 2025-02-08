@@ -1,6 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
-import Flag from "react-world-flags";
+import React, { useState, useEffect } from "react";
 import { useLingui } from "@lingui/react/macro";
+
+import Flag from "react-world-flags";
+import Select from "../SelectV2";
 
 import { LANGUAGES } from "../../constants/types";
 
@@ -9,53 +11,31 @@ import styles from "./styles.module.scss";
 const LanguageSelect = () => {
     const { i18n } = useLingui();
     const [language, setLanguage] = useState(localStorage.getItem("language") || "EN");
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-    const dropdownRef = useRef(null);
 
     useEffect(() => {
         localStorage.setItem("language", language);
         i18n.activate(language);
     }, [i18n, language]);
 
-    const handleSelect = (code) => {
-        setLanguage(code);
-        setIsDropdownOpen(false);
-    };
-
-    const handleClickOutside = (event) => {
-        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-            setIsDropdownOpen(false);
-        }
-    };
-
-    useEffect(() => {
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, []);
-
     return (
-        <div ref={dropdownRef} className={styles.dropdown}>
-            <button onClick={() => setIsDropdownOpen((prev) => !prev)} className={styles.button}>
-                <span className={styles.buttonText}>
-                    <Flag code={LANGUAGES.find((lang) => lang.code === language).flag} className={styles.flag} />
-                    {LANGUAGES.find((lang) => lang.code === language).label}
-                </span>
-                <span className={`${styles.dropdownArrow} ${isDropdownOpen ? styles.dropdownArrowOpen : ""}`}>▼</span>
-            </button>
-            {isDropdownOpen && (
-                <ul className={styles.menu}>
-                    {LANGUAGES.map((lang) => (
-                        <li key={lang.code} onClick={() => handleSelect(lang.code)} className={styles.menuItem}>
-                            <Flag code={lang.flag} className={styles.flag} />
-                            {lang.label}
-                        </li>
-                    ))}
-                </ul>
+        <Select
+            options={LANGUAGES.map((lang) => ({ value: lang.code, label: lang.label, flag: lang.flag }))}
+            value={language}
+            onChange={setLanguage}
+            renderOption={(option) => (
+                <>
+                    <Flag code={option.flag} className={styles.flag} /> {option.label}
+                </>
             )}
-        </div>
+            renderValue={(value) => {
+                const selected = LANGUAGES.find((lang) => lang.code === value);
+                return selected ? (
+                    <>
+                        <Flag code={selected.flag} className={styles.flag} /> {selected.label}
+                    </>
+                ) : null;
+            }}
+        />
     );
 };
 

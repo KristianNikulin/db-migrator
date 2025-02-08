@@ -2,18 +2,32 @@ import React, { useCallback, useEffect } from "react";
 import { FormProvider, useForm, useFormContext } from "react-hook-form";
 import { Trans } from "@lingui/react";
 
-import CustomInput from "../Input";
-import CustomCheck from "../Check/input";
-import CustomTextarea from "../Textarea";
-import CustomSelect from "../Select";
-import CustomList from "../RelationsList";
+import Input from "../Input";
+import Check from "../Check";
+import Textarea from "../Textarea";
+import Select from "../SelectV2";
+import List from "../RelationsList";
 import Button from "../Button";
 
 import { useGlobalContext } from "../../state-providers/globalContext";
 import { DATA_TYPES } from "../../constants/types";
 
 const ColumnForm = ({ column, table, isMigration }) => {
-    const { register, handleSubmit, reset } = useFormContext();
+    const { register, handleSubmit, reset, formState } = useFormContext();
+    const { isDirty } = formState;
+
+    useEffect(() => {
+        const handleBeforeUnload = (event) => {
+            if (isDirty) {
+                event.preventDefault();
+            }
+        };
+
+        window.addEventListener("beforeunload", handleBeforeUnload);
+        return () => {
+            window.removeEventListener("beforeunload", handleBeforeUnload);
+        };
+    }, [isDirty]);
 
     const onSubmit = (data) => {
         console.log("Column Updated:", data);
@@ -41,7 +55,7 @@ const ColumnForm = ({ column, table, isMigration }) => {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
-            <CustomInput
+            <Input
                 id="table_name"
                 label="Table Name"
                 defaultValue={table.name}
@@ -50,7 +64,7 @@ const ColumnForm = ({ column, table, isMigration }) => {
                 disabled={!isMigration}
             />
 
-            <CustomInput
+            <Input
                 id="column_name"
                 label="Column Name"
                 defaultValue={column.name}
@@ -59,20 +73,29 @@ const ColumnForm = ({ column, table, isMigration }) => {
                 disabled={!isMigration}
             />
 
-            <CustomSelect id="data_type" label="Column Type" options={DATA_TYPES} disabled={!isMigration} />
+            <Select
+                id="data_type"
+                label="Column Type"
+                options={DATA_TYPES}
+                value={column.data_type}
+                onChange={(value) => reset({ ...formState.values, data_type: value })}
+                renderOption={(option) => <>{option.label}</>}
+                renderValue={(value) => <>{value}</>}
+                disabled={!isMigration}
+            />
 
-            <CustomTextarea id="comment" label="Comment" defaultValue={column.comment} disabled={!isMigration} />
+            <Textarea id="comment" label="Comment" defaultValue={column.comment} disabled={!isMigration} />
 
-            <CustomCheck
+            <Check
                 id="is_nullable"
                 label="Is Nullable"
                 defaultChecked={column.is_nullable}
                 disabled={!isMigration}
             />
 
-            <CustomCheck id="is_unique" label="Is Unique" defaultChecked={column.is_unique} disabled={!isMigration} />
+            <Check id="is_unique" label="Is Unique" defaultChecked={column.is_unique} disabled={!isMigration} />
 
-            <CustomList
+            <List
                 id="relationships"
                 label="Relationships"
                 currentTable={table.name}
@@ -84,14 +107,14 @@ const ColumnForm = ({ column, table, isMigration }) => {
             <div style={{ display: "flex", gap: "10px", width: "100%" }}>
                 <Button
                     style={{ flex: 1 }}
-                    disabled={!isMigration}
+                    disabled={!isMigration || !isDirty}
                     type="button"
                     variant="failure"
                     onClick={handleDiscardChanges}
                 >
                     <Trans id="discardChanges" message="Discard changes" />
                 </Button>
-                <Button style={{ flex: 1 }} disabled={!isMigration} type="submit" variant="success">
+                <Button style={{ flex: 1 }} disabled={!isMigration || !isDirty} type="submit" variant="success">
                     <Trans id="save" message="Save" />
                 </Button>
             </div>
