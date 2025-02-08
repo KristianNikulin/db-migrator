@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { Trans } from "@lingui/react";
 
-import { FaTrash } from "react-icons/fa";
+import { FaCheckCircle, FaTimesCircle, FaTrash, FaUndo } from "react-icons/fa";
 import Button from "../Button";
 import Select from "../Select";
 import Modal from "../Modal";
 import CustomMessage from "../Message";
 
 import { useGlobalContext } from "../../state-providers/globalContext";
-import { BANNED_RELATION_TYPES } from "../../constants/types";
+import { BANNED_RELATION_TYPES, COLUMN_RELATION_STATUS } from "../../constants/types";
 import { ERROR_MESSAGE } from "../../constants/text";
 
 import styles from "./styles.module.scss";
 
-const List = ({ id, label, currentColumn, currentTable, showDeleteIcon = true, disabled }) => {
+const RelationsList = ({ id, label, currentColumn, currentTable, showDeleteIcon = true, disabled }) => {
     const { globalState } = useGlobalContext();
     const tables = globalState.modifiedTables || null;
 
@@ -25,6 +25,7 @@ const List = ({ id, label, currentColumn, currentTable, showDeleteIcon = true, d
 
     const { setValue, watch } = useFormContext();
     const formRels = watch(id, []);
+    console.log(`formRels: `, formRels);
 
     const handleOpenModal = () => setModalOpen(true);
 
@@ -42,6 +43,7 @@ const List = ({ id, label, currentColumn, currentTable, showDeleteIcon = true, d
                 source_column_name: currentColumn.name,
                 target_table_name: selectedTable,
                 target_column_name: selectedColumn,
+                status: COLUMN_RELATION_STATUS.NEW,
             };
             setValue(id, [...formRels, newRelation], { shouldDirty: true });
         }
@@ -49,7 +51,20 @@ const List = ({ id, label, currentColumn, currentTable, showDeleteIcon = true, d
     };
 
     const onDelete = (index) => {
-        const updatedItems = formRels.filter((_, i) => i !== index);
+        const updatedItems = formRels
+            .filter((_, i) => i !== index || formRels[i].status !== COLUMN_RELATION_STATUS.NEW)
+            .map((rel, i) =>
+                i === index && rel.status !== COLUMN_RELATION_STATUS.NEW
+                    ? { ...rel, status: COLUMN_RELATION_STATUS.DELETED }
+                    : rel
+            );
+        setValue(id, updatedItems, { shouldDirty: true });
+    };
+
+    const onUndoDelete = (index) => {
+        const updatedItems = formRels.map((rel, i) =>
+            i === index ? { ...rel, status: COLUMN_RELATION_STATUS.EXISTING } : rel
+        );
         setValue(id, updatedItems, { shouldDirty: true });
     };
 
@@ -86,21 +101,32 @@ const List = ({ id, label, currentColumn, currentTable, showDeleteIcon = true, d
                         .map((item, index) => (
                             <li key={index} className={styles.listItem}>
                                 <span>{index + 1}.</span>
-                                <span>
-                                    <p>
-                                        <b>Source</b> to column{" "}
-                                        <span style={{ color: "red" }}>{item.target_column_name}</span> in table{" "}
-                                        <span style={{ color: "red" }}>{item.target_table_name}</span>
-                                    </p>
-                                </span>
+                                <div>
+                                    <span>
+                                        <b>Source</b> to column
+                                    </span>
+                                    <span>
+                                        <span style={{ color: "red" }}>{item.target_column_name}</span> in table
+                                    </span>
+                                    <span style={{ color: "red" }}>{item.target_table_name}</span>
+                                </div>
+                                {item.status === COLUMN_RELATION_STATUS.EXISTING && <FaCheckCircle color="green" />}
+                                {item.status === COLUMN_RELATION_STATUS.NEW && (
+                                    <FaTimesCircle style={{ transform: "rotate(45deg)" }} color="orange" />
+                                )}
+                                {item.status === COLUMN_RELATION_STATUS.DELETED && <FaTimesCircle color="red" />}
                                 {showDeleteIcon && (
                                     <button
                                         disabled={disabled}
-                                        onClick={() => onDelete(index)}
-                                        aria-label={`Delete ${item.constraint_name}`}
+                                        onClick={() =>
+                                            item.status === COLUMN_RELATION_STATUS.DELETED
+                                                ? onUndoDelete(index)
+                                                : onDelete(index)
+                                        }
+                                        aria-label={`Toggle delete ${item.constraint_name}`}
                                         style={disabled ? { cursor: "not-allowed" } : {}}
                                     >
-                                        <FaTrash />
+                                        {item.status === COLUMN_RELATION_STATUS.DELETED ? <FaUndo /> : <FaTrash />}
                                     </button>
                                 )}
                             </li>
@@ -151,7 +177,7 @@ const List = ({ id, label, currentColumn, currentTable, showDeleteIcon = true, d
     );
 };
 
-export default List;
+export default RelationsList;
 
 // ДОБАВИТЬ ДОБАВЛЕНИЕ НОВЫХ СВЯЗЕЙ - UX , ПОТОМ НАЧАТЬ ФОРМИРОВАТЬ CHANGE HISTORY
 // ДОБАВИТЬ СОЗДАНИЕ НОВОЙ ТАБЛИЦЫ - В МОДАЛКУ ПОПРОБОВАТЬ ПОМЕСТИТЬ ITEM
