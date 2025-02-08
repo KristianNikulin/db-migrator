@@ -100,35 +100,40 @@ const RelationsList = ({ id, label, currentColumn, currentTable, showDeleteIcon 
                         )
                         .map((item, index) => (
                             <li key={index} className={styles.listItem}>
-                                <span>{index + 1}.</span>
-                                <div>
-                                    <span>
-                                        <b>Source</b> to column
-                                    </span>
-                                    <span>
-                                        <span style={{ color: "red" }}>{item.target_column_name}</span> in table
-                                    </span>
-                                    <span style={{ color: "red" }}>{item.target_table_name}</span>
+                                <div style={{ display: "flex", gap: "8px" }}>
+                                    <span>{index + 1}.</span>
+                                    <div>
+                                        <span>
+                                            <b>Source</b> to column{" "}
+                                        </span>
+                                        <span>
+                                            <span style={{ color: "red" }}>{item.target_column_name}</span> in table{" "}
+                                        </span>
+                                        <span style={{ color: "red" }}>{item.target_table_name}</span>
+                                    </div>
                                 </div>
-                                {item.status === COLUMN_RELATION_STATUS.EXISTING && <FaCheckCircle color="green" />}
-                                {item.status === COLUMN_RELATION_STATUS.NEW && (
-                                    <FaTimesCircle style={{ transform: "rotate(45deg)" }} color="orange" />
-                                )}
-                                {item.status === COLUMN_RELATION_STATUS.DELETED && <FaTimesCircle color="red" />}
-                                {showDeleteIcon && (
-                                    <button
-                                        disabled={disabled}
-                                        onClick={() =>
-                                            item.status === COLUMN_RELATION_STATUS.DELETED
-                                                ? onUndoDelete(index)
-                                                : onDelete(index)
-                                        }
-                                        aria-label={`Toggle delete ${item.constraint_name}`}
-                                        style={disabled ? { cursor: "not-allowed" } : {}}
-                                    >
-                                        {item.status === COLUMN_RELATION_STATUS.DELETED ? <FaUndo /> : <FaTrash />}
-                                    </button>
-                                )}
+                                <div style={{ display: "flex", alignItems: "center", gap: "5px", marginRight: "5px" }}>
+                                    {item.status === COLUMN_RELATION_STATUS.EXISTING && <FaCheckCircle color="green" />}
+                                    {item.status === COLUMN_RELATION_STATUS.NEW && (
+                                        <FaTimesCircle style={{ transform: "rotate(45deg)" }} color="orange" />
+                                    )}
+                                    {item.status === COLUMN_RELATION_STATUS.DELETED && <FaTimesCircle color="red" />}
+                                    {showDeleteIcon && (
+                                        <button
+                                            disabled={disabled}
+                                            onClick={() =>
+                                                item.status === COLUMN_RELATION_STATUS.DELETED
+                                                    ? onUndoDelete(index)
+                                                    : onDelete(index)
+                                            }
+                                            aria-label={`Toggle delete ${item.constraint_name}`}
+                                            className={styles.deleteBtn}
+                                            style={disabled ? { cursor: "not-allowed" } : {}}
+                                        >
+                                            {item.status === COLUMN_RELATION_STATUS.DELETED ? <FaUndo /> : <FaTrash />}
+                                        </button>
+                                    )}
+                                </div>
                             </li>
                         ))}
                 </ul>
