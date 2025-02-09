@@ -4,7 +4,16 @@ import Button from "../Button";
 
 import styles from "./styles.module.scss";
 
-const Modal = ({ isOpen, onClose, onConfirm, children, leftBtnText, rightBtnText }) => {
+const Modal = ({
+    isOpen,
+    onClose,
+    onConfirm,
+    children,
+    leftBtnText,
+    rightBtnText,
+    isLeftBtnDisabled = false,
+    isRightBtnDisabled = false,
+}) => {
     if (!isOpen) return null;
 
     return (
@@ -15,10 +24,15 @@ const Modal = ({ isOpen, onClose, onConfirm, children, leftBtnText, rightBtnText
                 </button>
                 <div className={styles.content}>{children}</div>
                 <div className={styles.footer}>
-                    <Button style={{ width: "100%" }} variant="failure" onClick={onClose}>
+                    <Button disabled={isLeftBtnDisabled} style={{ width: "100%" }} variant="failure" onClick={onClose}>
                         {leftBtnText}
                     </Button>
-                    <Button style={{ width: "100%" }} variant="success" onClick={onConfirm}>
+                    <Button
+                        disabled={isRightBtnDisabled}
+                        style={{ width: "100%" }}
+                        variant="success"
+                        onClick={onConfirm}
+                    >
                         {rightBtnText}
                     </Button>
                 </div>
