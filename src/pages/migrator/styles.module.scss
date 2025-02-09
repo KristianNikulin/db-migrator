@@ -36,12 +36,22 @@
 }
 
 .projectNamesContainer {
+    display: flex;
+    gap: 10px;
     padding: 10px;
     min-height: 40px;
     border-bottom: 1px solid var(--BORDER_SECONDARY);
     background: var(--BG_OBJECT);
     box-shadow: var(--PLATE_SHADOW);
     color: var(--TXT_HEADER);
+}
+
+.hr {
+    padding: 0;
+    height: 100%;
+    width: 1px;
+    border: none;
+    background: var(--BORDER_SECONDARY);
 }
 
 .reactFlow {

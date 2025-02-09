@@ -63,7 +63,13 @@ const Migrator = () => {
                 </Allotment.Pane>
                 <Allotment.Pane preferredSize={"65%"}>
                     <div className={styles.reactFlowContainer}>
-                        <div className={styles.projectNamesContainer}>{config.version}</div>
+                        <div className={styles.projectNamesContainer}>
+                            <p>{config.version}</p>
+                            <hr className={styles.hr} />
+                            <p>
+                                Connections: {config.active_connections} / {config.max_connections}
+                            </p>
+                        </div>
                         <div className={styles.reactFlow}>
                             {database ? (
                                 <Visualizer database={database} />
