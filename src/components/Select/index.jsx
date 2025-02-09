@@ -6,6 +6,7 @@ import styles from "./styles.module.scss";
 const Select = ({
     id,
     label = "",
+    labelPos = "V", // H
     options,
     value,
     onChange,
@@ -47,7 +48,7 @@ const Select = ({
     }, []);
 
     return (
-        <div style={{ display: "flex", flexDirection: "column" }}>
+        <div className={labelPos === "V" ? styles.lableVert : styles.labelHor}>
             {label && <label style={{ cursor: "default" }}>{label}:</label>}
             <div ref={dropdownRef} className={styles.dropdown} style={style}>
                 <button

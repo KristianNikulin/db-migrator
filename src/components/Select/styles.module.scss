@@ -21,9 +21,17 @@
     align-items: center;
 }
 
-.flag {
-    width: 20px;
-    margin-right: 8px;
+.labelHor {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+}
+
+.lableVert {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .dropdownArrow {
