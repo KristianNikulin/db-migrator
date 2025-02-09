@@ -152,6 +152,7 @@ const RelationsList = ({ id, label, currentColumn, currentTable, showDeleteIcon 
                 onConfirm={handleConfirmAction}
                 leftBtnText="Cancel"
                 rightBtnText="Add"
+                isRightBtnDisabled={!Boolean(selectedColumn)}
             >
                 <div className={styles.relationModalContainer}>
                     <h2 className={styles.relationModalTitle}>
