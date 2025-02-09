@@ -16,7 +16,8 @@ import styles from "./styles.module.scss";
 
 const RelationsList = ({ id, label, currentColumn, currentTable, showDeleteIcon = true, disabled }) => {
     const { globalState } = useGlobalContext();
-    const tables = globalState.modifiedTables || null;
+    const historyTables = globalState.changeHistory[globalState.migrationStep] || null;
+    const tables = !!historyTables ? historyTables : globalState.originalTables;
 
     const [isModalOpen, setModalOpen] = useState(false);
     const [selectedTable, setSelectedTable] = useState(null);

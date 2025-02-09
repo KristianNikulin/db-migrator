@@ -12,7 +12,8 @@ export const useMigrationState = () => {
     const { globalState } = useGlobalContext();
 
     useEffect(() => {
-        const tables = globalState.modifiedTables;
+        const historyTables = globalState.changeHistory[globalState.migrationStep] || null;
+        const tables = !!historyTables ? historyTables : globalState.originalTables;
         if (tables) {
             const transformedData = transformData(tables);
             setDatabase(transformedData);
