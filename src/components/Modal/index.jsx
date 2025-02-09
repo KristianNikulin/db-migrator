@@ -15,10 +15,10 @@ const Modal = ({ isOpen, onClose, onConfirm, children, leftBtnText, rightBtnText
                 </button>
                 <div className={styles.content}>{children}</div>
                 <div className={styles.footer}>
-                    <Button variant="failure" onClick={onClose}>
+                    <Button style={{ width: "100%" }} variant="failure" onClick={onClose}>
                         {leftBtnText}
                     </Button>
-                    <Button variant="success" onClick={onConfirm}>
+                    <Button style={{ width: "100%" }} variant="success" onClick={onConfirm}>
                         {rightBtnText}
                     </Button>
                 </div>

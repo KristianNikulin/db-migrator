@@ -25,7 +25,6 @@ const RelationsList = ({ id, label, currentColumn, currentTable, showDeleteIcon 
 
     const { setValue, watch } = useFormContext();
     const formRels = watch(id, []);
-    console.log(`formRels: `, formRels);
 
     const handleOpenModal = () => setModalOpen(true);
 
@@ -104,7 +103,10 @@ const RelationsList = ({ id, label, currentColumn, currentTable, showDeleteIcon 
                                     <span>{index + 1}.</span>
                                     <div>
                                         <span>
-                                            <b>Source</b> to column{" "}
+                                            <b>
+                                                {item.source_column_name === currentColumn.name ? "Source" : "Target"}
+                                            </b>{" "}
+                                            to column{" "}
                                         </span>
                                         <span>
                                             <span style={{ color: "red" }}>{item.target_column_name}</span> in table{" "}
@@ -151,38 +153,45 @@ const RelationsList = ({ id, label, currentColumn, currentTable, showDeleteIcon 
                 leftBtnText="Cancel"
                 rightBtnText="Add"
             >
-                <Select
-                    label="Select Table"
-                    options={tables
-                        .filter((t) => t.name !== currentTable)
-                        .map((table) => ({ value: table.name, label: table.name }))}
-                    value={selectedTable}
-                    onChange={handleTableChange}
-                    renderOption={(option) => <>{option.label}</>}
-                    renderValue={(value) => <>{value}</>}
-                    placeholder="Select a table"
-                    style={{ width: "200px" }}
-                />
+                <div className={styles.relationModalContainer}>
+                    <h2 className={styles.relationModalTitle}>
+                        Add new relation for column <span className={styles.rel}>{currentColumn.name}</span> in table{" "}
+                        <span className={styles.rel}>{currentTable}</span>
+                    </h2>
+                    <div className={styles.relationSelectContainer}>
+                        <Select
+                            label="Table"
+                            labelPos="H"
+                            options={tables
+                                .filter((t) => t.name !== currentTable)
+                                .map((table) => ({ value: table.name, label: table.name }))}
+                            value={selectedTable}
+                            onChange={handleTableChange}
+                            renderOption={(option) => <>{option.label}</>}
+                            renderValue={(value) => <>{value}</>}
+                            placeholder="Select a table"
+                            style={{ width: "200px" }}
+                        />
 
-                {selectedTable && (
-                    <Select
-                        label="Select Column"
-                        options={availableColumns.map((col) => ({ value: col.name, label: col.name }))}
-                        value={selectedColumn}
-                        onChange={setSelectedColumn}
-                        renderOption={(option) => <>{option.label}</>}
-                        renderValue={(value) => <>{value}</>}
-                        placeholder={availableColumns.length ? "Select a column" : "No columns available"}
-                        disabled={!availableColumns.length}
-                        style={{ width: "200px" }}
-                    />
-                )}
+                        {selectedTable && (
+                            <Select
+                                label="Column"
+                                labelPos="H"
+                                options={availableColumns.map((col) => ({ value: col.name, label: col.name }))}
+                                value={selectedColumn}
+                                onChange={setSelectedColumn}
+                                renderOption={(option) => <>{option.label}</>}
+                                renderValue={(value) => <>{value}</>}
+                                placeholder={availableColumns.length ? "Select a column" : "No columns available"}
+                                disabled={!availableColumns.length}
+                                style={{ width: "200px" }}
+                            />
+                        )}
+                    </div>
+                </div>
             </Modal>
         </>
     );
 };
 
 export default RelationsList;
-
-// ДОБАВИТЬ ДОБАВЛЕНИЕ НОВЫХ СВЯЗЕЙ - UX , ПОТОМ НАЧАТЬ ФОРМИРОВАТЬ CHANGE HISTORY
-// ДОБАВИТЬ СОЗДАНИЕ НОВОЙ ТАБЛИЦЫ - В МОДАЛКУ ПОПРОБОВАТЬ ПОМЕСТИТЬ ITEM
