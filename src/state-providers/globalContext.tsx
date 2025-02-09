@@ -6,13 +6,13 @@ import { API } from "../lib/api";
 // Описание типов
 interface GlobalState {
     originalTables: any[] | null;
-    modifiedTables: any[] | null;
     changeHistory: any[];
     status: number;
     choosedTable: any | null;
     choosedColumn: any | null;
     config: any | null;
     isMigration: boolean;
+    migrationStep: number;
 }
 
 interface GlobalContextType {
@@ -40,13 +40,13 @@ export const useGlobalContext = (): GlobalContextType => {
 export const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
     const [globalState, setGlobalState] = useState<GlobalState>({
         originalTables: null,
-        modifiedTables: null,
         changeHistory: [],
         status: 500,
         choosedTable: null,
         choosedColumn: null,
         config: null,
         isMigration: false,
+        migrationStep: 0,
     });
 
     useEffect(() => {
@@ -67,13 +67,13 @@ export const ContextProvider: React.FC<ContextProviderProps> = ({ children }) =>
                 if (tables) {
                     setGlobalState({
                         originalTables: tables,
-                        modifiedTables: tables,
                         changeHistory: [],
                         status,
                         choosedTable: null,
                         choosedColumn: null,
                         config: config,
                         isMigration: false,
+                        migrationStep: 0,
                     });
                 } else {
                     setGlobalState((prev) => ({ ...prev, status, choosedTable: null, choosedColumn: null }));

@@ -135,7 +135,10 @@ const ColumnForm = () => {
     const choosedColumn = globalState.choosedColumn?.name || null;
     const choosedTable = globalState.choosedTable?.data?.name || null;
 
-    const table = globalState.modifiedTables?.find((item) => item.name === choosedTable) || null;
+    const historyTables = globalState.changeHistory[globalState.migrationStep] || null;
+    const tables = !!historyTables ? historyTables : globalState.originalTables;
+
+    const table = tables?.find((item) => item.name === choosedTable) || null;
     const column = table?.columns?.find((item) => item.name === choosedColumn) || null;
     const isMigration = globalState.isMigration;
     const relationships = (table?.relationships || []).map((rel) => ({
