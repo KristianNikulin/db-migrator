@@ -85,6 +85,7 @@ const Item = ({ column, table, isMigration }) => {
                 renderOption={(option) => <>{option.label}</>}
                 renderValue={(value) => <>{value}</>}
                 disabled={!isMigration}
+                style={{ width: "100%" }}
             />
 
             <Textarea
