@@ -60,6 +60,35 @@ interface VisualizerProps {
     database?: string;
 }
 
+function hash(obj: any) {
+    let cache: any[] = [];
+
+    function sanitize(obj: any): any {
+        if (obj === null) {
+            return obj;
+        }
+        if (["undefined", "boolean", "number", "string", "function"].indexOf(typeof obj) >= 0) {
+            return obj;
+        }
+        if (typeof obj === "object") {
+            let keys = Object.keys(obj).sort(),
+                values = [];
+            for (let i = 0; i < keys.length; i++) {
+                let value = obj[keys[i]];
+                if (cache.indexOf(value) === -1) {
+                    values.push(sanitize(value));
+                    cache.push(value);
+                } else {
+                    values.push("[ Previously hashed object ]");
+                }
+            }
+            return [keys, values];
+        }
+    }
+
+    return JSON.stringify(sanitize(obj));
+}
+
 const Flow: React.FC<FlowProps> = (props: FlowProps) => {
     const currentDatabase = props.currentDatabase;
     const initialNodes = initializeNodes(props.currentDatabase);
@@ -331,7 +360,7 @@ const Flow: React.FC<FlowProps> = (props: FlowProps) => {
                     console.error(error);
                 });
         } else {
-            var element = document.querySelector("body");
+            let element = document.querySelector("body");
 
             // make the element go to full-screen mode
             element &&
@@ -359,13 +388,13 @@ const Flow: React.FC<FlowProps> = (props: FlowProps) => {
     // Обработчик клика на связь
     const onEdgeClick = useCallback((event: React.MouseEvent, edge: Edge) => {
         event.preventDefault();
-        console.log(`edge: `, edge);
+        // console.log(`edge: `, edge);
     }, []);
 
     // УБРАТЬ
-    useEffect(() => {
-        console.log("Updated globalState:", globalState);
-    }, [globalState]);
+    // useEffect(() => {
+    // console.log("Updated globalState:", globalState);
+    // }, [globalState]);
 
     // https://stackoverflow.com/questions/16664584/changing-an-svg-markers-color-css
     return (
@@ -467,14 +496,21 @@ const Visualizer: React.FC<IVisualizer> = (props: IVisualizer) => {
     const [databasesLoaded, setDatabasesLoaded] = useState(false);
 
     useEffect(() => {
-        if (!props) {
+        // console.log("RELOADING DB");
+        setDatabasesLoaded(false);
+        if (!props.database) {
             return;
         }
         setCurrentDatabase(props.database);
         setDatabasesLoaded(true);
-    }, []); // 1eslint-disable-line react-hooks/exhaustive-deps
+    }, [props.database]);
 
-    return <ReactFlowProvider>{databasesLoaded && <Flow currentDatabase={currentDatabase} />}</ReactFlowProvider>;
+    // console.log(`currentDatabase: `, currentDatabase);
+    return (
+        <ReactFlowProvider>
+            {databasesLoaded && <Flow key={hash(currentDatabase)} currentDatabase={{ ...currentDatabase }} />}
+        </ReactFlowProvider>
+    );
 };
 
 export default Visualizer;
