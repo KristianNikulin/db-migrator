@@ -1,0 +1,15 @@
+.itemFormContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.itemButtonsContainer {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+.itemButton {
+    flex: 1;
+}
