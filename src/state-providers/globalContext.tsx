@@ -54,7 +54,6 @@ export const ContextProvider: React.FC<ContextProviderProps> = ({ children }) =>
 
         const fetchData = async () => {
             const response = await getTables();
-            console.log(`response: `, response);
             const configResponse = await getConfig();
 
             if (API.isResponseOk(response)) {
@@ -67,7 +66,7 @@ export const ContextProvider: React.FC<ContextProviderProps> = ({ children }) =>
                 if (tables) {
                     setGlobalState({
                         originalTables: tables,
-                        changeHistory: [],
+                        changeHistory: [tables],
                         status,
                         choosedTable: null,
                         choosedColumn: null,

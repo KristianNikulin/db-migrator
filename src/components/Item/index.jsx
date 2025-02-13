@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect } from "react";
 import { FormProvider, useForm, useFormContext } from "react-hook-form";
 import { Trans } from "@lingui/react";
+import { updateHistory } from "../../lib/utils";
 
 import Input from "../Input";
 import Check from "../Check";
@@ -12,7 +13,11 @@ import Button from "../Button";
 import { useGlobalContext } from "../../state-providers/globalContext";
 import { COLUMN_RELATION_STATUS, DATA_TYPES } from "../../constants/types";
 
+import styles from "./styles.module.scss";
+
 const Item = ({ column, table, isMigration }) => {
+    const { globalState, setGlobalState } = useGlobalContext();
+
     const { register, handleSubmit, reset, formState } = useFormContext();
     const { isDirty } = formState;
 
@@ -29,7 +34,8 @@ const Item = ({ column, table, isMigration }) => {
     // }, [isDirty]);
 
     const onSubmit = (data) => {
-        console.log("Column Updated:", data);
+        updateHistory(data, "column", globalState, setGlobalState);
+        // handleDiscardChanges(); // ????????
     };
 
     const handleDiscardChanges = useCallback(() => {
@@ -57,7 +63,7 @@ const Item = ({ column, table, isMigration }) => {
     if (!column) return;
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
+        <form onSubmit={handleSubmit(onSubmit)} className={styles.itemFormContainer}>
             <Input
                 id="table_name"
                 label={<Trans id="tableName" message="Table Name" />}
@@ -111,9 +117,9 @@ const Item = ({ column, table, isMigration }) => {
                 disabled={!isMigration}
             />
 
-            <div style={{ display: "flex", gap: "10px", width: "100%" }}>
+            <div className={styles.itemButtonsContainer}>
                 <Button
-                    style={{ flex: 1 }}
+                    className={styles.itemButton}
                     disabled={!isMigration || !isDirty}
                     type="button"
                     variant="failure"
@@ -121,7 +127,12 @@ const Item = ({ column, table, isMigration }) => {
                 >
                     <Trans id="discardChanges" message="Discard changes" />
                 </Button>
-                <Button style={{ flex: 1 }} disabled={!isMigration || !isDirty} type="submit" variant="success">
+                <Button
+                    className={styles.itemButton}
+                    disabled={!isMigration || !isDirty}
+                    type="submit"
+                    variant="success"
+                >
                     <Trans id="save" message="Save" />
                 </Button>
             </div>
@@ -131,12 +142,12 @@ const Item = ({ column, table, isMigration }) => {
 
 const ColumnForm = () => {
     const { globalState } = useGlobalContext();
+    // console.log(`globalState: `, globalState);
 
     const choosedColumn = globalState.choosedColumn?.name || null;
     const choosedTable = globalState.choosedTable?.data?.name || null;
 
-    const historyTables = globalState.changeHistory[globalState.migrationStep] || null;
-    const tables = !!historyTables ? historyTables : globalState.originalTables;
+    const tables = globalState.changeHistory[globalState.migrationStep] || null;
 
     const table = tables?.find((item) => item.name === choosedTable) || null;
     const column = table?.columns?.find((item) => item.name === choosedColumn) || null;

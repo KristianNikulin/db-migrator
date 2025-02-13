@@ -16,8 +16,7 @@ import styles from "./styles.module.scss";
 
 const RelationsList = ({ id, label, currentColumn, currentTable, showDeleteIcon = true, disabled }) => {
     const { globalState } = useGlobalContext();
-    const historyTables = globalState.changeHistory[globalState.migrationStep] || null;
-    const tables = !!historyTables ? historyTables : globalState.originalTables;
+    const tables = globalState.changeHistory[globalState.migrationStep] || null;
 
     const [isModalOpen, setModalOpen] = useState(false);
     const [selectedTable, setSelectedTable] = useState(null);
@@ -38,9 +37,14 @@ const RelationsList = ({ id, label, currentColumn, currentTable, showDeleteIcon 
 
     const handleConfirmAction = () => {
         if (selectedTable && selectedColumn) {
+            const randomNumber = Math.floor(10000 + Math.random() * 90000);
             const newRelation = {
+                id: randomNumber,
+                constraint_name: `${currentTable}_${selectedTable}_id_foreign`,
                 source_table_name: currentTable,
                 source_column_name: currentColumn.name,
+                source_schema: "public",
+                target_table_schema: "public",
                 target_table_name: selectedTable,
                 target_column_name: selectedColumn,
                 status: COLUMN_RELATION_STATUS.NEW,

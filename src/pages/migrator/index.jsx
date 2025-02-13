@@ -27,7 +27,7 @@ import styles from "./styles.module.scss";
 
 const Migrator = () => {
     const { database, isError, config, isItem } = useMigrationState();
-    console.log(`database: `, database);
+    // console.log(`database: `, database);
 
     return (
         <div className={styles.migratorContainer}>

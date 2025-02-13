@@ -6,14 +6,17 @@ import { useGlobalContext } from "../../state-providers/globalContext";
 
 export const useMigrationState = () => {
     const [database, setDatabase] = useState(null);
-    const [config, setConfig] = useState({ version: "No PostgreSQL version" });
+    const [config, setConfig] = useState({
+        version: "No PostgreSQL version",
+        active_connections: 0,
+        max_connections: 0,
+    });
     const [isError, setIsError] = useState(false);
 
     const { globalState } = useGlobalContext();
 
     useEffect(() => {
-        const historyTables = globalState.changeHistory[globalState.migrationStep] || null;
-        const tables = !!historyTables ? historyTables : globalState.originalTables;
+        const tables = globalState.changeHistory[globalState.migrationStep] || null;
         if (tables) {
             const transformedData = transformData(tables);
             setDatabase(transformedData);

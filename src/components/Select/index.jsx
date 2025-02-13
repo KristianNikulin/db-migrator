@@ -52,6 +52,7 @@ const Select = ({
             {label && <label style={{ cursor: "default" }}>{label}:</label>}
             <div ref={dropdownRef} className={styles.dropdown} style={style}>
                 <button
+                    type="button"
                     disabled={disabled}
                     onClick={() => setIsDropdownOpen((prev) => !prev)}
                     className={styles.button}
