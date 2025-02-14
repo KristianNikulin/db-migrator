@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 
 import App from "./pages";
-import { GlobalContextProvider } from "./state-providers";
+import GlobalContextProvider from "./state-providers";
 import { ThemeProvider } from "./state-providers/theme";
 
 import { i18n } from "@lingui/core";

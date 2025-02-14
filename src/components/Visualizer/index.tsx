@@ -42,9 +42,11 @@ import { Trans } from "@lingui/react";
 import "reactflow/dist/style.css";
 import "./Style";
 // import DatabaseIcon from "./components/DatabaseIcon";
-import { useGlobalContext } from "../../state-providers/globalContext";
 import Button from "../Button";
 import Modal from "../Modal";
+
+import { changeHistoryAtom, choosedColumnAtom, isMigrationAtom, setChoosedTable } from "../../state-providers/state";
+import { useAction, useAtom } from "@reatom/npm-react";
 
 import { DISCARD_CHANGES_WARNING } from "../../constants/text";
 
@@ -106,15 +108,25 @@ const Flow: React.FC<FlowProps> = (props: FlowProps) => {
     const [isModalOpen, setModalOpen] = useState(false);
     const handleOpenModal = () => setModalOpen(true);
     const handleCloseModal = () => setModalOpen(false);
+
+    const handleStartMigration = () => setIsMigration(true);
+    const handleStopMigration = () => setIsMigration(false);
+
     const handleConfirmAction = () => {
         setModalOpen(false);
-        setGlobalState((prev) => ({ ...prev, choosedColumn: null, choosedTable: null, isMigration: false }));
+        setChoosedColumn(null);
+        updateTable(null);
+        setIsMigration(false);
     };
 
-    const { globalState, setGlobalState } = useGlobalContext();
-    const isMigration = globalState.isMigration;
-    const isHistory = Boolean(globalState.changeHistory?.length);
-    const isChoosed = Boolean(globalState.choosedColumn);
+    const [isMigration, setIsMigration] = useAtom(isMigrationAtom);
+    const [choosedColumn, setChoosedColumn] = useAtom(choosedColumnAtom);
+    const [history] = useAtom(changeHistoryAtom);
+
+    const updateTable = useAction(setChoosedTable);
+
+    const isHistory = Boolean(history?.length > 1);
+    const isChoosed = Boolean(choosedColumn);
 
     const onInit = (instance: ReactFlowInstance) => {
         const nodes = instance.getNodes();
@@ -382,7 +394,7 @@ const Flow: React.FC<FlowProps> = (props: FlowProps) => {
     // Обработчик клика на таблицу
     const onNodeClick = useCallback((event: React.MouseEvent, node: Node) => {
         event.preventDefault();
-        setGlobalState((prev) => ({ ...prev, choosedTable: node }));
+        updateTable(node);
     }, []);
 
     // Обработчик клика на связь
@@ -426,30 +438,30 @@ const Flow: React.FC<FlowProps> = (props: FlowProps) => {
                     <MiniMap />
                     <Panel style={{ zIndex: 10 }} position="top-left">
                         {!isMigration ? (
-                            <Button
-                                disabled={!isChoosed}
-                                onClick={() => {
-                                    setGlobalState((prev) => ({ ...prev, isMigration: true }));
-                                }}
-                                variant="success"
-                            >
+                            <Button disabled={!isChoosed} onClick={handleStartMigration} variant="success">
                                 <Trans id="startMigrating" message="Start migration" />
                             </Button>
                         ) : (
-                            <div style={{ display: "flex", gap: "5px" }}>
-                                <Button
-                                    onClick={
-                                        isHistory
-                                            ? handleOpenModal
-                                            : () => setGlobalState((prev) => ({ ...prev, isMigration: false }))
-                                    }
-                                    variant="failure"
-                                >
-                                    <Trans id="cancelMigration" message="Cancel migration" />
-                                </Button>
-                                <Button onClick={() => {}} variant="success">
-                                    <Trans id="createTable" message="Create new table" />
-                                </Button>
+                            <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+                                <div style={{ display: "flex", gap: "5px" }}>
+                                    <Button
+                                        onClick={isHistory ? handleOpenModal : handleStopMigration}
+                                        variant="failure"
+                                    >
+                                        <Trans id="cancelMigration" message="Cancel migration" />
+                                    </Button>
+                                    <Button onClick={() => {}} variant="success">
+                                        <Trans id="createTable" message="Create new table" />
+                                    </Button>
+                                </div>
+                                <div style={{ display: "flex", gap: "5px" }}>
+                                    <Button onClick={() => {}} variant="primary">
+                                        <span style={{ fontSize: "16px" }}>&lt;</span>
+                                    </Button>
+                                    <Button onClick={() => {}} variant="primary">
+                                        <span style={{ fontSize: "16px" }}>&gt;</span>
+                                    </Button>
+                                </div>
                             </div>
                         )}
                     </Panel>
