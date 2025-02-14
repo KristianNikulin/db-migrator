@@ -2,38 +2,49 @@ import React, { useState, useEffect } from "react";
 
 import { transformData } from "./utils";
 
-import { useGlobalContext } from "../../state-providers/globalContext";
+import {
+    changeHistoryAtom,
+    choosedColumnAtom,
+    configAtom,
+    migrationStepAtom,
+    statusAtom,
+} from "../../state-providers/state";
+
+import { useAtom } from "@reatom/npm-react";
 
 export const useMigrationState = () => {
+    const [tables] = useAtom(changeHistoryAtom);
+    const [migrationStep] = useAtom(migrationStepAtom);
+    const [config] = useAtom(configAtom);
+    const [status] = useAtom(statusAtom);
+    const [choosedColumn] = useAtom(choosedColumnAtom);
+
     const [database, setDatabase] = useState(null);
-    const [config, setConfig] = useState({
+    const [isError, setIsError] = useState(false);
+    const [configState, setConfigState] = useState({
         version: "No PostgreSQL version",
         active_connections: 0,
         max_connections: 0,
     });
-    const [isError, setIsError] = useState(false);
-
-    const { globalState } = useGlobalContext();
 
     useEffect(() => {
-        const tables = globalState.changeHistory[globalState.migrationStep] || null;
-        if (tables) {
-            const transformedData = transformData(tables);
+        const curTables = tables[migrationStep] || null;
+        if (curTables) {
+            const transformedData = transformData(curTables);
             setDatabase(transformedData);
-            if (globalState.status === 500) {
+            if (status === 500) {
                 setIsError(true);
             }
         }
-        const config = globalState.config;
         if (config) {
-            setConfig(config);
+            setConfigState(config);
         }
-    }, [globalState]);
+    }, [tables, migrationStep, config, status]);
 
     return {
         database,
         isError,
-        config,
-        isItem: globalState.choosedColumn,
+        config: configState,
+        isItem: Boolean(choosedColumn),
     };
 };

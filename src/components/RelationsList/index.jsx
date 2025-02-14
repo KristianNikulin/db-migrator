@@ -8,15 +8,17 @@ import Select from "../Select";
 import Modal from "../Modal";
 import CustomMessage from "../Message";
 
-import { useGlobalContext } from "../../state-providers/globalContext";
+import { changeHistoryAtom, migrationStepAtom } from "../../state-providers/state";
 import { BANNED_RELATION_TYPES, COLUMN_RELATION_STATUS } from "../../constants/types";
 import { ERROR_MESSAGE } from "../../constants/text";
 
 import styles from "./styles.module.scss";
+import { useAtom } from "@reatom/npm-react";
 
 const RelationsList = ({ id, label, currentColumn, currentTable, showDeleteIcon = true, disabled }) => {
-    const { globalState } = useGlobalContext();
-    const tables = globalState.changeHistory[globalState.migrationStep] || null;
+    const [tables] = useAtom(changeHistoryAtom);
+    const [migrationStep] = useAtom(migrationStepAtom);
+    const curTables = tables[migrationStep] || null;
 
     const [isModalOpen, setModalOpen] = useState(false);
     const [selectedTable, setSelectedTable] = useState(null);
@@ -78,7 +80,7 @@ const RelationsList = ({ id, label, currentColumn, currentTable, showDeleteIcon 
         }
         setSelectedTable(tableName);
         setSelectedColumn(null);
-        const selectedTableObj = tables.find((t) => t.name === tableName);
+        const selectedTableObj = curTables.find((t) => t.name === tableName);
         const usedColumns = formRels.map((r) => r.target_column_name);
         setAvailableColumns(
             selectedTableObj?.columns?.filter(
@@ -127,6 +129,7 @@ const RelationsList = ({ id, label, currentColumn, currentTable, showDeleteIcon 
                                     {item.status === COLUMN_RELATION_STATUS.DELETED && <FaTimesCircle color="red" />}
                                     {showDeleteIcon && (
                                         <button
+                                            type="button"
                                             disabled={disabled}
                                             onClick={() =>
                                                 item.status === COLUMN_RELATION_STATUS.DELETED
@@ -168,7 +171,7 @@ const RelationsList = ({ id, label, currentColumn, currentTable, showDeleteIcon 
                         <Select
                             label="Table"
                             labelPos="H"
-                            options={tables
+                            options={curTables
                                 .filter((t) => t.name !== currentTable)
                                 .map((table) => ({ value: table.name, label: table.name }))}
                             value={selectedTable}

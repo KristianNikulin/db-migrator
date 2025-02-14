@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect } from "react";
 import { FormProvider, useForm, useFormContext } from "react-hook-form";
 import { Trans } from "@lingui/react";
+import { useAtom } from "@reatom/npm-react";
 import { updateHistory } from "../../lib/utils";
 
 import Input from "../Input";
@@ -10,14 +11,18 @@ import Select from "../Select";
 import RelationsList from "../RelationsList";
 import Button from "../Button";
 
-import { useGlobalContext } from "../../state-providers/globalContext";
+import {
+    changeHistoryAtom,
+    choosedColumnAtom,
+    choosedTableAtom,
+    isMigrationAtom,
+    migrationStepAtom,
+} from "../../state-providers/state";
 import { COLUMN_RELATION_STATUS, DATA_TYPES } from "../../constants/types";
 
 import styles from "./styles.module.scss";
 
 const Item = ({ column, table, isMigration }) => {
-    const { globalState, setGlobalState } = useGlobalContext();
-
     const { register, handleSubmit, reset, formState } = useFormContext();
     const { isDirty } = formState;
 
@@ -34,7 +39,7 @@ const Item = ({ column, table, isMigration }) => {
     // }, [isDirty]);
 
     const onSubmit = (data) => {
-        updateHistory(data, "column", globalState, setGlobalState);
+        updateHistory(data, "column");
         // handleDiscardChanges(); // ????????
     };
 
@@ -141,17 +146,16 @@ const Item = ({ column, table, isMigration }) => {
 };
 
 const ColumnForm = () => {
-    const { globalState } = useGlobalContext();
-    // console.log(`globalState: `, globalState);
+    const [choosedColumn] = useAtom(choosedColumnAtom);
+    const [choosedTable] = useAtom(choosedTableAtom);
+    const [tables] = useAtom(changeHistoryAtom);
+    const [migrationStep] = useAtom(migrationStepAtom);
+    const [isMigration] = useAtom(isMigrationAtom);
 
-    const choosedColumn = globalState.choosedColumn?.name || null;
-    const choosedTable = globalState.choosedTable?.data?.name || null;
+    const curTables = tables[migrationStep] || null;
 
-    const tables = globalState.changeHistory[globalState.migrationStep] || null;
-
-    const table = tables?.find((item) => item.name === choosedTable) || null;
-    const column = table?.columns?.find((item) => item.name === choosedColumn) || null;
-    const isMigration = globalState.isMigration;
+    const table = curTables?.find((item) => item.name === choosedTable?.data?.name) || null;
+    const column = table?.columns?.find((item) => item.name === choosedColumn?.name) || null;
     const relationships = (table?.relationships || []).map((rel) => ({
         ...rel,
         status: rel.status || COLUMN_RELATION_STATUS.EXISTING,
