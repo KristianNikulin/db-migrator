@@ -3,6 +3,7 @@ export const DATA_TYPES = [
     { value: "text", label: "text" },
     { value: "numeric", label: "numeric" },
     { value: "bigint", label: "bigint" },
+    { value: "character varying", label: "character varying" },
     { value: "timestamp with time zone", label: "timestamp with time zone" },
 ];
 

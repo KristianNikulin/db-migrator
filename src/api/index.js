@@ -6,8 +6,8 @@ export function getTables() {
         url: "tables",
         errorMessage: "Failed to fetch tables",
         invokeOnHttpError: true,
-        successMessage: "Tables were received successfully", // убрать
-        invokeOnHttpSuccess: true, // убрать
+        successMessage: "Tables were received successfully",
+        invokeOnHttpSuccess: false,
     });
 }
 

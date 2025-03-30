@@ -45,10 +45,27 @@ import "./Style";
 import Button from "../Button";
 import Modal from "../Modal";
 
-import { changeHistoryAtom, choosedColumnAtom, isMigrationAtom, setChoosedTable } from "../../state-providers/state";
+import { DATA_TYPES } from "./../../constants/types";
+
+import Select from "./../Select/index";
+
+import Input from "./../Input/index";
+
+import {
+    changeHistoryAtom,
+    choosedColumnAtom,
+    choosedTableAtom,
+    ctx,
+    isMigrationAtom,
+    migrationStepAtom,
+    setChoosedTable,
+} from "../../state-providers/state";
 import { useAction, useAtom } from "@reatom/npm-react";
 
 import { DISCARD_CHANGES_WARNING } from "../../constants/text";
+import { FormProvider, useForm } from "react-hook-form";
+import { updateHistory } from "./../../lib/utils";
+import { FaTrash } from "react-icons/fa";
 
 const nodeTypes = {
     table: TableNode,
@@ -91,6 +108,98 @@ function hash(obj: any) {
     return JSON.stringify(sanitize(obj));
 }
 
+const AddTableModal = ({ isOpen, onClose, onConfirm }) => {
+    const methods = useForm({
+        defaultValues: {
+            table_name: "",
+            columns: [{ column_name: "", data_type: "" }],
+        },
+    });
+
+    const { register, handleSubmit, reset, setValue, watch } = methods;
+    const columns = watch("columns");
+
+    useEffect(() => {
+        if (isOpen) {
+            reset({ table_name: "", columns: [{ column_name: "", data_type: "" }] });
+        }
+    }, [isOpen, reset]);
+
+    const handleAdd = (data) => {
+        onConfirm(data);
+        reset();
+        onClose();
+    };
+
+    const handleClose = () => {
+        reset();
+        onClose();
+    };
+
+    const addColumn = () => {
+        setValue("columns", [...columns, { column_name: "", data_type: "" }]);
+    };
+
+    const removeColumn = (index) => {
+        setValue(
+            "columns",
+            columns.filter((_, i) => i !== index)
+        );
+    };
+
+    return (
+        <FormProvider {...methods}>
+            <Modal
+                isOpen={isOpen}
+                onClose={handleClose}
+                onConfirm={handleSubmit(handleAdd)}
+                leftBtnText="Cancel"
+                rightBtnText="Create table"
+                isRightBtnDisabled={!columns.length}
+                width="500px"
+            >
+                <div style={{ display: "flex", gap: "10px", flexDirection: "column" }}>
+                    <Input
+                        id="table_name"
+                        label={<Trans id="tableName" message="Table Name" />}
+                        register={register}
+                        requiredMessage={<Trans id="fieldRequired" message="Field is required" />}
+                    />
+                    <Button type="button" onClick={addColumn} variant="success">
+                        + Add column
+                    </Button>
+                    {columns.map((_, index) => (
+                        <div
+                            key={index}
+                            style={{ display: "flex", gap: "10px", alignItems: "end", flexWrap: "wrap", width: "100%" }}
+                        >
+                            <div>{index + 1}.</div>
+                            <Input
+                                id={`columns[${index}].column_name`}
+                                label={<Trans id="columnName" message="Column Name" />}
+                                register={register}
+                                requiredMessage={<Trans id="fieldRequired" message="Field is required" />}
+                            />
+                            <Select
+                                id={`columns[${index}].data_type`}
+                                label={<Trans id="columnType" message="Column Type" />}
+                                options={DATA_TYPES}
+                                register={register}
+                                renderOption={(option) => <>{option.label}</>}
+                                renderValue={(value) => <>{value}</>}
+                                style={{ width: "220px" }}
+                            />
+                            <button style={{ color: "red" }} onClick={() => removeColumn(index)}>
+                                <FaTrash />
+                            </button>
+                        </div>
+                    ))}
+                </div>
+            </Modal>
+        </FormProvider>
+    );
+};
+
 const Flow: React.FC<FlowProps> = (props: FlowProps) => {
     const currentDatabase = props.currentDatabase;
     const initialNodes = initializeNodes(props.currentDatabase);
@@ -105,27 +214,52 @@ const Flow: React.FC<FlowProps> = (props: FlowProps) => {
     const [databaseMenuPopupOn, setDatabaseMenuPopupOn] = useState(false);
     const [nodeHoverActive, setNodeHoverActive] = useState(true);
 
-    const [isModalOpen, setModalOpen] = useState(false);
-    const handleOpenModal = () => setModalOpen(true);
-    const handleCloseModal = () => setModalOpen(false);
+    const [isDiscardModalOpen, setDiscardModalOpen] = useState(false);
+    const handleDiscardOpenModal = () => setDiscardModalOpen(true);
+    const handleDiscardCloseModal = () => setDiscardModalOpen(false);
 
     const handleStartMigration = () => setIsMigration(true);
     const handleStopMigration = () => setIsMigration(false);
 
-    const handleConfirmAction = () => {
-        setModalOpen(false);
+    const [isCreateTableModalOpen, setCreateTableModalOpen] = useState(false);
+    const handleCreateTableOpenModal = () => setCreateTableModalOpen(true);
+    const handleCreateTableCloseModal = () => setCreateTableModalOpen(false);
+
+    const handleGoPrevHistory = () => {
         setChoosedColumn(null);
         updateTable(null);
+        setStep((s) => s - 1);
+    };
+    const handleGoNextHistory = () => {
+        setChoosedColumn(null);
+        updateTable(null);
+        setStep((s) => s + 1);
+    };
+
+    const handleConfirmAction = () => {
+        setDiscardModalOpen(false);
+        setChoosedColumn(null);
+        updateTable(null);
+        setChangeHistory((h) => [h[0]]);
         setIsMigration(false);
+        setStep(0);
+    };
+
+    const handleConfirmCreateTable = (data: any) => {
+        setCreateTableModalOpen(false);
+        updateHistory(ctx, data, "table_add");
+        // updateTable(null);
     };
 
     const [isMigration, setIsMigration] = useAtom(isMigrationAtom);
     const [choosedColumn, setChoosedColumn] = useAtom(choosedColumnAtom);
-    const [history] = useAtom(changeHistoryAtom);
+    // const [choosedTable, setChoosedTable] = useAtom(choosedTableAtom);
+    const [changeHistory, setChangeHistory] = useAtom(changeHistoryAtom);
+    const [step, setStep] = useAtom(migrationStepAtom);
 
     const updateTable = useAction(setChoosedTable);
 
-    const isHistory = Boolean(history?.length > 1);
+    const isHistory = Boolean(changeHistory?.length > 1);
     const isChoosed = Boolean(choosedColumn);
 
     const onInit = (instance: ReactFlowInstance) => {
@@ -445,20 +579,24 @@ const Flow: React.FC<FlowProps> = (props: FlowProps) => {
                             <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
                                 <div style={{ display: "flex", gap: "5px" }}>
                                     <Button
-                                        onClick={isHistory ? handleOpenModal : handleStopMigration}
+                                        onClick={isHistory ? handleDiscardOpenModal : handleStopMigration}
                                         variant="failure"
                                     >
                                         <Trans id="cancelMigration" message="Cancel migration" />
                                     </Button>
-                                    <Button onClick={() => {}} variant="success">
+                                    <Button onClick={handleCreateTableOpenModal} variant="success">
                                         <Trans id="createTable" message="Create new table" />
                                     </Button>
                                 </div>
                                 <div style={{ display: "flex", gap: "5px" }}>
-                                    <Button onClick={() => {}} variant="primary">
+                                    <Button disabled={!step} onClick={handleGoPrevHistory} variant="primary">
                                         <span style={{ fontSize: "16px" }}>&lt;</span>
                                     </Button>
-                                    <Button onClick={() => {}} variant="primary">
+                                    <Button
+                                        disabled={step >= changeHistory?.length - 1}
+                                        onClick={handleGoNextHistory}
+                                        variant="primary"
+                                    >
                                         <span style={{ fontSize: "16px" }}>&gt;</span>
                                     </Button>
                                 </div>
@@ -480,14 +618,19 @@ const Flow: React.FC<FlowProps> = (props: FlowProps) => {
                 )}
             </div>
             <Modal
-                isOpen={isModalOpen}
-                onClose={handleCloseModal}
+                isOpen={isDiscardModalOpen}
+                onClose={handleDiscardCloseModal}
                 onConfirm={handleConfirmAction}
                 leftBtnText="Cancel"
                 rightBtnText="Confirm"
             >
                 {DISCARD_CHANGES_WARNING}
             </Modal>
+            <AddTableModal
+                isOpen={isCreateTableModalOpen}
+                onClose={handleCreateTableCloseModal}
+                onConfirm={handleConfirmCreateTable}
+            />
         </>
     );
 };
@@ -517,7 +660,7 @@ const Visualizer: React.FC<IVisualizer> = (props: IVisualizer) => {
         setDatabasesLoaded(true);
     }, [props.database]);
 
-    // console.log(`currentDatabase: `, currentDatabase);
+    console.log(`currentDatabase: `, currentDatabase);
     return (
         <ReactFlowProvider>
             {databasesLoaded && <Flow key={hash(currentDatabase)} currentDatabase={{ ...currentDatabase }} />}

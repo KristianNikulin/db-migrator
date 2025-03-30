@@ -9,7 +9,7 @@ import { Allotment } from "allotment";
 import "allotment/dist/style.css";
 
 import { useMigrationState } from "./state";
-import { BEGIN_STEPS } from "../../constants/text";
+import { BEGIN_STEPS, CHOOSE_COLUMN_MESSAGE } from "../../constants/text";
 
 import classNames from "classnames";
 import styles from "./styles.module.scss";
@@ -26,7 +26,7 @@ import styles from "./styles.module.scss";
 // https://reactflow.dev/learn/customization/custom-edges
 
 const Migrator = () => {
-    const { database, isError, config, isItem } = useMigrationState();
+    const { database, isError, config, isItem, isMigration } = useMigrationState();
     // console.log(`database: `, database);
 
     return (
@@ -45,18 +45,24 @@ const Migrator = () => {
                             <ColumnForm />
                         ) : (
                             <div className={styles.noitem}>
-                                <Trans
-                                    id="toBeginMigrating"
-                                    message="To begin migrating your database, follow these steps"
-                                />
-                                :
-                                <ol>
-                                    {BEGIN_STEPS.map((step, index) => (
-                                        <li key={index}>
-                                            {index + 1}. {step}
-                                        </li>
-                                    ))}
-                                </ol>
+                                {!isMigration ? (
+                                    <>
+                                        <Trans
+                                            id="toBeginMigrating"
+                                            message="To begin migrating your database, follow these steps"
+                                        />
+                                        :
+                                        <ol>
+                                            {BEGIN_STEPS.map((step, index) => (
+                                                <li key={index}>
+                                                    {index + 1}. {step}
+                                                </li>
+                                            ))}
+                                        </ol>
+                                    </>
+                                ) : (
+                                    <div>{CHOOSE_COLUMN_MESSAGE}</div>
+                                )}
                             </div>
                         )}
                     </div>

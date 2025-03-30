@@ -16,3 +16,5 @@ export const BEGIN_STEPS = [
 export const DISCARD_CHANGES_WARNING = (
     <Trans id="attention" message="Attention! If you cancel the migration, all unsaved changes will be deleted!" />
 );
+
+export const CHOOSE_COLUMN_MESSAGE = BEGIN_STEPS[0];

@@ -42,7 +42,7 @@ const RelationsList = ({ id, label, currentColumn, currentTable, showDeleteIcon 
             const randomNumber = Math.floor(10000 + Math.random() * 90000);
             const newRelation = {
                 id: randomNumber,
-                constraint_name: `${currentTable}_${selectedTable}_id_foreign`,
+                constraint_name: `${selectedTable}_${selectedColumn}_foreign`,
                 source_table_name: currentTable,
                 source_column_name: currentColumn.name,
                 source_schema: "public",
@@ -64,6 +64,7 @@ const RelationsList = ({ id, label, currentColumn, currentTable, showDeleteIcon 
                     ? { ...rel, status: COLUMN_RELATION_STATUS.DELETED }
                     : rel
             );
+        console.log(`updatedItems: `, updatedItems);
         setValue(id, updatedItems, { shouldDirty: true });
     };
 
@@ -90,6 +91,8 @@ const RelationsList = ({ id, label, currentColumn, currentTable, showDeleteIcon 
     };
 
     const isInvalidColumnType = BANNED_RELATION_TYPES.includes(currentColumn.data_type);
+
+    console.log(`formRels: `, formRels);
 
     return (
         <>
