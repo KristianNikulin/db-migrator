@@ -6,6 +6,7 @@ import {
     changeHistoryAtom,
     choosedColumnAtom,
     configAtom,
+    isMigrationAtom,
     migrationStepAtom,
     statusAtom,
 } from "../../state-providers/state";
@@ -18,6 +19,7 @@ export const useMigrationState = () => {
     const [config] = useAtom(configAtom);
     const [status] = useAtom(statusAtom);
     const [choosedColumn] = useAtom(choosedColumnAtom);
+    const [isMigration] = useAtom(isMigrationAtom);
 
     const [database, setDatabase] = useState(null);
     const [isError, setIsError] = useState(false);
@@ -46,5 +48,6 @@ export const useMigrationState = () => {
         isError,
         config: configState,
         isItem: Boolean(choosedColumn),
+        isMigration,
     };
 };

@@ -13,16 +13,20 @@ const Modal = ({
     rightBtnText,
     isLeftBtnDisabled = false,
     isRightBtnDisabled = false,
+    isCentered = false,
+    width = "",
 }) => {
     if (!isOpen) return null;
 
     return (
         <div className={styles.overlay}>
-            <div className={styles.modal}>
+            <div className={styles.modal} style={!!width ? { width: width } : {}}>
                 <button className={styles.closeButton} onClick={onClose}>
                     &times;
                 </button>
-                <div className={styles.content}>{children}</div>
+                <div className={styles.content} style={isCentered ? { display: "flex", justifyContent: "center" } : {}}>
+                    {children}
+                </div>
                 <div className={styles.footer}>
                     <Button disabled={isLeftBtnDisabled} style={{ width: "100%" }} variant="failure" onClick={onClose}>
                         {leftBtnText}

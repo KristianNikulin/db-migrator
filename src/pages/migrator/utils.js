@@ -1,8 +1,9 @@
 import { adjustTablePositions } from "../../components/Visualizer/helpers/adjustTablePositions";
 
 export function transformData(data) {
-    const tables = [];
+    const tablesNameColor = "#FFA500";
 
+    const tables = [];
     const edgeConfigs = [];
 
     const schemaColors = {
@@ -11,14 +12,10 @@ export function transformData(data) {
     };
 
     data.forEach((table) => {
-        if (table.name?.includes("knex")) {
-            return;
-        }
-
         const tableInfo = {
             name: table.name,
             description: table.comment || "",
-            schemaColor: "#91C4F2",
+            schemaColor: tablesNameColor,
             columns: table.columns
                 .map((column) => ({
                     name: column.name,

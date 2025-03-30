@@ -66,3 +66,9 @@ export const fetchData = action(async (ctx) => {
         setTimeout(() => fetchData(ctx), 15000);
     }
 }, "fetchData");
+
+// const fetchIssues = reatomAsync(async (ctx, query: string) => {
+//     await sleep(350);
+//     const { items } = await api.fetchIssues(query, ctx.controller);
+//     return items;
+// }, "fetchIssues");
