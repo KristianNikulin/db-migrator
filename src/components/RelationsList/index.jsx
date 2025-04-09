@@ -82,7 +82,13 @@ const RelationsList = ({ id, label, currentColumn, currentTable, showDeleteIcon 
         setSelectedTable(tableName);
         setSelectedColumn(null);
         const selectedTableObj = curTables.find((t) => t.name === tableName);
-        const usedColumns = formRels.map((r) => r.target_column_name);
+        const usedColumns = formRels.reduce((acc, r) => {
+            if (r.source_column_name == currentColumn.name && tableName == r.target_table_name) {
+                return r.target_column_name;
+            }
+            return acc;
+        }, []);
+
         setAvailableColumns(
             selectedTableObj?.columns?.filter(
                 (col) => !usedColumns.includes(col.name) && !BANNED_RELATION_TYPES.includes(col.data_type)
