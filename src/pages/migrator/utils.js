@@ -12,6 +12,10 @@ export function transformData(data) {
     };
 
     data.forEach((table) => {
+        if (table.name.includes("knex")) {
+            return;
+        }
+
         const tableInfo = {
             name: table.name,
             description: table.comment || "",

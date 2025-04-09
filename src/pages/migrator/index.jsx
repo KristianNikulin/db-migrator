@@ -67,7 +67,7 @@ const Migrator = () => {
                         )}
                     </div>
                 </Allotment.Pane>
-                <Allotment.Pane preferredSize={"65%"}>
+                <Allotment.Pane preferredSize={"68%"}>
                     <div className={styles.reactFlowContainer}>
                         <div className={styles.projectNamesContainer}>
                             <p>{config.version}</p>

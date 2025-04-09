@@ -161,18 +161,17 @@ const RelationsList = ({ id, label, currentColumn, currentTable, showDeleteIcon 
                 isOpen={isModalOpen}
                 onClose={handleCloseModal}
                 onConfirm={handleConfirmAction}
-                leftBtnText="Cancel"
-                rightBtnText="Add"
+                leftBtnText={<Trans id="cancel" message="Cancel" />}
+                rightBtnText={<Trans id="add" message="Add" />}
                 isRightBtnDisabled={!Boolean(selectedColumn)}
             >
                 <div className={styles.relationModalContainer}>
                     <h2 className={styles.relationModalTitle}>
-                        Add new relation for column <span className={styles.rel}>{currentColumn.name}</span> in table{" "}
-                        <span className={styles.rel}>{currentTable}</span>
+                        <Trans id="addRelation" message="Add new relation" />
                     </h2>
                     <div className={styles.relationSelectContainer}>
                         <Select
-                            label="Table"
+                            label={<Trans id="table" message="Table" />}
                             labelPos="H"
                             options={curTables
                                 .filter((t) => t.name !== currentTable)
@@ -181,20 +180,26 @@ const RelationsList = ({ id, label, currentColumn, currentTable, showDeleteIcon 
                             onChange={handleTableChange}
                             renderOption={(option) => <>{option.label}</>}
                             renderValue={(value) => <>{value}</>}
-                            placeholder="Select a table"
+                            placeholder={<Trans id="selectTableModal" message="Select a table" />}
                             style={{ width: "200px" }}
                         />
 
                         {selectedTable && (
                             <Select
-                                label="Column"
+                                label={<Trans id="column" message="Column" />}
                                 labelPos="H"
                                 options={availableColumns.map((col) => ({ value: col.name, label: col.name }))}
                                 value={selectedColumn}
                                 onChange={setSelectedColumn}
                                 renderOption={(option) => <>{option.label}</>}
                                 renderValue={(value) => <>{value}</>}
-                                placeholder={availableColumns.length ? "Select a column" : "No columns available"}
+                                placeholder={
+                                    availableColumns.length ? (
+                                        <Trans id="selectColumn" message="Select a column" />
+                                    ) : (
+                                        <Trans id="noColumns" message="No columns available" />
+                                    )
+                                }
                                 disabled={!availableColumns.length}
                                 style={{ width: "200px" }}
                             />

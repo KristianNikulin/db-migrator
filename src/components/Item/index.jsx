@@ -46,8 +46,8 @@ const AddColumnModal = ({ isOpen, onClose, onConfirm }) => {
                 isOpen={isOpen}
                 onClose={onClose}
                 onConfirm={handleSubmit(handleAdd)}
-                leftBtnText="Cancel"
-                rightBtnText="Add"
+                leftBtnText={<Trans id="cancel" message="Cancel" />}
+                rightBtnText={<Trans id="add" message="Add" />}
             >
                 <div>
                     <Input
@@ -213,7 +213,7 @@ const Item = ({ column, table, isMigration }) => {
                         <Trans id="save" message="Save" />
                     </Button>
                 </div>
-                <hr className={styles.hr} />
+                {/* <hr className={styles.hr} /> */}
                 <div className={styles.itemButtonsContainer}>
                     <Button
                         className={styles.itemButton}
@@ -225,7 +225,7 @@ const Item = ({ column, table, isMigration }) => {
                         <Trans id="addNewColumn" message="Add new column" />
                     </Button>
                 </div>
-                <hr className={styles.hr} />
+                {/* <hr className={styles.hr} /> */}
                 <div className={styles.itemButtonsContainer}>
                     <Button
                         className={styles.itemButton}
@@ -256,26 +256,21 @@ const Item = ({ column, table, isMigration }) => {
                 isOpen={isModalDeleteColumn}
                 onClose={() => setModalDeleteColumn(false)}
                 onConfirm={handleDeleteColumn}
-                leftBtnText="Cancel"
-                rightBtnText="Confirm"
+                leftBtnText={<Trans id="cancel" message="Cancel" />}
+                rightBtnText={<Trans id="confirm" message="Confirm" />}
                 isCentered={true}
             >
-                <p>
-                    Are you sure want to <b>delete</b> column <span className={styles.rel}>{column.name}</span> from
-                    table <span className={styles.rel}>{table.name}</span>?
-                </p>
+                <Trans id="deleteColumnModal" message="Are you sure want to delete column?" />
             </Modal>
             <Modal
                 isOpen={isModalDeleteTable}
                 onClose={() => setModalDeleteTable(false)}
                 onConfirm={handleDeleteTable}
-                leftBtnText="Cancel"
-                rightBtnText="Confirm"
+                leftBtnText={<Trans id="cancel" message="Cancel" />}
+                rightBtnText={<Trans id="confirm" message="Confirm" />}
                 isCentered={true}
             >
-                <p>
-                    Are you sure want to <b>delete</b> table <span className={styles.rel}>{table.name}</span>?
-                </p>
+                <Trans id="deleteTableModal" message="Are you sure want to delete table?" />
             </Modal>
         </>
     );
