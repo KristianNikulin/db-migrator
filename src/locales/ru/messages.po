@@ -14,9 +14,36 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. js-lingui-explicit-id
-#: src/components/RelationsList/index.jsx:115
+#: src/components/RelationsList/index.jsx:165
+#: src/components/Item/index.jsx:50
+msgid "add"
+msgstr "Добавить"
+
+#. js-lingui-explicit-id
+#: src/components/Visualizer/index.tsx:169
+msgid "addColumn"
+msgstr "Добавить атрибут"
+
+#. js-lingui-explicit-id
+#: src/components/Item/index.jsx:225
+msgid "addNewColumn"
+msgstr "Добавить новый атрибут"
+
+#. js-lingui-explicit-id
+#: src/components/RelationsList/index.jsx:156
+#: src/components/RelationsList/index.jsx:170
 msgid "addRelation"
 msgstr "Добавить новую связь"
+
+#. js-lingui-explicit-id
+#: src/components/Item/index.jsx:263
+msgid "deleteColumnModal"
+msgstr "Вы уверены, что хотите удалить этот атрибут?"
+
+#. js-lingui-explicit-id
+#: src/components/Item/index.jsx:273
+msgid "deleteTableModal"
+msgstr "Вы уверены, что хотите удалить эту таблицу?"
 
 #. js-lingui-explicit-id
 #: src/constants/text.jsx:17
@@ -24,7 +51,17 @@ msgid "attention"
 msgstr "Внимание! При отмене миграции все несохранённые изменения будут удалены!"
 
 #. js-lingui-explicit-id
-#: src/components/Visualizer/index.tsx:419
+#: src/components/Visualizer/index.tsx:156
+#: src/components/Visualizer/index.tsx:624
+#: src/components/RelationsList/index.jsx:164
+#: src/components/Item/index.jsx:49
+#: src/components/Item/index.jsx:259
+#: src/components/Item/index.jsx:269
+msgid "cancel"
+msgstr "Отмена"
+
+#. js-lingui-explicit-id
+#: src/components/Visualizer/index.tsx:585
 msgid "cancelMigration"
 msgstr "Отменить миграцию"
 
@@ -34,32 +71,58 @@ msgid "clickStartMigration"
 msgstr "Нажмите кнопку 'Начать миграцию'"
 
 #. js-lingui-explicit-id
-#: src/components/Item/index.jsx:69
+#: src/components/RelationsList/index.jsx:189
+msgid "column"
+msgstr "Атрибут"
+
+#. js-lingui-explicit-id
+#: src/components/Visualizer/index.tsx:179
+#: src/components/Item/index.jsx:55
+#: src/components/Item/index.jsx:155
 msgid "columnName"
 msgstr "Название колонки"
 
 #. js-lingui-explicit-id
-#: src/components/Item/index.jsx:78
+#: src/components/Visualizer/index.tsx:185
+#: src/components/Item/index.jsx:61
+#: src/components/Item/index.jsx:164
 msgid "columnType"
 msgstr "Тип данных колонки"
 
 #. js-lingui-explicit-id
-#: src/components/Item/index.jsx:89
+#: src/components/Item/index.jsx:176
 msgid "columnComment"
 msgstr "Описание"
 
 #. js-lingui-explicit-id
-#: src/components/Visualizer/index.tsx:422
+#: src/components/Visualizer/index.tsx:625
+#: src/components/Item/index.jsx:260
+#: src/components/Item/index.jsx:270
+msgid "confirm"
+msgstr "Подтвердить"
+
+#. js-lingui-explicit-id
+#: src/components/Visualizer/index.tsx:588
 msgid "createTable"
 msgstr "Создать новую таблицу"
 
 #. js-lingui-explicit-id
-#: src/components/Visualizer/index.tsx:429
+#: src/components/Item/index.jsx:246
+msgid "deleteColumn"
+msgstr "Удалить этот атрибут"
+
+#. js-lingui-explicit-id
+#: src/components/Item/index.jsx:237
+msgid "deleteTable"
+msgstr "Удалить эту таблицу"
+
+#. js-lingui-explicit-id
+#: src/components/Visualizer/index.tsx:608
 msgid "deployChanges"
 msgstr "Применить изменения"
 
 #. js-lingui-explicit-id
-#: src/components/Item/index.jsx:119
+#: src/components/Item/index.jsx:205
 msgid "discardChanges"
 msgstr "Отменить изменения"
 
@@ -68,18 +131,21 @@ msgid "Docs"
 msgstr "Документация"
 
 #. js-lingui-explicit-id
-#: src/components/Item/index.jsx:63
-#: src/components/Item/index.jsx:72
+#: src/components/Visualizer/index.tsx:166
+#: src/components/Visualizer/index.tsx:181
+#: src/components/Item/index.jsx:57
+#: src/components/Item/index.jsx:149
+#: src/components/Item/index.jsx:158
 msgid "fieldRequired"
 msgstr "Это поле обязательное"
 
 #. js-lingui-explicit-id
-#: src/components/Item/index.jsx:96
+#: src/components/Item/index.jsx:183
 msgid "columnNullable"
 msgstr "Может быть null"
 
 #. js-lingui-explicit-id
-#: src/components/Item/index.jsx:100
+#: src/components/Item/index.jsx:187
 msgid "columnUnique"
 msgstr "Поле уникальное"
 
@@ -93,14 +159,29 @@ msgid "Migrator"
 msgstr "Мигратор"
 
 #. js-lingui-explicit-id
-#: src/components/Item/index.jsx:104
+#: src/components/RelationsList/index.jsx:200
+msgid "noColumns"
+msgstr "Нет доступных колонок"
+
+#. js-lingui-explicit-id
+#: src/components/Item/index.jsx:191
 msgid "columnRelationships"
 msgstr "Связи между таблицами"
 
 #. js-lingui-explicit-id
-#: src/components/Item/index.jsx:122
+#: src/components/Item/index.jsx:213
 msgid "save"
 msgstr "Сохранить"
+
+#. js-lingui-explicit-id
+#: src/components/RelationsList/index.jsx:198
+msgid "selectColumn"
+msgstr "Выберите колонку"
+
+#. js-lingui-explicit-id
+#: src/components/RelationsList/index.jsx:183
+msgid "selectTableModal"
+msgstr "Выберите таблицу"
 
 #. js-lingui-explicit-id
 #: src/constants/text.jsx:12
@@ -108,7 +189,7 @@ msgid "selectTable"
 msgstr "Выберите таблицу и поле на схеме вашей базы данных"
 
 #. js-lingui-explicit-id
-#: src/pages/migrator/index.jsx:71
+#: src/pages/migrator/index.jsx:83
 msgid "serviceUnavailable"
 msgstr "Сервис недоступен"
 
@@ -117,16 +198,22 @@ msgid "Settings"
 msgstr "Настройки"
 
 #. js-lingui-explicit-id
-#: src/components/Visualizer/index.tsx:407
+#: src/components/Visualizer/index.tsx:576
 msgid "startMigrating"
 msgstr "Начать миграцию"
 
 #. js-lingui-explicit-id
-#: src/components/Item/index.jsx:60
+#: src/components/RelationsList/index.jsx:174
+msgid "table"
+msgstr "Таблица"
+
+#. js-lingui-explicit-id
+#: src/components/Visualizer/index.tsx:164
+#: src/components/Item/index.jsx:146
 msgid "tableName"
 msgstr "Название таблицы"
 
 #. js-lingui-explicit-id
-#: src/pages/migrator/index.jsx:48
+#: src/pages/migrator/index.jsx:50
 msgid "toBeginMigrating"
 msgstr "Для начала миграции выполните следующие шаги"

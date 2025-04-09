@@ -2,6 +2,14 @@ import { action } from "@reatom/framework";
 import { changeHistoryAtom, choosedTableAtom, choosedColumnAtom, migrationStepAtom } from "./../state-providers/state";
 import { COLUMN_RELATION_STATUS } from "../constants/types";
 
+function generateId() {
+    let id = "";
+    for (let i = 0; i < 5; i++) {
+        id += Math.floor(Math.random() * 10);
+    }
+    return +id;
+}
+
 export const updateHistory = action((ctx, el, type = "column") => {
     console.log(`el: `, el);
     const state = {
@@ -115,7 +123,7 @@ export const updateHistory = action((ctx, el, type = "column") => {
             break;
         }
         case "table_add": {
-            console.log("table add check");
+            const newId = generateId();
             const newTable = {
                 name: el.table_name,
                 schema: "public",
@@ -126,13 +134,13 @@ export const updateHistory = action((ctx, el, type = "column") => {
                     is_nullable: false,
                     is_unique: false,
                     comment: "",
-                    table_id: 55555,
+                    table_id: newId,
                     schema: "public",
                 })),
                 relationships: [],
                 primary_keys: [],
                 comment: null,
-                id: 55555,
+                id: newId,
             };
             const updatedTables = [...state.changeHistory[state.migrationStep], newTable];
             changeHistoryAtom(ctx, [...state.changeHistory.slice(0, state.migrationStep + 1), updatedTables]);

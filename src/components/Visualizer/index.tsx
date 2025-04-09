@@ -153,8 +153,8 @@ const AddTableModal = ({ isOpen, onClose, onConfirm }) => {
                 isOpen={isOpen}
                 onClose={handleClose}
                 onConfirm={handleSubmit(handleAdd)}
-                leftBtnText="Cancel"
-                rightBtnText="Create table"
+                leftBtnText={<Trans id="cancel" message="Cancel" />}
+                rightBtnText={<Trans id="createTable" message="Create table" />}
                 isRightBtnDisabled={!columns.length}
                 width="500px"
             >
@@ -166,7 +166,7 @@ const AddTableModal = ({ isOpen, onClose, onConfirm }) => {
                         requiredMessage={<Trans id="fieldRequired" message="Field is required" />}
                     />
                     <Button type="button" onClick={addColumn} variant="success">
-                        + Add column
+                        + <Trans id="addColumn" message="Add column" />
                     </Button>
                     {columns.map((_, index) => (
                         <div
@@ -621,8 +621,8 @@ const Flow: React.FC<FlowProps> = (props: FlowProps) => {
                 isOpen={isDiscardModalOpen}
                 onClose={handleDiscardCloseModal}
                 onConfirm={handleConfirmAction}
-                leftBtnText="Cancel"
-                rightBtnText="Confirm"
+                leftBtnText={<Trans id="cancel" message="Cancel" />}
+                rightBtnText={<Trans id="confirm" message="Confirm" />}
             >
                 {DISCARD_CHANGES_WARNING}
             </Modal>
