@@ -34,6 +34,7 @@ export const updateHistory = action((ctx, el, type = "column") => {
             const isColumnRenamed = oldColumnName !== newColumnName;
 
             const relationsToDelete = el.relationships.filter((rel) => rel.status === COLUMN_RELATION_STATUS.DELETED);
+            const relationsToAdd = el.relationships.filter((rel) => rel.status === COLUMN_RELATION_STATUS.NEW);
 
             const updatedTables = tables.map((table) => {
                 return {
@@ -57,6 +58,7 @@ export const updateHistory = action((ctx, el, type = "column") => {
                         return column;
                     }),
                     relationships: table.relationships
+                        .concat(relationsToAdd)
                         .map((rel) => {
                             if (relationsToDelete.some((delRel) => delRel.id === rel.id)) {
                                 return null;
