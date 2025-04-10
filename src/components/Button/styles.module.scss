@@ -1,0 +1,58 @@
+.button {
+    min-height: 35px;
+    line-height: 1.2857142857em;
+    justify-content: center;
+    border-radius: 0.2142857143em;
+    border: 1px solid gray;
+    padding: 7px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    text-overflow: ellipsis;
+    transition: all 0.2s ease-out;
+
+    &:disabled {
+        cursor: not-allowed;
+    }
+}
+
+.primary {
+    color: black;
+    &:hover {
+        color: var(--success-button-color);
+        border-color: var(--success-button-color);
+    }
+    &:disabled {
+        color: var(--disabled-button-color);
+        border-color: var(--disabled-button);
+    }
+}
+
+.success {
+    border-color: var(--success-button-color);
+    background-color: var(--success-button-color);
+    &:hover {
+        background-color: var(--success-button-color-hover);
+        border-color: var(--success-button-color-hover);
+    }
+    &:disabled {
+        color: var(--disabled-button-color);
+        border-color: var(--disabled-button);
+        background-color: var(--disabled-button);
+    }
+}
+
+.failure {
+    border-color: var(--failure-button-color);
+    background-color: var(--failure-button-color);
+    &:hover {
+        background-color: var(--failure-button-color-hover);
+        border-color: var(--failure-button-color-hover);
+    }
+    &:disabled {
+        color: var(--disabled-button-color);
+        border-color: var(--disabled-button);
+        background-color: var(--disabled-button);
+    }
+}

@@ -1,0 +1,219 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2025-02-02 18:16+0300\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+#. js-lingui-explicit-id
+#: src/components/RelationsList/index.jsx:165
+#: src/components/Item/index.jsx:50
+msgid "add"
+msgstr "Add"
+
+#. js-lingui-explicit-id
+#: src/components/Visualizer/index.tsx:169
+msgid "addColumn"
+msgstr "Add column"
+
+#. js-lingui-explicit-id
+#: src/components/Item/index.jsx:225
+msgid "addNewColumn"
+msgstr "Add new column"
+
+#. js-lingui-explicit-id
+#: src/components/RelationsList/index.jsx:156
+#: src/components/RelationsList/index.jsx:170
+msgid "addRelation"
+msgstr "Add new relation"
+
+#. js-lingui-explicit-id
+#: src/components/Item/index.jsx:263
+msgid "deleteColumnModal"
+msgstr "Are you sure want to delete column?"
+
+#. js-lingui-explicit-id
+#: src/components/Item/index.jsx:273
+msgid "deleteTableModal"
+msgstr "Are you sure want to delete table?"
+
+#. js-lingui-explicit-id
+#: src/constants/text.jsx:17
+msgid "attention"
+msgstr "Attention! If you cancel the migration, all unsaved changes will be deleted!"
+
+#. js-lingui-explicit-id
+#: src/components/Visualizer/index.tsx:156
+#: src/components/Visualizer/index.tsx:624
+#: src/components/RelationsList/index.jsx:164
+#: src/components/Item/index.jsx:49
+#: src/components/Item/index.jsx:259
+#: src/components/Item/index.jsx:269
+msgid "cancel"
+msgstr "Cancel"
+
+#. js-lingui-explicit-id
+#: src/components/Visualizer/index.tsx:585
+msgid "cancelMigration"
+msgstr "Cancel migration"
+
+#. js-lingui-explicit-id
+#: src/constants/text.jsx:13
+msgid "clickStartMigration"
+msgstr "Click 'Start migration' button"
+
+#. js-lingui-explicit-id
+#: src/components/RelationsList/index.jsx:189
+msgid "column"
+msgstr "Column"
+
+#. js-lingui-explicit-id
+#: src/components/Visualizer/index.tsx:179
+#: src/components/Item/index.jsx:55
+#: src/components/Item/index.jsx:155
+msgid "columnName"
+msgstr "Column Name"
+
+#. js-lingui-explicit-id
+#: src/components/Visualizer/index.tsx:185
+#: src/components/Item/index.jsx:61
+#: src/components/Item/index.jsx:164
+msgid "columnType"
+msgstr "Column Type"
+
+#. js-lingui-explicit-id
+#: src/components/Item/index.jsx:176
+msgid "columnComment"
+msgstr "Comment"
+
+#. js-lingui-explicit-id
+#: src/components/Visualizer/index.tsx:625
+#: src/components/Item/index.jsx:260
+#: src/components/Item/index.jsx:270
+msgid "confirm"
+msgstr "Confirm"
+
+#. js-lingui-explicit-id
+#: src/components/Visualizer/index.tsx:588
+msgid "createTable"
+msgstr "Create new table"
+
+#. js-lingui-explicit-id
+#: src/components/Item/index.jsx:246
+msgid "deleteColumn"
+msgstr "Delete this column"
+
+#. js-lingui-explicit-id
+#: src/components/Item/index.jsx:237
+msgid "deleteTable"
+msgstr "Delete this table"
+
+#. js-lingui-explicit-id
+#: src/components/Visualizer/index.tsx:608
+msgid "deployChanges"
+msgstr "Deploy changes"
+
+#. js-lingui-explicit-id
+#: src/components/Item/index.jsx:205
+msgid "discardChanges"
+msgstr "Discard changes"
+
+#: src/modules/app-header/view.jsx:28
+msgid "Docs"
+msgstr "Docs"
+
+#. js-lingui-explicit-id
+#: src/components/Visualizer/index.tsx:166
+#: src/components/Visualizer/index.tsx:181
+#: src/components/Item/index.jsx:57
+#: src/components/Item/index.jsx:149
+#: src/components/Item/index.jsx:158
+msgid "fieldRequired"
+msgstr "Field is required"
+
+#. js-lingui-explicit-id
+#: src/components/Item/index.jsx:183
+msgid "columnNullable"
+msgstr "Is Nullable"
+
+#. js-lingui-explicit-id
+#: src/components/Item/index.jsx:187
+msgid "columnUnique"
+msgstr "Is Unique"
+
+#. js-lingui-explicit-id
+#: src/constants/text.jsx:7
+msgid "notRecommended"
+msgstr "It's not recommended to make relation with this column!"
+
+#: src/modules/app-header/view.jsx:25
+msgid "Migrator"
+msgstr "Migrator"
+
+#. js-lingui-explicit-id
+#: src/components/RelationsList/index.jsx:200
+msgid "noColumns"
+msgstr "No columns available"
+
+#. js-lingui-explicit-id
+#: src/components/Item/index.jsx:191
+msgid "columnRelationships"
+msgstr "Relationships"
+
+#. js-lingui-explicit-id
+#: src/components/Item/index.jsx:213
+msgid "save"
+msgstr "Save"
+
+#. js-lingui-explicit-id
+#: src/components/RelationsList/index.jsx:198
+msgid "selectColumn"
+msgstr "Select a column"
+
+#. js-lingui-explicit-id
+#: src/components/RelationsList/index.jsx:183
+msgid "selectTableModal"
+msgstr "Select a table"
+
+#. js-lingui-explicit-id
+#: src/constants/text.jsx:12
+msgid "selectTable"
+msgstr "Select table and column from your database schema"
+
+#. js-lingui-explicit-id
+#: src/pages/migrator/index.jsx:83
+msgid "serviceUnavailable"
+msgstr "Service is currently unavailable"
+
+#: src/modules/app-header/view.jsx:31
+msgid "Settings"
+msgstr "Settings"
+
+#. js-lingui-explicit-id
+#: src/components/Visualizer/index.tsx:576
+msgid "startMigrating"
+msgstr "Start migration"
+
+#. js-lingui-explicit-id
+#: src/components/RelationsList/index.jsx:174
+msgid "table"
+msgstr "Table"
+
+#. js-lingui-explicit-id
+#: src/components/Visualizer/index.tsx:164
+#: src/components/Item/index.jsx:146
+msgid "tableName"
+msgstr "Table Name"
+
+#. js-lingui-explicit-id
+#: src/pages/migrator/index.jsx:50
+msgid "toBeginMigrating"
+msgstr "To begin migrating your database, follow these steps"

@@ -1,0 +1,33 @@
+.itemFormContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    max-height: 85vh;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.itemButtonsContainer {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+.itemButton {
+    flex: 1;
+}
+
+.hr {
+    margin: 5px 0;
+    padding: 0;
+    height: 1px;
+    width: 100%;
+    border: none;
+    background: var(--BORDER_SECONDARY);
+}
+
+.rel {
+    font-weight: 700;
+    color: red;
+}

@@ -1,0 +1,17 @@
+.settingsContainer {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 15px 0;
+}
+
+.settingsMainBlock {
+    width: 700px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.settingsReactFlow {
+    width: 100px;
+    height: 100px;
+}

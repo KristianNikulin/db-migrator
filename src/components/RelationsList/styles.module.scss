@@ -1,0 +1,40 @@
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.listItem {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+}
+
+.deleteBtn {
+    display: flex;
+    align-items: center;
+}
+
+.relationModalContainer {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    align-items: center;
+}
+
+.relationSelectContainer {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.relationModalTitle {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.rel {
+    font-weight: 700;
+    color: red;
+}

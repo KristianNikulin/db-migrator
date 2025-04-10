@@ -9,11 +9,11 @@ const Migrator = lazy(() => import("./migrator"));
 const Settings = lazy(() => import("./settings"));
 const NotFound = lazy(() => import("./not-found"));
 
-// fallback={<Loading />} надо ???
+//! fallback={<Loading />} надо ???
 
 const App = () => {
     return (
-        <Router>
+        <Router future={{ v7_relativeSplatPath: true, v7_startTransition: true }}>
             <RootLayout>
                 <Suspense fallback={<Loading />}>
                     <Routes>

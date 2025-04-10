@@ -1,16 +1,25 @@
 .appHeader {
-    // position: relative;
-    padding: 15px;
-    border-bottom: 1px solid #d6dadc;
+    padding: 10px;
+    border-bottom: 1px solid var(--BORDER_SECONDARY);
+    background: var(--BG_HEAD);
+    box-shadow: var(--PLATE_SHADOW);
 }
 
 .wrapper {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    color: var(--TXT_HEADER);
 }
 
 .links {
     display: flex;
     gap: 100px;
+}
+
+.selectorsContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
 }

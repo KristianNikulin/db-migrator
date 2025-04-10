@@ -1,0 +1,17 @@
+.area {
+    min-height: 100px;
+    width: 100%;
+    line-height: 1.2857142857em;
+    justify-content: center;
+    border-radius: 4px;
+    border: 1px solid var(--BORDER_PRIMARY);
+    padding: 5px;
+    font-size: 14px;
+    resize: vertical;
+    background: #fff;
+
+    &:focus {
+        border: 1px solid gray;
+        outline: none;
+    }
+}
