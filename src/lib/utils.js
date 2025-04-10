@@ -197,3 +197,200 @@ export const updateHistory = action((ctx, el, type = "column") => {
             break;
     }
 }, "updateHistory");
+
+export const deployChanges = (oldTables, newTables) => {
+    const changes = [];
+    const uniqueSet = new Set();
+
+    const pushUnique = (comment, request) => {
+        const key = JSON.stringify({ comment, request });
+        if (!uniqueSet.has(key)) {
+            uniqueSet.add(key);
+            changes.push({ comment, request });
+        }
+    };
+
+    const getTableByName = (tables, name) => tables.find((t) => t.name === name);
+
+    const serializeRel = (rel) =>
+        `${rel.source_table_name}.${rel.source_column_name} → ${rel.target_table_name}.${rel.target_column_name}`;
+
+    const relationshipsEqual = (a, b) =>
+        a.source_table_name === b.source_table_name &&
+        a.source_column_name === b.source_column_name &&
+        a.target_table_name === b.target_table_name &&
+        a.target_column_name === b.target_column_name;
+
+    const arrayEqual = (a, b) => a.length === b.length && a.every((x) => b.includes(x));
+
+    // --- TABLES ---
+    const oldTableNames = oldTables.map((t) => t.name);
+    const newTableNames = newTables.map((t) => t.name);
+
+    for (const oldTable of oldTables) {
+        if (!newTableNames.includes(oldTable.name)) {
+            pushUnique(`Удалена таблица ${oldTable.name}`, {
+                method: "DELETE",
+                url: `/tables/${oldTable.id}`,
+            });
+        }
+    }
+
+    for (const newTable of newTables) {
+        if (!oldTableNames.includes(newTable.name)) {
+            pushUnique(`Добавлена таблица ${newTable.name}`, {
+                method: "POST",
+                url: `/tables`,
+                body: {
+                    name: newTable.name,
+                    schema: newTable.schema,
+                },
+            });
+
+            for (const col of newTable.columns) {
+                pushUnique(`Добавлена колонка ${col.name} в таблицу ${newTable.name}`, {
+                    method: "POST",
+                    url: `/columns`,
+                    body: {
+                        table_id: newTable.id,
+                        name: col.name,
+                        type: col.data_type,
+                        is_nullable: col.is_nullable,
+                        comment: col.comment,
+                    },
+                });
+            }
+
+            if (newTable.primary_keys?.length) {
+                pushUnique(`Добавлен первичный ключ в таблицу ${newTable.name}`, {
+                    method: "POST",
+                    url: `/primary-keys`,
+                    body: {
+                        table_id: newTable.id,
+                        name: `pk_${newTable.name}`, // default name
+                        columns: newTable.primary_keys.map((pk) => pk.name),
+                    },
+                });
+            }
+
+            continue;
+        }
+
+        const oldTable = getTableByName(oldTables, newTable.name);
+
+        // --- COLUMNS ---
+        const oldCols = oldTable.columns || [];
+        const newCols = newTable.columns || [];
+
+        const oldColNames = oldCols.map((c) => c.name);
+        const newColNames = newCols.map((c) => c.name);
+
+        for (const oldCol of oldCols) {
+            if (!newColNames.includes(oldCol.name)) {
+                pushUnique(`Удалена колонка ${oldCol.name} из таблицы ${oldTable.name}`, {
+                    method: "DELETE",
+                    url: `/columns/${oldCol.id}`,
+                });
+            }
+        }
+
+        for (const newCol of newCols) {
+            if (!oldColNames.includes(newCol.name)) {
+                pushUnique(`Добавлена колонка ${newCol.name} в таблицу ${newTable.name}`, {
+                    method: "POST",
+                    url: `/columns`,
+                    body: {
+                        table_id: newTable.id,
+                        name: newCol.name,
+                        type: newCol.data_type,
+                        is_nullable: newCol.is_nullable,
+                        comment: newCol.comment,
+                    },
+                });
+            } else {
+                const oldCol = oldCols.find((c) => c.name === newCol.name);
+
+                if (!oldCol) continue;
+
+                const diffs = [];
+                if (oldCol.data_type !== newCol.data_type) diffs.push("тип");
+                if (oldCol.is_nullable !== newCol.is_nullable) diffs.push("nullable");
+                if (oldCol.default_value !== newCol.default_value) diffs.push("default");
+                if (oldCol.comment !== newCol.comment) diffs.push("комментарий");
+
+                if (diffs.length > 0) {
+                    pushUnique(`Изменена колонка ${newCol.name} в таблице ${newTable.name} (${diffs.join(", ")})`, {
+                        method: "PATCH",
+                        url: `/columns/${oldCol.id}`,
+                        body: {
+                            name: newCol.name,
+                            type: newCol.data_type,
+                            is_nullable: newCol.is_nullable,
+                            comment: newCol.comment,
+                        },
+                    });
+                }
+            }
+        }
+
+        // --- RELATIONSHIPS ---
+        const oldRels = oldTable.relationships || [];
+        const newRels = newTable.relationships || [];
+
+        for (const oldRel of oldRels) {
+            const stillExists = newRels.some((r) => relationshipsEqual(r, oldRel));
+            if (!stillExists) {
+                pushUnique(`Удалена связь ${serializeRel(oldRel)}`, {
+                    method: "DELETE",
+                    url: `/foreign-keys/${oldRel.id}`,
+                });
+            }
+        }
+
+        for (const newRel of newRels) {
+            const alreadyExists = oldRels.some((r) => relationshipsEqual(r, newRel));
+            if (!alreadyExists) {
+                pushUnique(`Добавлена связь ${serializeRel(newRel)}`, {
+                    method: "POST",
+                    url: `/foreign-keys`,
+                    body: {
+                        source_table_schema: newRel.source_schema,
+                        source_table_name: newRel.source_table_name,
+                        source_column_names: [newRel.source_column_name],
+                        target_table_schema: newRel.target_table_schema,
+                        target_table_name: newRel.target_table_name,
+                        target_column_names: [newRel.target_column_name],
+                        constraint_name: newRel.constraint_name,
+                    },
+                });
+            }
+        }
+
+        // --- PRIMARY KEYS ---
+        const oldPKs = (oldTable.primary_keys || []).map((pk) => pk.name).sort();
+        const newPKs = (newTable.primary_keys || []).map((pk) => pk.name).sort();
+
+        if (!arrayEqual(oldPKs, newPKs)) {
+            if (oldPKs.length > 0) {
+                pushUnique(`Удалён первичный ключ из таблицы ${oldTable.name}`, {
+                    method: "DELETE",
+                    url: `/primary-keys?table_id=eq.${oldTable.id}`,
+                });
+            }
+
+            if (newPKs.length > 0) {
+                pushUnique(`Добавлен первичный ключ в таблицу ${newTable.name}`, {
+                    method: "POST",
+                    url: `/primary-keys`,
+                    body: {
+                        table_id: newTable.id,
+                        name: `pk_${newTable.name}`,
+                        columns: newPKs,
+                    },
+                });
+            }
+        }
+    }
+
+    return changes;
+};

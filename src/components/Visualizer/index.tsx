@@ -38,6 +38,8 @@ import { EdgeConfig, DatabaseConfig } from "./types";
 
 import { Trans } from "@lingui/react";
 
+import { deployChanges } from "../../lib/utils";
+
 // this is important! You need to import the styles from the lib to make it work
 import "reactflow/dist/style.css";
 import "./Style";
@@ -50,6 +52,8 @@ import { DATA_TYPES } from "./../../constants/types";
 import Select from "./../Select/index";
 
 import Input from "./../Input/index";
+
+import { META_BASE_URL } from "./../../constants/env";
 
 import {
     changeHistoryAtom,
@@ -108,6 +112,65 @@ function hash(obj: any) {
     return JSON.stringify(sanitize(obj));
 }
 
+const DeployChangesModal = ({ isOpen, onClose, onConfirm, changeHistory, step }) => {
+    const orig = changeHistory[0];
+    const neww = changeHistory[step];
+    const changes = deployChanges(orig, neww);
+    console.log(`changes: `, changes);
+    const handleConfirm = async () => {
+        try {
+            for (const change of changes) {
+                const { method, url, body } = change.request;
+                const fullUrl = `${META_BASE_URL}${url}`;
+                const response = await fetch(fullUrl, {
+                    method,
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(body),
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error(`Error applying change: ${change.comment}`, errorText);
+                    throw new Error(`Ошибка при применении изменений: ${change.comment}`);
+                }
+            }
+
+            // Успешное применение всех изменений
+            console.log("All changes deployed successfully");
+            onConfirm?.(); // вызов колбэка, если передан
+            onClose(); // закрытие модалки
+        } catch (error) {
+            console.error("Deployment failed:", error);
+            // alert(`Произошла ошибка при применении изменений: ${error.message}`);
+        }
+    };
+
+    return (
+        <Modal
+            isOpen={isOpen}
+            onClose={onClose}
+            onConfirm={handleConfirm}
+            leftBtnText={<Trans id="cancel" message="Cancel" />}
+            rightBtnText={<Trans id="deployChanges" message="Deploy changes" />}
+            width="700px"
+        >
+            <div style={{ marginBottom: "5px", fontWeight: "bold" }}>Список новых изменений</div>
+            <ul>
+                {changes.map((change, index) => (
+                    <div style={{ display: "flex", gap: "5px" }}>
+                        <span>{index + 1}.</span>
+                        <li key={index}>
+                            <div>{change.comment}</div>
+                        </li>
+                    </div>
+                ))}
+            </ul>
+        </Modal>
+    );
+};
+
 const AddTableModal = ({ isOpen, onClose, onConfirm }) => {
     const methods = useForm({
         defaultValues: {
@@ -156,7 +219,7 @@ const AddTableModal = ({ isOpen, onClose, onConfirm }) => {
                 leftBtnText={<Trans id="cancel" message="Cancel" />}
                 rightBtnText={<Trans id="createTable" message="Create table" />}
                 isRightBtnDisabled={!columns.length}
-                width="500px"
+                width="515px"
             >
                 <div style={{ display: "flex", gap: "10px", flexDirection: "column" }}>
                     <Input
@@ -217,6 +280,10 @@ const Flow: React.FC<FlowProps> = (props: FlowProps) => {
     const [isDiscardModalOpen, setDiscardModalOpen] = useState(false);
     const handleDiscardOpenModal = () => setDiscardModalOpen(true);
     const handleDiscardCloseModal = () => setDiscardModalOpen(false);
+
+    const [isDeployChangesOpen, setDeployModalOpen] = useState(false);
+    const handleDeployOpenModal = () => setDeployModalOpen(true);
+    const handleDeployCloseModal = () => setDeployModalOpen(false);
 
     const handleStartMigration = () => setIsMigration(true);
     const handleStopMigration = () => setIsMigration(false);
@@ -604,7 +671,7 @@ const Flow: React.FC<FlowProps> = (props: FlowProps) => {
                         )}
                     </Panel>
                     <Panel style={{ zIndex: 10 }} position="top-right">
-                        <Button onClick={() => {}} disabled={true} variant="success">
+                        <Button onClick={handleDeployOpenModal} disabled={!step || !isHistory} variant="success">
                             <Trans id="deployChanges" message="Deploy changes" />
                         </Button>
                     </Panel>
@@ -626,6 +693,13 @@ const Flow: React.FC<FlowProps> = (props: FlowProps) => {
             >
                 {DISCARD_CHANGES_WARNING}
             </Modal>
+            <DeployChangesModal
+                isOpen={isDeployChangesOpen}
+                onClose={handleDeployCloseModal}
+                onConfirm={handleConfirmAction}
+                changeHistory={changeHistory}
+                step={step}
+            />
             <AddTableModal
                 isOpen={isCreateTableModalOpen}
                 onClose={handleCreateTableCloseModal}
